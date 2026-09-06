@@ -25,10 +25,22 @@
 """
 import argparse
 import json
+import sys
 from pathlib import Path
 
 STAGES = ["init", "stage0", "stage1", "topic", "stage3", "stage4",
           "stage5", "stage6", "delivered"]
+
+# 闸门 → 所属 stage（回环时按 stage 序重置下游闸门，指南 §8.3）
+GATE_STAGE = {"topic": "topic", "outline": "stage4",
+              "l4": "stage6", "publish": "delivered"}
+
+# 软回环允许的目标：只限"带闸门决策"的节点。
+# 纯产物阶段（0/1/3/5）由资产认账接管——要重做请直接重跑原子技能。
+ROLLBACK_ALLOWED = {"topic", "stage4", "stage6", "delivered"}
+
+# resume 时按序探测首个拦截点（闸门/资产），用于阻塞提示
+GATE_CHECK_ORDER = ["stage3", "stage4", "stage5", "stage6", "delivered"]
 
 _LIB_MANIFEST = ("library", "coverage-manifest.json")
 _PROBLEM_LIST = ("problem_list.json",)
@@ -175,6 +187,83 @@ def validate_next(tdir, target):
     return (not reasons), reasons
 
 
+def _write_confirmations(tdir, conf):
+    (tdir / _CONFIRMATIONS).write_text(
+        json.dumps(conf, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def _append_progress(tdir, line):
+    with open(tdir / "progress.md", "a", encoding="utf-8") as f:
+        f.write(line.rstrip() + "\n")
+
+
+def cmd_resume(tdir):
+    """会话恢复（指南 §7.2）：完整宏观仪表盘 + 当前阻塞（若有）。"""
+    from progress_reporter import blocker_hint, current_stage, render_macro
+
+    tdir = Path(tdir)
+    st = stage_status(tdir)
+    blocker = ""
+    # 只有推进到选题及以后才可能有闸门/资产拦截；此前是"活没干完"而非阻塞
+    if STAGES.index(current_stage(st)) >= STAGES.index("topic"):
+        for target in GATE_CHECK_ORDER:
+            ok, reasons = validate_next(tdir, target)
+            if not ok:
+                blocker = blocker_hint(reasons)
+                break
+    return {"current_stage": current_stage(st),
+            "dashboard": render_macro(st), "blocker": blocker}
+
+
+def cmd_rollback(tdir, target):
+    """软回环（指南 §8.3）：重置目标及下游闸门 + 锚定当前阶段；产物不动。"""
+    from progress_reporter import render_macro
+
+    tdir = Path(tdir)
+    if target not in STAGES:
+        return 2, {"error": f"未知回退目标：{target}（可选：{'/'.join(STAGES)}）"}
+    if target not in ROLLBACK_ALLOWED:
+        return 2, {"error": f"{target} 是产物认账阶段，已完成/认账后不支持回退；"
+                            "要重做请直接重跑对应原子技能，或先移走其产物"}
+    st = stage_status(tdir)
+    if not st[target]["satisfied"]:
+        return 2, {"error": f"{target} 尚无完成产物，无需回退"}
+    conf = st["confirmations"]
+    reset = [g for g, gs in GATE_STAGE.items()
+             if STAGES.index(gs) >= STAGES.index(target)]
+    for g in reset:
+        conf.pop(g, None)
+    conf["rolled_back_to"] = target
+    _write_confirmations(tdir, conf)
+    _append_progress(tdir, f"- 回环🔁：rollback → {target}（重置闸门："
+                           f"{'/'.join(reset)}；产物文件保留）")
+    return 0, {"rolled_back_to": target, "reset_gates": reset,
+               "note": "软回环：产物文件未动",
+               "dashboard": render_macro(stage_status(tdir))}
+
+
+def cmd_confirm(tdir, topic=None, gate=None, l4_items=None):
+    """闸门拍板落盘（主会话调用）；任何闸门确认都会清除软回环锚点。"""
+    tdir = Path(tdir)
+    conf = _load_confirmations(tdir)
+    changed = []
+    if topic is not None:
+        conf["topic"] = topic
+        changed.append("topic")
+    if gate is not None:
+        if gate not in GATE_STAGE:
+            return 2, {"error": f"未知闸门：{gate}（可选：{'/'.join(GATE_STAGE)}）"}
+        conf[gate] = l4_items if gate == "l4" and l4_items else True
+        changed.append(gate)
+    if not changed:
+        return 2, {"error": "没给任何确认内容（--topic / --gate）"}
+    if conf.pop("rolled_back_to", None):
+        changed.append("rolled_back_to(清除)")
+    _write_confirmations(tdir, conf)
+    _append_progress(tdir, f"- 闸门拍板：{'/'.join(changed)}")
+    return 0, {"confirmed": changed, "confirmations": conf}
+
+
 def main():
     ap = argparse.ArgumentParser(description="xiejiaocheng 流程控制")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -185,6 +274,16 @@ def main():
     n.add_argument("--to", required=True, choices=STAGES)
     n.add_argument("--yes", action="store_true",
                    help="占位：确认动作由主会话记录到 confirmations.json")
+    r = sub.add_parser("resume", help="会话恢复：宏观仪表盘+阻塞提示")
+    r.add_argument("--dir", required=True)
+    b = sub.add_parser("rollback", help="软回环：重置下游闸门，产物不动")
+    b.add_argument("--dir", required=True)
+    b.add_argument("--to", required=True, help="回退目标（topic/stage4/stage6/delivered）")
+    c = sub.add_parser("confirm", help="闸门拍板写入 confirmations.json")
+    c.add_argument("--dir", required=True)
+    c.add_argument("--topic", help="选题拍板内容")
+    c.add_argument("--gate", choices=list(GATE_STAGE), help="闸门名")
+    c.add_argument("--l4-items", help="L4 人审签字项，逗号分隔")
     args = ap.parse_args()
 
     if args.cmd == "status":
@@ -193,6 +292,18 @@ def main():
         ok, reasons = validate_next(args.dir, args.to)
         print(json.dumps({"can_proceed": ok, "reasons": reasons},
                          ensure_ascii=False, indent=1))
+    elif args.cmd == "resume":
+        print(json.dumps(cmd_resume(args.dir), ensure_ascii=False, indent=1))
+    elif args.cmd == "rollback":
+        code, payload = cmd_rollback(args.dir, args.to)
+        print(json.dumps(payload, ensure_ascii=False, indent=1))
+        sys.exit(code)
+    elif args.cmd == "confirm":
+        l4 = [x for x in (args.l4_items or "").split(",") if x.strip()] or None
+        code, payload = cmd_confirm(args.dir, topic=args.topic,
+                                    gate=args.gate, l4_items=l4)
+        print(json.dumps(payload, ensure_ascii=False, indent=1))
+        sys.exit(code)
 
 
 if __name__ == "__main__":

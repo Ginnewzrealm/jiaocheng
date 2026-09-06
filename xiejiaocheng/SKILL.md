@@ -47,10 +47,45 @@ description: 教程写作流水线编排器。给一个主题，把 source-scan/
 
 ## 执行协议
 
-每个阶段固定五拍：
+### 进度条使用规则（Progress Checklist，见 docs/AI技能进度条设计指南）
 
-1. **认账**——`python3 scripts/flow_controller.py status --dir <dir>`；该阶段 `satisfied` 就向用户报"已认账跳过"，进下一阶段。
-2. **放行校验**——`python3 scripts/flow_controller.py next --dir <dir> --to <阶段>`；`can_proceed: false` 就把 `reasons` 原样报给用户（闸门类等人拍板，资产类先补跑上游）。
+每次触发本 skill、每次 stage 跳转、每次会话恢复时，必须向用户展示进度仪表盘：
+`python3 scripts/flow_controller.py resume --dir <dir>` 输出宏观 5 阶段仪表盘 + 当前阻塞。
+
+1. 进入新 stage 后，先展示当前宏观 5 阶段仪表盘（扒资料/找问题/找答案·选题/结构与写作/质检与交付）。
+2. 调用原子技能前，由编排器展示宏观仪表盘；原子技能只展示本阶段 micro-checklist。
+3. 每完成一步，该步骤标 `[✓]`，下一步高亮 `← 当前`。
+4. 需要等待用户输入时，输出 `当前阻塞：…` + "你可以：" 选项块。
+5. 会话中断后恢复：先 `resume` 输出完整仪表盘，再继续。
+6. 原子技能被**单独调用**时（不经过本编排器），开头加一句阶段定位（"当前处于教程流水线的阶段 X/5：…"）。
+
+checklist 步骤标签： `[自动]` AI 自动执行 / `[需确认]` 给用户看但不强制 / `[硬闸门]` 不确认不能继续 / `[可回环]` 用户可要求回退重做。硬闸门步骤不得混标 `[需确认]`。
+
+### 回环机制（软回环）
+
+用户不满意上游产物时，回退到对应闸门节点重做——**只重置闸门确认和当前锚点，产物文件保留可比**：
+
+| 用户请求 | 命令 | 重置的闸门 |
+|---|---|---|
+| "选题重新想" | `rollback --to topic` | 选题/大纲/L4/发布 |
+| "大纲要改" | `rollback --to stage4` | 大纲/L4/发布 |
+| "L4 复审/质检结论不认" | `rollback --to stage6` | L4/发布 |
+| "先别发布" | `rollback --to delivered` | 发布 |
+
+回退后仪表盘 `← 当前` 高亮回退目标；用户重新拍板（`confirm`）后锚点自动清除。产物阶段（stage0/1/3/5）不支持回退——它们由资产认账接管，要重做直接重跑对应原子技能。
+
+闸门拍板一律用 `confirm` 落盘（不许手编 confirmations.json）：
+```
+python3 scripts/flow_controller.py confirm --dir <d> --topic "选题内容"
+python3 scripts/flow_controller.py confirm --dir <d> --gate outline
+python3 scripts/flow_controller.py confirm --dir <d> --gate l4 --l4-items "温度感,独特性,姿态,心流"
+python3 scripts/flow_controller.py confirm --dir <d> --gate publish
+```
+
+### 阶段执行五拍
+
+1. **认账**——`status --dir <dir>`；该阶段 `satisfied` 就向用户报"已认账跳过"，进下一阶段。
+2. **放行校验**——`next --dir <dir> --to <阶段>`；`can_proceed: false` 就把 `reasons` + "你可以：" 选项块原样报给用户（闸门类等人拍板，资产类先补跑上游）。
 3. **执行**——调用对应原子技能，严格按该技能的 SKILL.md 走。
 4. **验收**——原子技能自己的机检全绿才准计入产物；机检不过的修到达标，改不动就 blocked。
 5. **汇报**——按下面的批次规则。

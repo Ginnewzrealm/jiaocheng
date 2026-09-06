@@ -5,7 +5,7 @@
 
 ## 编排器：xiejiaocheng
 
-**xiejiaocheng** 是流水线路由器：给一个主题，把下面七个原子技能串成完整生产线。三个职责——**资产认账**（单独跑过的阶段检测到产物自动跳过，成果回流流水线）、**4 个硬闸门**（选题拍板/大纲确认/L4人审/发布，没确认不许推进，`scripts/flow_controller.py` 强制）、**分批汇报**（批内自动，批边界需确认）。原子技能也都能单独触发（"挖 XX 的资料"/"挖 XX 领域的问题"/"挖 XX 问题的答案"），只调不改。
+**xiejiaocheng** 是流水线路由器：给一个主题，把下面七个原子技能串成完整生产线。四个职责——**资产认账**（单独跑过的阶段检测到产物自动跳过，成果回流流水线）、**4 个硬闸门**（选题拍板/大纲确认/L4人审/发布，没确认不许推进，`scripts/flow_controller.py` 强制）、**分批汇报**（批内自动，批边界需确认）、**Progress Checklist 仪表盘**（5 用户阶段宏观渲染 + 阶段内 micro-checklist + 软回环/resume/confirm，对标《AI技能进度条设计指南》）。原子技能也都能单独触发（"挖 XX 的资料"/"挖 XX 领域的问题"/"挖 XX 问题的答案"），只调不改。
 
 ## 七个原子技能
 
@@ -60,7 +60,7 @@ python3 scripts/draft.py check --file <章.md> --materials <素材路径,逗号�
 ## 测试
 
 ```bash
-python3 -m pytest xiejiaocheng/tests gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 212 passed
+python3 -m pytest xiejiaocheng/tests gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 226 passed
 ```
 
 每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。
