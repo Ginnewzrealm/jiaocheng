@@ -3,7 +3,7 @@
 输入一个主题词 → 网上系统性发现真实用户问题 → 找到优质教程源 → 采集为本地 Markdown 资料库 → 逐问题深度研究出答案卡 → 按学习路径重组为教程大纲。
 写教程工作流的素材层 + 答案层 + 结构层。**发现什么采什么全留痕，判断可追溯。**
 
-## 六个原子技能
+## 七个原子技能
 
 | 技能 | 角色 | 输入 → 输出 | 测试 |
 |---|---|---|---|
@@ -13,6 +13,7 @@
 | **gin-answer** | 找答案（Stage 3） | 单个问题 + 可选资料库 → 研究报告 `.md` + 答案卡 `.json`（横纵分析法改造：纵轴=由来/演变，横轴=阵营/争议，交汇=综合判断+适用边界；validate 机检出处存在性/URL/独立性，置信度自动复算防虚报） | 25 |
 | **gin-outline** | 大纲层（Stage 4） | 主题（用户拍板）+ answers-manifest + 资料库 → 大纲 `.md` + `.json`（章节→卡片+素材映射）+ 缺口清单（外置）；机检 8 条：幽灵引用/映射注水/动作动词/知识章拓扑/贯穿案例钉死/synthesis gap | 20 |
 | **gin-draft** | 写作层（Stage 5） | 大纲.json 一章（卡片+素材映射）+ 资料库 → 一章 Markdown 正文（章构件，装配无关）；机检：素材锚定率≥60%（堵凭空发挥+贴名凑数）、章首契约（写给谁+读完能做什么）、章末交付物（清单/表/模板）、贯穿案例出场、句式密度、卡兹克禁区词表 | 18 |
+| **gin-qc** | 质检层（Stage 6） | 一章 Markdown 正文 → 活人感质检报告（score+verdict+L4 人审项）；四层体系教程化：段落≤300字(硬规则)/中位数句长集中度/疑问句/证据密度按行分布(引文年份和L路径不算数)/认知灰度/身份共鸣/列表背靠背；L4 温度感·独特性·姿态·心流只报告人审不进评分 | 23 |
 
 `gin-question` 的问题清单可以直接作为 `source-scan` 的 coverage 检查输入，**无需问用户"该写什么"，机器自己发现缺口**。答案卡经 `gin-outline` 重组为教程大纲，`gin-draft` 按大纲.json 逐章施工——写出的章是装配无关的构件，单篇教程和未来的书都从同一套章构件装配。
 
@@ -50,7 +51,7 @@ python3 scripts/draft.py check --file <章.md> --materials <素材路径,逗号�
 ## 测试
 
 ```bash
-python3 -m pytest gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests -q   # 161 passed
+python3 -m pytest gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 184 passed
 ```
 
 每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。
