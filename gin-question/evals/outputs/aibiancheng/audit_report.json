@@ -1,0 +1,68 @@
+{
+  "topic": "AI编程",
+  "generated_at": "2026-08-31T15:44:16Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "search_terms_total": 16,
+  "candidates_total": 39,
+  "duplicates_merged": 8,
+  "qm1_rejected": 0,
+  "qm2_rejected": 0,
+  "qm3_rejected": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0,
+    "E": 0
+  },
+  "frequency_rejected": 5,
+  "perspective_coverage": {
+    "基础": {
+      "What": 0,
+      "Why": 0,
+      "Who": 0,
+      "When": 0,
+      "Where": 0,
+      "How": 0,
+      "How much": 0
+    },
+    "旅程": {
+      "认知期": 0,
+      "准备期": 0,
+      "执行期": 0,
+      "瓶颈期": 0,
+      "维持期": 0
+    },
+    "人群场景": {
+      "人群差异": 3,
+      "场景差异": 0
+    },
+    "争议时效": {
+      "争议": 8,
+      "时效": 0
+    }
+  },
+  "agent_failures": [],
+  "empty_perspectives": [
+    "基础/What",
+    "基础/Why",
+    "基础/Who",
+    "基础/When",
+    "基础/Where",
+    "基础/How",
+    "基础/How much",
+    "旅程/认知期",
+    "旅程/准备期",
+    "旅程/执行期",
+    "旅程/瓶颈期",
+    "旅程/维持期",
+    "人群场景/场景差异",
+    "争议时效/时效"
+  ],
+  "is_abstract": false,
+  "exempt": [],
+  "notes": [
+    "问题来源优先级：已抓取页面正文 > 搜索结果页面标题。",
+    "未抓取页面且标题非疑问句的结果被丢弃。"
+  ]
+}

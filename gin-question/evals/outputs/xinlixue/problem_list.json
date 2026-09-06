@@ -1,0 +1,444 @@
+{
+  "topic": "心理学",
+  "generated_at": "2026-08-31T15:51:54Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "老年心理障碍表现与年轻人对比差距明显吗",
+      "original": "老年心理障碍表现与年轻人对比差距明显吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "近期晚上总是睡不着，感觉失眠比较严重。哪个医生看失眠比较好点？",
+      "original": "近期晚上总是睡不着，感觉失眠比较严重。哪个医生看失眠比较好点？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [
+        "哪个医生看失眠比较好点？"
+      ],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "近期一到晚上总是失眠，失眠算是一种疾病？",
+      "original": "近期一到晚上总是失眠，失眠算是一种疾病？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "男孩嫌学校和同学\"太脏\"--洁癖强迫症怎么治疗？",
+      "original": "男孩嫌学校和同学\"太脏\"--洁癖强迫症怎么治疗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "抑郁症的病因是什么？",
+      "original": "抑郁症的病因是什么？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    },
+    {
+      "text": "强迫症的表现有哪些？",
+      "original": "强迫症的表现有哪些？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P006"
+    },
+    {
+      "text": "患了强迫症怎么办？",
+      "original": "患了强迫症怎么办？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P007"
+    },
+    {
+      "text": "强迫症该如何自我疗法？",
+      "original": "强迫症该如何自我疗法？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P008"
+    },
+    {
+      "text": "抑郁症能彻底治愈吗？",
+      "original": "抑郁症能彻底治愈吗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P009"
+    },
+    {
+      "text": "如何帮助孩子走出抑郁症？",
+      "original": "如何帮助孩子走出抑郁症？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P010"
+    },
+    {
+      "text": "心情烦躁、焦虑、易怒还出汗是怎么回事？",
+      "original": "心情烦躁、焦虑、易怒还出汗是怎么回事？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.familydoctor.com.cn/q/21205813.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P011"
+    },
+    {
+      "text": "为什么各国的抑郁数据总是对不上？",
+      "original": "为什么各国的抑郁数据总是对不上？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://psy.fenxapp.com/archives/31766",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P012"
+    },
+    {
+      "text": "日常生活中，哪些信号可能意味着心理状态需要关注了？",
+      "original": "日常生活中，哪些信号可能意味着心理状态需要关注了？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.xiejiaji.gov.cn/public/118322650/1260827669.html",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P013"
+    },
+    {
+      "text": "不同人群面临的心理压力似乎差异很大，比如青少年、职场人士、老年人，他们各自常见的心理困扰有哪些？",
+      "original": "不同人群面临的心理压力似乎差异很大，比如青少年、职场人士、老年人，他们各自常见的心理困扰有哪些？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.xiejiaji.gov.cn/public/118322650/1260827669.html",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P014"
+    },
+    {
+      "text": "身边有人出现心理问题，我们应该怎么科学应对？",
+      "original": "身边有人出现心理问题，我们应该怎么科学应对？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.xiejiaji.gov.cn/public/118322650/1260827669.html",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P015"
+    },
+    {
+      "text": "汤主任 ，咱们区在心理健康服务方面，都有哪些具体的资源可以为市民提供帮助？",
+      "original": "汤主任 ，咱们区在心理健康服务方面，都有哪些具体的资源可以为市民提供帮助？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.xiejiaji.gov.cn/public/118322650/1260827669.html",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P016"
+    },
+    {
+      "text": "日常生活中，我们自己可以通过哪些方法来维护心理健康，保持良好的心理状态呢？",
+      "original": "日常生活中，我们自己可以通过哪些方法来维护心理健康，保持良好的心理状态呢？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.xiejiaji.gov.cn/public/118322650/1260827669.html",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P017"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "青少年心理健康的标准是什么？",
+      "original": "青少年心理健康的标准是什么？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "影响孩子情绪的因素有哪些？",
+      "original": "影响孩子情绪的因素有哪些？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "孩子为什么会有逆反心理和行为？",
+      "original": "孩子为什么会有逆反心理和行为？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "孩子有心理问题，为什么反而家长更需要心理咨询？",
+      "original": "孩子有心理问题，为什么反而家长更需要心理咨询？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "6生活中常见的压力，会对我们的身体带来哪些影响？",
+      "original": "6生活中常见的压力，会对我们的身体带来哪些影响？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "7为什么我感觉女儿的抑郁症是装的？",
+      "original": "7为什么我感觉女儿的抑郁症是装的？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "8对于认知行为疗法，你到底了解多少？",
+      "original": "8对于认知行为疗法，你到底了解多少？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://anewator.com/qsnxl/1811.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    }
+  ]
+}

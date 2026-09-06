@@ -1,0 +1,117 @@
+{
+  "topic": "减脂",
+  "generated_at": "2026-08-31T13:58:20Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [],
+  "pending_validation": [
+    {
+      "text": "减重vs. 减脂，差别是什么？",
+      "original": "减重vs. 减脂，差别是什么？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "What",
+      "sources": [
+        {
+          "url": "https://www.myprotein.cn/blog/nutrition/what-is-the-difference-between-losing-fat-and-losing-weight/",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "减脂与减肥有何区别？",
+      "original": "减脂与减肥有何区别？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "What",
+      "sources": [
+        {
+          "url": "https://ensoulclinic.com/cn/%e5%87%8f%e8%84%82%e4%b8%8e%e5%87%8f%e8%82%a5%e6%9c%89%e4%bd%95%e5%8c%ba%e5%88%ab%ef%bc%9f/",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "进入减脂平台期，该怎么办？",
+      "original": "进入减脂平台期，该怎么办？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "瓶颈期",
+      "sources": [
+        {
+          "url": "https://www.zhihu.com/question/26598092",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "减肥反弹、平台期该怎么办？",
+      "original": "减肥反弹、平台期该怎么办？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "瓶颈期",
+      "sources": [
+        {
+          "url": "https://www.zhihu.com/question/593418426/answer/2966030268",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "减脂胶囊是智商税吗？",
+      "original": "减脂胶囊是智商税吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.zhihu.com/question/664724317",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "减脂减肥有什么伪科学？",
+      "original": "减脂减肥有什么伪科学？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.zhihu.com/question/381153769",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    }
+  ]
+}

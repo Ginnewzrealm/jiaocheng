@@ -1,0 +1,3 @@
+# gin-question 依赖
+# 当前所有脚本仅使用 Python 标准库，无强制第三方依赖。
+# 如需更精确的语义去重，可额外安装 sentence-transformers 并替换 dedupe_questions.py 中的相似度实现。

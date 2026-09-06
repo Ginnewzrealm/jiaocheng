@@ -1,0 +1,120 @@
+{
+  "topic": "美食",
+  "generated_at": "2026-08-31T16:02:38Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "四川菜与粤菜哪个好吃？舌尖上的川粤之争，您更偏爱哪一种？",
+      "original": "四川菜与粤菜哪个好吃？舌尖上的川粤之争，您更偏爱哪一种？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "麻辣鲜香VS清淡鲜美，川粤美食谁能称王？",
+      "original": "麻辣鲜香VS清淡鲜美，川粤美食谁能称王？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "每天都是每年里的好日子，哈喽，大家好我是小九，今天我们来聊一聊四川菜与粤菜哪个好吃？",
+      "original": "每天都是每年里的好日子，哈喽，大家好我是小九，今天我们来聊一聊四川菜与粤菜哪个好吃？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [
+        "川菜与粤菜，哪个好吃？",
+        "四川菜与粤菜哪个好吃？"
+      ],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "四川菜VS粤菜，到底哪个更戳你的味蕾？",
+      "original": "四川菜VS粤菜，到底哪个更戳你的味蕾？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "嘿，各位吃货小伙伴们，今天咱们来聊聊一个让人纠结又兴奋的话题：四川菜和粤菜，到底哪个更好吃？",
+      "original": "嘿，各位吃货小伙伴们，今天咱们来聊聊一个让人纠结又兴奋的话题：四川菜和粤菜，到底哪个更好吃？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    },
+    {
+      "text": "这个问题就像是问甜豆腐脑和咸豆腐脑哪个更棒一样，每个人都有自己的心头好，对吧？",
+      "original": "这个问题就像是问甜豆腐脑和咸豆腐脑哪个更棒一样，每个人都有自己的心头好，对吧？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/837882079_121893286",
+          "type": "secondary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P006"
+    }
+  ],
+  "pending_validation": []
+}

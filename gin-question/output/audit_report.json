@@ -1,0 +1,50 @@
+{
+  "topic": "减脂",
+  "generated_at": "2026-08-31T13:10:00Z",
+  "search_terms_total": 14,
+  "candidates_total": 47,
+  "duplicates_merged": 18,
+  "qm1_rejected": 0,
+  "qm2_rejected": 4,
+  "qm3_rejected": {
+    "A": 2,
+    "B": 1,
+    "C": 3,
+    "D": 2,
+    "E": 1
+  },
+  "frequency_rejected": 8,
+  "perspective_coverage": {
+    "基础": {
+      "What": 1,
+      "Why": 1,
+      "Who": 1,
+      "When": 1,
+      "Where": 1,
+      "How": 1,
+      "How much": 1
+    },
+    "旅程": {
+      "认知期": 1,
+      "准备期": 1,
+      "执行期": 1,
+      "瓶颈期": 1,
+      "维持期": 1
+    },
+    "人群场景": {
+      "人群差异": 4,
+      "场景差异": 1
+    },
+    "争议时效": {
+      "争议": 4,
+      "时效": 1
+    }
+  },
+  "agent_failures": [],
+  "empty_perspectives": [],
+  "notes": [
+    "WebFetch 对 www.zhihu.com 返回安全策略拦截，实际页面内容未被抓取；问题文本来自搜索结果摘要推断。",
+    "site:zhihu.com 限定词未显著增加知乎结果比例，搜索引擎可能忽略该限定或知乎内容收录受限。",
+    "本次为单轮检索，未触发 saturation 终止条件；exit_reason 标记为 saturated 仅表示当前轮次结束。"
+  ]
+}

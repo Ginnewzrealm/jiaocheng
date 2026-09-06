@@ -1,0 +1,680 @@
+{
+  "topic": "减脂",
+  "generated_at": "2026-08-31T15:07:09Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "当BMI＜24kg/㎡时，就不需要减重了吗？",
+      "original": "当BMI＜24kg/㎡时，就不需要减重了吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://m.cyol.com/gb/articles/2024-12/07/content_aj2BEwHBVx.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "BMI超出正常范围，就一定需要减重吗？",
+      "original": "BMI超出正常范围，就一定需要减重吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://m.cyol.com/gb/articles/2024-12/07/content_aj2BEwHBVx.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "新华社发循序渐进，坚持必有所获运动和饮食控制是减脂利器，两种方法中哪个效率更高呢？",
+      "original": "新华社发循序渐进，坚持必有所获运动和饮食控制是减脂利器，两种方法中哪个效率更高呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://m.cyol.com/gb/articles/2024-12/07/content_aj2BEwHBVx.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "减脂效果如何评估？",
+      "original": "减脂效果如何评估？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://m.cyol.com/gb/articles/2024-12/07/content_aj2BEwHBVx.html",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "健身究竟是先增肌还是先减脂？",
+      "original": "健身究竟是先增肌还是先减脂？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.lifetimes.cn/article/49YQ5dp5kL8",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "该如何瘦小腹呢 ？",
+      "original": "该如何瘦小腹呢 ？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://mip.mfk.com/ask/22237469.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "怎样可以快速瘦下来？",
+      "original": "怎样可以快速瘦下来？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/24851743.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "减肥该吃什么蔬菜？",
+      "original": "减肥该吃什么蔬菜？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/24851743.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "猪肉适合减肥吃吗",
+      "original": "猪肉适合减肥吃吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/24851743.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "减肥需要多久能见效呢",
+      "original": "减肥需要多久能见效呢",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.bohe.cn/article/view/wujcv7hn3k3wp66.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "减肥能吃凤梨吗？",
+      "original": "减肥能吃凤梨吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23523423.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "什么减肥药可以有效的减肥？",
+      "original": "什么减肥药可以有效的减肥？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23523423.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "减肥的方法有哪些呢？",
+      "original": "减肥的方法有哪些呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23523423.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "醋加蜂蜜能减肥吗",
+      "original": "醋加蜂蜜能减肥吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23523423.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    },
+    {
+      "text": "现在可以吃减肥药吗",
+      "original": "现在可以吃减肥药吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV010"
+    },
+    {
+      "text": "什么花茶有减肥的功效呢？",
+      "original": "什么花茶有减肥的功效呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV011"
+    },
+    {
+      "text": "肠清茶可以减肥吗",
+      "original": "肠清茶可以减肥吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV012"
+    },
+    {
+      "text": "三七能减肥吗",
+      "original": "三七能减肥吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV013"
+    },
+    {
+      "text": "三七减肥有用吗？",
+      "original": "三七减肥有用吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV014"
+    },
+    {
+      "text": "减肥可以吃减脂粉吗",
+      "original": "减肥可以吃减脂粉吗",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23363814.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV015"
+    },
+    {
+      "text": "减肥一天摄入多少大卡？",
+      "original": "减肥一天摄入多少大卡？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/23523427.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV016"
+    },
+    {
+      "text": "生理期减肥更容易瘦吗",
+      "original": "生理期减肥更容易瘦吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.bohe.cn/ask/view/109023471.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV017"
+    },
+    {
+      "text": "月经期间减肥和平时有区别吗",
+      "original": "月经期间减肥和平时有区别吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.chaonei.com/mingyi/news_14383780",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV018"
+    },
+    {
+      "text": "月经期间减肥快吗",
+      "original": "月经期间减肥快吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/21394571.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV019"
+    },
+    {
+      "text": "荞麦茶能减肥吗",
+      "original": "荞麦茶能减肥吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/21394571.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV020"
+    },
+    {
+      "text": "胡萝卜加蜂蜜能减肥吗",
+      "original": "胡萝卜加蜂蜜能减肥吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/21394571.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV021"
+    },
+    {
+      "text": "大腿粗怎么减肥呢",
+      "original": "大腿粗怎么减肥呢",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/21394571.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV022"
+    },
+    {
+      "text": "紫薯可以减肥吗？",
+      "original": "紫薯可以减肥吗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/21394571.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV023"
+    },
+    {
+      "text": "经期减肥有效吗",
+      "original": "经期减肥有效吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://www.mfk.com/ask/19723658.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV024"
+    },
+    {
+      "text": "二、减脂期遇到月经期，如何科学应对？",
+      "original": "二、减脂期遇到月经期，如何科学应对？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://health.baidu.com/m/detail/ar_5642512286223001393",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV025"
+    },
+    {
+      "text": "来月经减肥会更快吗",
+      "original": "来月经减肥会更快吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://health.baidu.com/m/detail/ar_6917286093378696747",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV026"
+    },
+    {
+      "text": "“商家说这样一个月可以瘦10斤，可这不就是节食吗？",
+      "original": "“商家说这样一个月可以瘦10斤，可这不就是节食吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.cnwomen.com.cn/2025/04/15/99724856.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV027"
+    },
+    {
+      "text": "刷刷牙就能瘦\"，為啥有人信？",
+      "original": "刷刷牙就能瘦\"，為啥有人信？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://big5.cctv.com/gate/big5/news.cctv.cn/2025/04/15/ARTIOQBj7U7pyrrrGkQ8SRYc250415.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "刷刷牙就能瘦？"
+      ],
+      "status": "single_source",
+      "id": "PV028"
+    },
+    {
+      "text": "运动减肥的禁忌人群有哪些？",
+      "original": "运动减肥的禁忌人群有哪些？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "http://www.39.net/jfsp/jfsp/180610.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV029"
+    },
+    {
+      "text": "减脂适合什么人做？减脂不适合什么人做？",
+      "original": "减脂适合什么人做？减脂不适合什么人做？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.99jk.cn/jfsp/jfsp/1448312.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV030"
+    },
+    {
+      "text": "> 如何选择适合自己的减肥健身器材？",
+      "original": "> 如何选择适合自己的减肥健身器材？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Where",
+      "sources": [
+        {
+          "url": "https://www.35jk.com/article/336396.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "如何选择适合自己的减肥健身器材？"
+      ],
+      "status": "single_source",
+      "id": "PV031"
+    },
+    {
+      "text": "四、减肥的“关键”：找到能让你坚持的运动很多人问，跑步好还是跳操好？",
+      "original": "四、减肥的“关键”：找到能让你坚持的运动很多人问，跑步好还是跳操好？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "准备期",
+      "sources": [
+        {
+          "url": "https://m.baidu.com/bh/m/detail/ar_10120376124224947907",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV032"
+    }
+  ]
+}

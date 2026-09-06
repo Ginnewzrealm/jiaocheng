@@ -1,16 +1,17 @@
-# jiaocheng：教程写作技能组 · Stage 0
+# jiaocheng：教程写作技能组
 
-输入一个主题词 → 网上系统性发现优质教程源 → 采集为本地 Markdown 资料库 + 机器可读验收报告。
-写教程工作流的最前段：素材层。**发现什么采什么全留痕，判断可追溯。**
+输入一个主题词 → 网上系统性发现真实用户问题 → 找到优质教程源 → 采集为本地 Markdown 资料库 + 机器可读验收报告。
+写教程工作流的素材层。**发现什么采什么全留痕，判断可追溯。**
 
-## 两个原子技能
+## 三个原子技能
 
-| 技能 | 角色 | 输入 → 输出 |
-|---|---|---|
-| **gin-tutorial-source-scan** | 发现层 | 主题词 → `sources.json`（六层资料地图逐层枚举，逐条质量定级 high/medium/unknown/reject，拒绝也落盘带理由，coverage 覆盖检查） |
-| **gin-tutorial-harvest** | 采集层 | `sources.json` + 输出目录 → 按层分目录的 Markdown 资料库 + `coverage-manifest.json`（验收：素材 ≥ 3× 目标成稿字数、每 TOP 问题 ≥2 独立来源） |
+| 技能 | 角色 | 输入 → 输出 | 测试 |
+|---|---|---|---|
+| **gin-question** | 找问题（Stage 1） | 主题词 → 结构化真实用户问题清单 | 43 |
+| **gin-tutorial-source-scan** | 发现层（Stage 0） | 主题词 → `sources.json`（六层资料地图逐层枚举，逐条质量定级，拒绝也落盘带理由，coverage 覆盖检查） | 20 |
+| **gin-tutorial-harvest** | 采集层（Stage 0） | `sources.json` + 输出目录 → 按层分目录的 Markdown 资料库 + `coverage-manifest.json`（验收：素材 ≥ 3× 目标成稿字数、每 TOP 问题 ≥2 独立来源） | 35 |
 
-中间靠 sources.json 机器交接，可编排进更大的工作流（Stage 2 选题裁决直接读 coverage-manifest）。
+`gin-question` 的问题清单可以直接作为 `source-scan` 的 coverage 检查输入，**无需问用户"该写什么"，机器自己发现缺口**。coverage-manifest 进一步喂给 Stage 2 选题裁决与 Stage 3 找答案环节。
 
 ## 设计要点（全部来自实战踩坑）
 
@@ -41,7 +42,7 @@ python3 scripts/harvest.py manifest --dir <资料库目录> --topic "<主题>" -
 ## 测试
 
 ```bash
-python3 -m pytest gin-tutorial-source-scan/tests gin-tutorial-harvest/tests -q   # 55 passed
+python3 -m pytest gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests -q   # 98 passed
 ```
 
 每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。

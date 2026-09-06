@@ -1,0 +1,174 @@
+{
+  "topic": "周杰伦",
+  "generated_at": "2026-08-31T15:25:52Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [],
+  "pending_validation": [
+    {
+      "text": "照亮远方黑夜，如果不是周杰伦亲自出镜，谁能想得到这是他的歌？",
+      "original": "照亮远方黑夜，如果不是周杰伦亲自出镜，谁能想得到这是他的歌？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://cul.sohu.com/a/1001921413_121970749",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "我们是否曾经迷恋的，真的是周杰伦本人，还是方文山、钟兴民、洪敬尧等人共同构建出的那个周氏东方幻想？",
+      "original": "我们是否曾经迷恋的，真的是周杰伦本人，还是方文山、钟兴民、洪敬尧等人共同构建出的那个周氏东方幻想？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://cul.sohu.com/a/1001921413_121970749",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "周杰伦甚至在发布会上开玩笑地问媒体，你们以为方文山的词都是他写的哦？",
+      "original": "周杰伦甚至在发布会上开玩笑地问媒体，你们以为方文山的词都是他写的哦？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://cul.sohu.com/a/1001921413_121970749",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "周杰伦真的江郎才尽了吗？",
+      "original": "周杰伦真的江郎才尽了吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://cul.sohu.com/a/1001921413_121970749",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "周杰伦是不是水逆？",
+      "original": "周杰伦是不是水逆？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://m.sohu.com/a/945481130_120642277/",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "从“神专”到“难听”，周杰伦已经不行了？",
+      "original": "从“神专”到“难听”，周杰伦已经不行了？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/newsDetail_forward_32871341",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "周杰伦已经不行了？",
+        "周杰伦，不行了？"
+      ],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "从什么时候开始，周杰伦的专辑开始众口难调了？",
+      "original": "从什么时候开始，周杰伦的专辑开始众口难调了？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/newsDetail_forward_32871341",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "抛开个人喜好、流行传唱度，但从音乐技术本身出发，周杰伦后期的作品真的不如以前吗？",
+      "original": "抛开个人喜好、流行传唱度，但从音乐技术本身出发，周杰伦后期的作品真的不如以前吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/newsDetail_forward_32871341",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "既然水平并没有下滑太多，为什么我们还总觉得周杰伦不行？",
+      "original": "既然水平并没有下滑太多，为什么我们还总觉得周杰伦不行？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/newsDetail_forward_32871341",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    }
+  ]
+}

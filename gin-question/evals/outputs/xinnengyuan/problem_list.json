@@ -1,0 +1,353 @@
+{
+  "topic": "新能源汽车",
+  "generated_at": "2026-08-31T15:15:39Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [],
+  "pending_validation": [
+    {
+      "text": "纯电动汽车哪个牌子好？",
+      "original": "纯电动汽车哪个牌子好？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://www.autoweekly.com.cn/qcejy/202511/898454.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "2025新能源车怎么选？",
+      "original": "2025新能源车怎么选？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://k.sina.com.cn/article_7879848900_1d5acf3c401902tssq.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "为什么低温会成为续航里程杀手？",
+      "original": "为什么低温会成为续航里程杀手？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/rss_newsDetail_10722593",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "想充电，有车位吗？",
+      "original": "想充电，有车位吗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/rss_newsDetail_10722593",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "能抢到充电桩吗？",
+      "original": "能抢到充电桩吗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.thepaper.cn/rss_newsDetail_10722593",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "新能源车冬季续航会衰减多少？",
+      "original": "新能源车冬季续航会衰减多少？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://cheketong.cn/view/1178.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "新能源汽车三电系统怎么检测维修？",
+      "original": "新能源汽车三电系统怎么检测维修？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://cheketong.cn/view/1178.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "新能源汽车购置补贴政策即将结束，新能源二手车还有必要买吗？",
+      "original": "新能源汽车购置补贴政策即将结束，新能源二手车还有必要买吗？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://cheketong.cn/view/1178.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "新能源汽车电子元件材料有哪些特殊要求？",
+      "original": "新能源汽车电子元件材料有哪些特殊要求？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://cheketong.cn/view/1178.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    },
+    {
+      "text": "新能源汽车续航突然暴跌，是 BMS 问题还是电芯衰减？",
+      "original": "新能源汽车续航突然暴跌，是 BMS 问题还是电芯衰减？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://cheketong.cn/view/1178.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV010"
+    },
+    {
+      "text": "电车冬天续航会减半吗",
+      "original": "电车冬天续航会减半吗",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {
+          "url": "https://m.pcauto.com.cn/x/4777/47779748.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV011"
+    },
+    {
+      "text": "特斯拉Model 3毛坯房再降级？",
+      "original": "特斯拉Model 3毛坯房再降级？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://post.smzdm.com/talk/p/avg6wxqm/p7/",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV012"
+    },
+    {
+      "text": "十万级纯电SUV遍地低价陷阱，入门版悄悄砍续航？",
+      "original": "十万级纯电SUV遍地低价陷阱，入门版悄悄砍续航？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://post.smzdm.com/talk/p/avg6wxqm/p7/",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV013"
+    },
+    {
+      "text": "如何挑到高保值新能源车？",
+      "original": "如何挑到高保值新能源车？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://auto.sina.cn/2026-07-10/detail-inihhvkf8373300.d.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV014"
+    },
+    {
+      "text": "二手电车能买吗？",
+      "original": "二手电车能买吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://auto.sina.cn/2026-07-10/detail-inihhvkf8373300.d.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV015"
+    },
+    {
+      "text": "电池健康度怎么看？",
+      "original": "电池健康度怎么看？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://auto.sina.cn/2026-07-10/detail-inihhvkf8373300.d.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV016"
+    },
+    {
+      "text": "新能源车开五年后，保值率会崩盘吗？",
+      "original": "新能源车开五年后，保值率会崩盘吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {
+          "url": "https://auto.sina.cn/2026-07-10/detail-inihhvkf8373300.d.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "新能源车保值吗？"
+      ],
+      "status": "single_source",
+      "id": "PV017"
+    },
+    {
+      "text": "在家如何给自己的汽车充电，充电时间如何计算？",
+      "original": "在家如何给自己的汽车充电，充电时间如何计算？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Why",
+      "sources": [
+        {
+          "url": "https://www.pycgs.cn/zhishi/16886.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV018"
+    },
+    {
+      "text": "新款小米SU7值得等吗？",
+      "original": "新款小米SU7值得等吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://m.pcauto.com.cn/x/5099/50999424.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV019"
+    }
+  ]
+}

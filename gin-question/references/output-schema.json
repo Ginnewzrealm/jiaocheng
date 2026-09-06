@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["topic", "generated_at", "exit_reason", "retrieval_rounds", "problems", "pending_validation"],
+  "properties": {
+    "topic": {
+      "type": "string",
+      "description": "原始主题"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "生成时间 ISO 8601"
+    },
+    "exit_reason": {
+      "type": "string",
+      "enum": ["saturated", "empty", "network_failure"],
+      "description": "退出原因"
+    },
+    "retrieval_rounds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "检索轮数"
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/problem"
+      }
+    },
+    "pending_validation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/problem"
+      }
+    }
+  },
+  "definitions": {
+    "problem": {
+      "type": "object",
+      "required": ["id", "text", "original", "retrieval_perspective", "sub_dimension", "sources", "total_frequency", "source_count", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "唯一编号，如 P001"
+        },
+        "text": {
+          "type": "string",
+          "description": "规范化后的问题文本"
+        },
+        "original": {
+          "type": "string",
+          "description": "网络原始问题文本"
+        },
+        "retrieval_perspective": {
+          "type": "string",
+          "enum": ["基础", "旅程", "人群场景", "争议时效"],
+          "description": "检索视角"
+        },
+        "sub_dimension": {
+          "type": "string",
+          "description": "子维度"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/source"
+          }
+        },
+        "total_frequency": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "总出现频次"
+        },
+        "source_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "独立来源数"
+        },
+        "duplicates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "被合并的近似问题"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "single_source"],
+          "description": "状态"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["url", "type", "frequency"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "来源 URL"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["primary", "secondary", "tertiary"],
+          "description": "一手 / 二手 / 三手"
+        },
+        "frequency": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "在该来源出现次数"
+        }
+      }
+    }
+  }
+}

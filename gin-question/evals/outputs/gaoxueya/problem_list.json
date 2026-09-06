@@ -1,0 +1,388 @@
+{
+  "topic": "高血压",
+  "generated_at": "2026-08-31T15:33:44Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "高血压用药误区,看看你有没有中招？",
+      "original": "高血压用药误区,看看你有没有中招？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://ypjgj.qinghai.gov.cn/Article/FormDetailsYJJ?Article_ID=07CBB9F5-E50C-4027-A4E7-BF5CC086D937",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "高血压难控制？",
+      "original": "高血压难控制？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30022361945",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "这里可能有人就要问了，这也不行，那也不行，那高血压患者应该多吃什么呢？",
+      "original": "这里可能有人就要问了，这也不行，那也不行，那高血压患者应该多吃什么呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30022361945",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "洋葱降血压，是真的吗？",
+      "original": "洋葱降血压，是真的吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "洋葱是血管清道夫，降血压？",
+      "original": "洋葱是血管清道夫，降血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "研究一出，令无数高血压患者为之振奋，那岂不是只需要吃洋葱就能降血压吗？",
+      "original": "研究一出，令无数高血压患者为之振奋，那岂不是只需要吃洋葱就能降血压吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "芹菜降血压？",
+      "original": "芹菜降血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "益母草能降血压？",
+      "original": "益母草能降血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "小茴香降血压？",
+      "original": "小茴香降血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "【川骨知乎】高血压的饮食管理.四川省骨科医院.2021-12-31 高血压患者可以做哪些运动？",
+      "original": "【川骨知乎】高血压的饮食管理.四川省骨科医院.2021-12-31 高血压患者可以做哪些运动？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30026308818",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    },
+    {
+      "text": "高血压健康管理，到底管些什么？",
+      "original": "高血压健康管理，到底管些什么？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=689415&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV010"
+    },
+    {
+      "text": "医生，我血压高了，但没感觉，需要吃药吗？",
+      "original": "医生，我血压高了，但没感觉，需要吃药吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV011"
+    },
+    {
+      "text": "吃了降压药血压正常了，能不能停？",
+      "original": "吃了降压药血压正常了，能不能停？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV012"
+    },
+    {
+      "text": "听说降压药有副作用，我能不能自己换一种？",
+      "original": "听说降压药有副作用，我能不能自己换一种？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV013"
+    },
+    {
+      "text": "常用降压药有哪些？",
+      "original": "常用降压药有哪些？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV014"
+    },
+    {
+      "text": "哪种降压药最好？",
+      "original": "哪种降压药最好？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV015"
+    },
+    {
+      "text": "高血压用药的八大误区，你中招了吗？",
+      "original": "高血压用药的八大误区，你中招了吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.kepuchina.cn/article/articleinfo?ar_id=673224&business_type=100&classify=0",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV016"
+    },
+    {
+      "text": "吃香蕉苹果能降低高血压？",
+      "original": "吃香蕉苹果能降低高血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30051141683",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV017"
+    },
+    {
+      "text": "每天吃三根芹菜就能降压？",
+      "original": "每天吃三根芹菜就能降压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30051141683",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV018"
+    },
+    {
+      "text": "喝醋能根治高血压？",
+      "original": "喝醋能根治高血压？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.peopleapp.com/rmharticle/30051141683",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV019"
+    },
+    {
+      "text": "误区二：迷信土偏方、保健品治高血压　　现在市面上有一些所谓的高血压药浴、高血压腰带等高血压养生疗法，这些方法靠谱吗？",
+      "original": "误区二：迷信土偏方、保健品治高血压　　现在市面上有一些所谓的高血压药浴、高血压腰带等高血压养生疗法，这些方法靠谱吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://news.cctv.com/2022/10/08/ARTIdiEgvvTy1uMQUevqlolI221008.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV020"
+    }
+  ]
+}

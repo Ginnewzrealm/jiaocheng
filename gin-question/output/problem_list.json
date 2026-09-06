@@ -1,0 +1,336 @@
+{
+  "topic": "减脂",
+  "generated_at": "2026-08-31T13:10:00Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "id": "P001",
+      "text": "减脂和减肥有什么区别？",
+      "original": "减脂与减肥有何区别？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "What",
+      "sources": [
+        {"url": "https://www.myprotein.cn/blog/nutrition/what-is-the-difference-between-losing-fat-and-losing-weight/", "type": "secondary", "frequency": 1},
+        {"url": "https://qubie.zaixianjisuan.com/qubie/jian-zhi-yu-jian-zhong-jie-mi-liang-zhe-de-qu-bie.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.chaojiyimei.com/41845.html", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["减肥与减脂的区别是什么？", "减重10斤跟减脂10斤的区别，你减对了吗？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P002",
+      "text": "减脂的科学原理是什么？",
+      "original": "揭秘减肥减脂的科学原理",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Why",
+      "sources": [
+        {"url": "https://yuanli.zaixianjisuan.com/jiexi/jie-mi-jian-fei-jian-zhi-de-ke-xue-yuan-li.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://m.cndzys.com/xshcore/quanwei_ztartnew/1es_3521012.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.sohu.com/a/1034791461_121912641", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["减脂的原理是什么？", "为什么减脂减肥这么困难？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P003",
+      "text": "哪些人群适合减脂？",
+      "original": "减脂适合哪类人群",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Who",
+      "sources": [
+        {"url": "https://www.xiaohe.cn/medical/qa/70000041266523", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.3zhijk.com/kpar/article/7148024437758019584.html", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 2,
+      "source_count": 2,
+      "duplicates": ["哪些人群适合进行减脂？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P004",
+      "text": "一天中什么时候减脂效果最好？",
+      "original": "什么时候减脂效果最好？给出标准答案！",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {"url": "https://www.medsci.cn/article/show_article.do?id=5adfe92635a8", "type": "secondary", "frequency": 1},
+        {"url": "https://www.fh21.com.cn/jf/7429927.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.163.com/dy/article/ILPKU67N051499JG.html", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["一天中最佳的燃脂时间是什么时候？", "减脂运动的最佳时间段？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P005",
+      "text": "上班族减脂期间应该怎么吃？",
+      "original": "上班族减脂怎么吃？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Where",
+      "sources": [
+        {"url": "https://www.sohu.com/a/897656056_122388878", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P006",
+      "text": "如何科学有效地减脂？",
+      "original": "如何有效且科学的减肥？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {"url": "http://mp.weixin.qq.com/s?__biz=MzA4MjA0NDQzMA==", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.issaonline.com/blogs/weight-loss/3-science-backed-methods-for-losing-fat", "type": "secondary", "frequency": 1}
+      ],
+      "total_frequency": 2,
+      "source_count": 2,
+      "duplicates": ["科学减脂方法步骤是什么？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P007",
+      "text": "减脂期的热量缺口应该怎么计算？",
+      "original": "减脂的热量缺口怎么计算？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How much",
+      "sources": [
+        {"url": "https://post.smzdm.com/p/a5rewenx", "type": "tertiary", "frequency": 1},
+        {"url": "http://mp.weixin.qq.com/s?__biz=Mzk2ODEwMzg0Mw==", "type": "tertiary", "frequency": 1},
+        {"url": "https://health.baidu.com/m/detail/ar_9446219936846156231", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["每天500大卡热量缺口够吗？", "想减脂又怕方法不对，如何科学计算每日热量缺口？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P008",
+      "text": "减脂新手应该怎么开始？",
+      "original": "减脂训练怎么开始？新手从这3种练法入门",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {"url": "http://mp.weixin.qq.com/s?__biz=MzUyNzYyODM0NA==", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P009",
+      "text": "减脂前需要做哪些准备？",
+      "original": "减重减脂系列宣传（二）减脂入门——搞懂热量缺口才是成功的第一步",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "准备期",
+      "sources": [
+        {"url": "http://mp.weixin.qq.com/s?__biz=MzI0Njc2MTMxMw==", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P010",
+      "text": "减肥期间有哪些具体的食谱推荐？",
+      "original": "减肥期间有哪些具体的食谱推荐？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "执行期",
+      "sources": [
+        {"url": "http://mp.weixin.qq.com/s?__biz=Mzg2MzcxMzgzNQ==", "type": "tertiary", "frequency": 1},
+        {"url": "https://www.eatingwell.com/gallery/7902553/weight-loss-recipes-for-beginners/", "type": "secondary", "frequency": 1}
+      ],
+      "total_frequency": 2,
+      "source_count": 2,
+      "duplicates": [],
+      "status": "confirmed"
+    },
+    {
+      "id": "P011",
+      "text": "进入减脂平台期该怎么办？",
+      "original": "进入减脂平台期，该怎么办？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "瓶颈期",
+      "sources": [
+        {"url": "https://www.zhihu.com/question/26598092", "type": "tertiary", "frequency": 5},
+        {"url": "https://www.zhihu.com/question/593418426/answer/2966030268", "type": "tertiary", "frequency": 3},
+        {"url": "https://www.mayoclinic.org/zh-hans/healthy-lifestyle/weight-loss/in-depth/weight-loss-plateau/art-20044615", "type": "primary", "frequency": 1}
+      ],
+      "total_frequency": 9,
+      "source_count": 3,
+      "duplicates": ["减肥反弹、平台期该怎么办？", "减脂卡在平台期怎么突破？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P012",
+      "text": "减脂成功后如何防止反弹？",
+      "original": "减肥容易维持难，怎样才能不反弹？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "维持期",
+      "sources": [
+        {"url": "http://wjw.fujian.gov.cn/ztzl/jkjy/jksh/202511/t20251119_7035589.htm", "type": "primary", "frequency": 1},
+        {"url": "https://m.thepaper.cn/newsDetail_forward_29101655", "type": "secondary", "frequency": 1},
+        {"url": "http://mp.weixin.qq.com/s?__biz=MzkxMDU4MTc5OA==", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["减脂之后应该如何维持体重？", "减肥如何防止反弹？", "减肥下去了为什么会反弹？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P013",
+      "text": "女性减脂需要注意什么？",
+      "original": "女性减脂注意事项",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {"url": "https://www.sohu.com/a/428497810_258430", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P014",
+      "text": "青少年减脂有什么禁忌？",
+      "original": "青少年减脂禁忌",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {"url": "https://www.wanlibk.com/readers/preread/9789621470089.pdf", "type": "primary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P015",
+      "text": "糖尿病患者减脂应该怎么吃？",
+      "original": "高血压、糖尿病、痛风的饮食禁忌有哪些？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {"url": "https://www.btmc.edu.cn/ltxgbzgglc/info/1018/1599.htm", "type": "primary", "frequency": 1},
+        {"url": "https://wjw.xuancheng.gov.cn/News/show/1395488.html", "type": "primary", "frequency": 1}
+      ],
+      "total_frequency": 2,
+      "source_count": 2,
+      "duplicates": [],
+      "status": "confirmed"
+    },
+    {
+      "id": "P016",
+      "text": "高血压患者减脂有哪些饮食禁忌？",
+      "original": "高血压、高血脂、高血糖、高尿酸禁忌食物名单",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {"url": "https://y.dxy.cn/v2/hospital/518/844346.html", "type": "secondary", "frequency": 1},
+        {"url": "https://zhuanlan.zhihu.com/p/1900482722633356302", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 2,
+      "source_count": 2,
+      "duplicates": [],
+      "status": "confirmed"
+    },
+    {
+      "id": "P017",
+      "text": "经期减脂应该怎么办？",
+      "original": "减脂 经期 生理期 怎么办",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "场景差异",
+      "sources": [
+        {"url": "https://www.womenshealthmag.com/tw/fitness/work-outs/a73280095/best-time-to-workout/", "type": "secondary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P018",
+      "text": "减脂胶囊是不是智商税？",
+      "original": "减脂胶囊是智商税吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {"url": "https://www.zhihu.com/question/664724317", "type": "tertiary", "frequency": 3}
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P019",
+      "text": "减脂减肥有哪些常见的伪科学？",
+      "original": "减脂减肥有什么伪科学？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {"url": "https://www.zhihu.com/question/381153769", "type": "tertiary", "frequency": 5}
+      ],
+      "total_frequency": 5,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P020",
+      "text": "力量训练和有氧训练哪个减肥效果更好？",
+      "original": "力量训练和有氧训练哪个减肥效果好",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {"url": "https://www.163.com/dy/article/JMLP1VJ30529CKG0.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://fitness.39.net/a/231116/i2jcz9s.html", "type": "tertiary", "frequency": 1},
+        {"url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3544497/", "type": "primary", "frequency": 1}
+      ],
+      "total_frequency": 3,
+      "source_count": 3,
+      "duplicates": ["减肥怎么运动效果更好？先有氧还是先力量？", "减脂，有氧运动和力量训练选哪个？"],
+      "status": "confirmed"
+    },
+    {
+      "id": "P021",
+      "text": "减脂面包真的减脂吗？",
+      "original": "减脂面包真的减脂吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {"url": "https://life.yxlady.com/Health/202508/1238543.shtml", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    },
+    {
+      "id": "P022",
+      "text": "2025年减脂减肥有哪些新趋势？",
+      "original": "2025年减肥新趋势：科学减重，告别伪科学误区",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "时效",
+      "sources": [
+        {"url": "https://www.sohu.com/a/871771037_121956422", "type": "tertiary", "frequency": 1}
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source"
+    }
+  ],
+  "pending_validation": []
+}

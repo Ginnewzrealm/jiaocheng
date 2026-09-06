@@ -1,0 +1,219 @@
+{
+  "topic": "AI编程",
+  "generated_at": "2026-08-31T15:44:16Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "Vibe Coding 和普通的 AI 辅助编程有什么区别？",
+      "original": "Vibe Coding 和普通的 AI 辅助编程有什么区别？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://baike.io/entry/vibe-coding",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "不会编程的人能靠 Vibe Coding 做产品吗？",
+      "original": "不会编程的人能靠 Vibe Coding 做产品吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://baike.io/entry/vibe-coding",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "常用的 Vibe Coding 工具有哪些？",
+      "original": "常用的 Vibe Coding 工具有哪些？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://baike.io/entry/vibe-coding",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "如何判断一个AI编程工具能力的强弱？",
+      "original": "如何判断一个AI编程工具能力的强弱？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.woshipm.com/?p=6222748",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "在AI编程能力快速进化的当下，是否就意味着所有程序员都将被取代？",
+      "original": "在AI编程能力快速进化的当下，是否就意味着所有程序员都将被取代？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://www.woshipm.com/?p=6222748",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    },
+    {
+      "text": "Claude vs ChatGPT in 2026 — Has Claude Actually Caught Up？",
+      "original": "Claude vs ChatGPT in 2026 — Has Claude Actually Caught Up？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://dev.to/aigotranked/cursor-vs-github-copilot-vs-windsurf-which-ai-coding-tool-wins-in-2026-49le",
+          "type": "tertiary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [
+        "How does Cursor Composer compare to Windsurf Cascade？",
+        "Vibe Coding: Innovation Catalyst or Governance Risk？",
+        "Is Cline really free, or are there hidden costs？",
+        "uick API integration from a blog snippet？",
+        "What is Vibe Coding？"
+      ],
+      "status": "confirmed",
+      "id": "P006"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "💡 如何正确使用 Vibe Coding？",
+      "original": "💡 如何正确使用 Vibe Coding？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://blog.csdn.net/HiWangWenBing/article/details/160421014",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "一文搞懂什么是Vibe Coding？",
+      "original": "一文搞懂什么是Vibe Coding？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://blog.csdn.net/HiWangWenBing/article/details/160421014",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [
+        "什么是 Vibe Coding？",
+        "什么是Vibe Coding？"
+      ],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "受够了Vibe Coding的失控？",
+      "original": "受够了Vibe Coding的失控？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://blog.csdn.net/HiWangWenBing/article/details/160421014",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "Cursor vs Windsurf vs GitHub Copilot：2026 年 AI 编程 IDE 到底怎么选？",
+      "original": "Cursor vs Windsurf vs GitHub Copilot：2026 年 AI 编程 IDE 到底怎么选？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://futurepicker.com/?p=252/",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [
+        "Cursor vs Windsurf vs Copilot：2026 AI 编程 IDE 怎么选？"
+      ],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "Previous  Vibe Coding 正在被 Apple 封杀：AI 写代码这条路，走到哪了？",
+      "original": "Previous  Vibe Coding 正在被 Apple 封杀：AI 写代码这条路，走到哪了？",
+      "retrieval_perspective": "人群场景",
+      "sub_dimension": "人群差异",
+      "sources": [
+        {
+          "url": "https://futurepicker.com/?p=252/",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    }
+  ]
+}

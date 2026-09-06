@@ -1,0 +1,280 @@
+{
+  "topic": "时间管理",
+  "generated_at": "2026-08-31T15:40:06Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "我经常感觉工作任务堆积，不知如何安排时间，有什么实用的方法能帮助提升日常工作的效率吗？",
+      "original": "我经常感觉工作任务堆积，不知如何安排时间，有什么实用的方法能帮助提升日常工作的效率吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://docs.pingcode.com/insights/vp8k3e67k6sdkrooplsi8jda",
+          "type": "tertiary",
+          "frequency": 4
+        }
+      ],
+      "total_frequency": 4,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "如何克服工作中的拖延症？",
+      "original": "如何克服工作中的拖延症？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://docs.pingcode.com/insights/vp8k3e67k6sdkrooplsi8jda",
+          "type": "tertiary",
+          "frequency": 4
+        }
+      ],
+      "total_frequency": 4,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "总是在工作中拖延，难以按时完成任务，有哪些策略可以帮助克服拖延，提高工作执行力？",
+      "original": "总是在工作中拖延，难以按时完成任务，有哪些策略可以帮助克服拖延，提高工作执行力？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://docs.pingcode.com/insights/vp8k3e67k6sdkrooplsi8jda",
+          "type": "tertiary",
+          "frequency": 4
+        }
+      ],
+      "total_frequency": 4,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "如何利用科技工具来提升工作效率？",
+      "original": "如何利用科技工具来提升工作效率？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://docs.pingcode.com/insights/vp8k3e67k6sdkrooplsi8jda",
+          "type": "tertiary",
+          "frequency": 4
+        }
+      ],
+      "total_frequency": 4,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "现代科技种类繁多，如何选择合适的工具来帮助提升工作效率呢？",
+      "original": "现代科技种类繁多，如何选择合适的工具来帮助提升工作效率呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://docs.pingcode.com/insights/vp8k3e67k6sdkrooplsi8jda",
+          "type": "tertiary",
+          "frequency": 4
+        }
+      ],
+      "total_frequency": 4,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "解密任务管理方法优缺点：哪种方法最适合提升你的工作效率？",
+      "original": "解密任务管理方法优缺点：哪种方法最适合提升你的工作效率？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://ones.com.cn/knowledge/jie-mi-ren-wu-guan-li-fang-fa-you-que-dian-na-zhong-fang-fa-zui-shi-he-ti-sheng-ni-de-gong-zuo-xiao-lv",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "面对众多任务管理方法，我们常常感到困惑：哪种方法最适合自己？",
+      "original": "面对众多任务管理方法，我们常常感到困惑：哪种方法最适合自己？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://ones.com.cn/knowledge/jie-mi-ren-wu-guan-li-fang-fa-you-que-dian-na-zhong-fang-fa-zui-shi-he-ti-sheng-ni-de-gong-zuo-xiao-lv",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "那些流行的“时间管理方法”，真的有效吗？",
+      "original": "那些流行的“时间管理方法”，真的有效吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://tsight.io/articles/7172330?lang=zh",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "你是否经常因为完美主义而拖延？",
+      "original": "你是否经常因为完美主义而拖延？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://tsight.io/articles/7172330?lang=zh",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "你是否尝试过各种时间管理技巧，却依然感到时间不够用？",
+      "original": "你是否尝试过各种时间管理技巧，却依然感到时间不够用？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://tsight.io/articles/9464835",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "或者，你尝试了番茄工作法、GTD等各种流行的时间管理技巧，短期内似乎有点效果，但很快又被打回原形，效率依然低下？",
+      "original": "或者，你尝试了番茄工作法、GTD等各种流行的时间管理技巧，短期内似乎有点效果，但很快又被打回原形，效率依然低下？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://tsight.io/articles/9464835",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "揭穿时间管理的谬误：事实还是虚构？",
+      "original": "揭穿时间管理的谬误：事实还是虚构？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://readdle.com/zh/blog/mythbusting-time-management",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "从“纪元时间管理”看现代人的认知错位：为什么你学会了所有工具，却依然在时间焦虑中溺亡？",
+      "original": "从“纪元时间管理”看现代人的认知错位：为什么你学会了所有工具，却依然在时间焦虑中溺亡？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://tsight.io/articles/13783608",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "是，跟着罗大师学时间管理真的有用吗？",
+      "original": "是，跟着罗大师学时间管理真的有用吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://news.163.com/20/0426/10/FB4P813B00018M4D.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    },
+    {
+      "text": "罗志祥，你是真的不睡觉从三四点的晚安，到凌晨五点的道歉，难道罗志祥成为时间管理大师的秘籍，就是能熬吗？",
+      "original": "罗志祥，你是真的不睡觉从三四点的晚安，到凌晨五点的道歉，难道罗志祥成为时间管理大师的秘籍，就是能熬吗？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "争议",
+      "sources": [
+        {
+          "url": "https://news.163.com/20/0426/10/FB4P813B00018M4D.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV010"
+    }
+  ]
+}

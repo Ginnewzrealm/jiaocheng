@@ -1,0 +1,755 @@
+{
+  "topic": "理财",
+  "generated_at": "2026-08-31T15:48:57Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "一：理财小白刚开始理财，优先选择什么产品？",
+      "original": "一：理财小白刚开始理财，优先选择什么产品？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.crfp.org.cn?a=view&p=4&r=346/",
+          "type": "tertiary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "二：理财一定会赚钱吗，会不会亏损本金？",
+      "original": "二：理财一定会赚钱吗，会不会亏损本金？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.crfp.org.cn?a=view&p=4&r=346/",
+          "type": "tertiary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "三：本金很少还有必要理财吗？",
+      "original": "三：本金很少还有必要理财吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.crfp.org.cn?a=view&p=4&r=346/",
+          "type": "tertiary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "四：如何快速判断一款理财产品风险高低？",
+      "original": "四：如何快速判断一款理财产品风险高低？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.crfp.org.cn?a=view&p=4&r=346/",
+          "type": "tertiary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "五：普通人理财最大的禁忌是什么？",
+      "original": "五：普通人理财最大的禁忌是什么？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://www.crfp.org.cn?a=view&p=4&r=346/",
+          "type": "tertiary",
+          "frequency": 6
+        }
+      ],
+      "total_frequency": 6,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "新手理财要如何开始呢",
+      "original": "新手理财要如何开始呢",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/vipqa_5169819_35789337.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "哪些证券公司提供免费的新手理财课？",
+      "original": "哪些证券公司提供免费的新手理财课？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/vipqa_5169819_35789337.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    },
+    {
+      "text": "哪些证券公司有免费的新手理财入门课程？",
+      "original": "哪些证券公司有免费的新手理财入门课程？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/vipqa_5169819_35789337.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV003"
+    },
+    {
+      "text": "算力基金的板块有哪些，有人了解吗？",
+      "original": "算力基金的板块有哪些，有人了解吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/vipqa_5169819_35789337.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV004"
+    },
+    {
+      "text": "我刚接触理财，想知道学理财有什么快速入门的方法吗？",
+      "original": "我刚接触理财，想知道学理财有什么快速入门的方法吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV005"
+    },
+    {
+      "text": "我刚接触理财，想知道学理财的基础知识重要吗？",
+      "original": "我刚接触理财，想知道学理财的基础知识重要吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV006"
+    },
+    {
+      "text": "像股票、基金、债券这些基础概念需要先搞清楚吗？",
+      "original": "像股票、基金、债券这些基础概念需要先搞清楚吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV007"
+    },
+    {
+      "text": "我刚接触理财，想知道学理财应该先了解哪些基础概念呢？",
+      "original": "我刚接触理财，想知道学理财应该先了解哪些基础概念呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV008"
+    },
+    {
+      "text": "比如股票、基金、债券，它们之间有什么区别？",
+      "original": "比如股票、基金、债券，它们之间有什么区别？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV009"
+    },
+    {
+      "text": "理财小白学理财怕被割韭菜，2026年正规的入门方法与途径有哪些？",
+      "original": "理财小白学理财怕被割韭菜，2026年正规的入门方法与途径有哪些？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV010"
+    },
+    {
+      "text": "我是理财小白，想知道学理财应该先了解哪些基础概念呢？",
+      "original": "我是理财小白，想知道学理财应该先了解哪些基础概念呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV011"
+    },
+    {
+      "text": "比如股票、基金、债券这些，它们到底是啥意思呀？",
+      "original": "比如股票、基金、债券这些，它们到底是啥意思呀？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV012"
+    },
+    {
+      "text": "作为理财小白，我想知道学理财应该先从哪里开始呢？",
+      "original": "作为理财小白，我想知道学理财应该先从哪里开始呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "小白学理财从哪里开始？"
+      ],
+      "status": "single_source",
+      "id": "PV013"
+    },
+    {
+      "text": "是先了解基础概念，还是直接跟着理财课程学习呢？",
+      "original": "是先了解基础概念，还是直接跟着理财课程学习呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV014"
+    },
+    {
+      "text": "我刚接触理财，对基金、债券这些概念还不太清楚，有没有什么方法能快速了解它们呢？",
+      "original": "我刚接触理财，对基金、债券这些概念还不太清楚，有没有什么方法能快速了解它们呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV015"
+    },
+    {
+      "text": "免费学理财+伴投？",
+      "original": "免费学理财+伴投？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV016"
+    },
+    {
+      "text": "小白学理财，有没有带老师答疑的理财交流群推荐？",
+      "original": "小白学理财，有没有带老师答疑的理财交流群推荐？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.cofool.com/ask/qa_7244286_1_2.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV017"
+    },
+    {
+      "text": "如何进行理财入门学习并合理规划？理财入门规划有哪些要点？",
+      "original": "如何进行理财入门学习并合理规划？理财入门规划有哪些要点？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://m.hexun.com/stock/2025-05-29/219304970.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "如何进行理财入门学习并合理规划？",
+        "理财入门规划有哪些要点？"
+      ],
+      "status": "single_source",
+      "id": "PV018"
+    },
+    {
+      "text": "理财小白从零学理财的全部清单有哪些？",
+      "original": "理财小白从零学理财的全部清单有哪些？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV019"
+    },
+    {
+      "text": "对于理财小白来说，是先攒钱再学理财好，还是边学理财边攒钱好呢？",
+      "original": "对于理财小白来说，是先攒钱再学理财好，还是边学理财边攒钱好呢？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV020"
+    },
+    {
+      "text": "我是理财小白，听说学理财很重要，那我该怎么开始学理财呀？",
+      "original": "我是理财小白，听说学理财很重要，那我该怎么开始学理财呀？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "小白学理财怎么开始？"
+      ],
+      "status": "single_source",
+      "id": "PV021"
+    },
+    {
+      "text": "开证券账户可以学理财吗？",
+      "original": "开证券账户可以学理财吗？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV022"
+    },
+    {
+      "text": "我最近股票亏了，不想全仓冒险了，能否给我一些稳定收益+搏高收益的产品，我配置一些对冲风险？",
+      "original": "我最近股票亏了，不想全仓冒险了，能否给我一些稳定收益+搏高收益的产品，我配置一些对冲风险？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV023"
+    },
+    {
+      "text": "你好，我想开个股票账户，资金几万左右，能给我提供无门槛低佣金的渠道吗",
+      "original": "你好，我想开个股票账户，资金几万左右，能给我提供无门槛低佣金的渠道吗",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://licai.jiantou8.com/ask/vipqa_6750347_40747494.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV024"
+    },
+    {
+      "text": "第一章节：理财小白怎么买理财？",
+      "original": "第一章节：理财小白怎么买理财？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV025"
+    },
+    {
+      "text": "第二章节：一万块钱如何理财？",
+      "original": "第二章节：一万块钱如何理财？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV026"
+    },
+    {
+      "text": "第三章节：100 万理财最佳方案？",
+      "original": "第三章节：100 万理财最佳方案？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV027"
+    },
+    {
+      "text": "第四章节：理财买哪个银行收益？",
+      "original": "第四章节：理财买哪个银行收益？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV028"
+    },
+    {
+      "text": "第五章节：银行理财产品怎么选择？",
+      "original": "第五章节：银行理财产品怎么选择？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV029"
+    },
+    {
+      "text": "第六章节：稳健理财推荐买什么？",
+      "original": "第六章节：稳健理财推荐买什么？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV030"
+    },
+    {
+      "text": "黑天鹅来袭？",
+      "original": "黑天鹅来袭？",
+      "retrieval_perspective": "旅程",
+      "sub_dimension": "认知期",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-12-19/doc-inhcipuc7204966.shtml",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV031"
+    },
+    {
+      "text": "看完区别，你可能还是纠结：到底该买股票还是基金？",
+      "original": "看完区别，你可能还是纠结：到底该买股票还是基金？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "http://zgjrzk.com/36986.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV032"
+    },
+    {
+      "text": "风险承受能力？",
+      "original": "风险承受能力？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "http://zgjrzk.com/36986.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV033"
+    },
+    {
+      "text": "茅台股票最高多少？",
+      "original": "茅台股票最高多少？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "http://zgjrzk.com/36986.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV034"
+    },
+    {
+      "text": "什么叫茅台股票？",
+      "original": "什么叫茅台股票？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "http://zgjrzk.com/36986.html",
+          "type": "tertiary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV035"
+    },
+    {
+      "text": "股票、基金、ETF 到底有什么区别，新手优先选哪个？",
+      "original": "股票、基金、ETF 到底有什么区别，新手优先选哪个？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "How",
+      "sources": [
+        {
+          "url": "https://finance.sina.com.cn/wm/2026-07-29/doc-inikmqcr1637920.shtml",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV036"
+    }
+  ]
+}

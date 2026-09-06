@@ -1,0 +1,47 @@
+{
+  "topic": "减脂",
+  "expanded_terms": ["减肥", "瘦身", "塑形", "燃脂", "减重", "控体", "体脂率", "热量缺口", "刷脂"],
+  "retrieval_rounds": 1,
+  "search_results": [
+    {
+      "perspective": "基础",
+      "sub_dimension": "What",
+      "query": "减脂 是什么 什么意思",
+      "results": [
+        {"title": "减重vs. 减脂，差别是什么？ - Myprotein中国", "url": "https://www.myprotein.cn/blog/nutrition/what-is-the-difference-between-losing-fat-and-losing-weight/", "snippet": ""},
+        {"title": "减脂与减肥有何区别？", "url": "https://ensoulclinic.com/cn/%e5%87%8f%e8%84%82%e4%b8%8e%e5%87%8f%e8%82%a5%e6%9c%89%e4%bd%95%e5%8c%ba%e5%88%ab%ef%bc%9f/", "snippet": ""}
+      ]
+    },
+    {
+      "perspective": "基础",
+      "sub_dimension": "Why",
+      "query": "减脂 原理 为什么",
+      "results": [
+        {"title": "揭秘减肥减脂的科学原理", "url": "https://yuanli.zaixianjisuan.com/jiexi/jie-mi-jian-fei-jian-zhi-de-ke-xue-yuan-li.html", "snippet": ""},
+        {"title": "减脂的原理", "url": "https://m.cndzys.com/xshcore/quanwei_ztartnew/1es_3521012.html", "snippet": ""}
+      ]
+    },
+    {
+      "perspective": "旅程",
+      "sub_dimension": "瓶颈期",
+      "query": "减脂 平台期 怎么办",
+      "results": [
+        {"title": "进入减脂平台期，该怎么办？ - 知乎", "url": "https://www.zhihu.com/question/26598092", "snippet": ""},
+        {"title": "减肥反弹、平台期该怎么办？ - 知乎", "url": "https://www.zhihu.com/question/593418426/answer/2966030268", "snippet": ""}
+      ]
+    },
+    {
+      "perspective": "争议时效",
+      "sub_dimension": "争议",
+      "query": "减脂 伪科学 争议 知乎",
+      "results": [
+        {"title": "减脂胶囊是智商税吗？ - 知乎", "url": "https://www.zhihu.com/question/664724317", "snippet": ""},
+        {"title": "减脂减肥有什么伪科学？ - 知乎", "url": "https://www.zhihu.com/question/381153769", "snippet": ""}
+      ]
+    }
+  ],
+  "fetched_pages": {
+    "https://www.myprotein.cn/blog/nutrition/what-is-the-difference-between-losing-fat-and-losing-weight/": "<html><body><h1>减重vs. 减脂，差别是什么？</h1><p>减脂和减肥的区别在于...</p></body></html>",
+    "https://yuanli.zaixianjisuan.com/jiexi/jie-mi-jian-fei-jian-zhi-de-ke-xue-yuan-li.html": "<html><body><h1>揭秘减肥减脂的科学原理</h1></body></html>"
+  }
+}

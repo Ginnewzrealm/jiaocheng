@@ -1,0 +1,23 @@
+{
+  "skill_name": "gin-question",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "去网上搜一下减脂相关的问题，整理一份真实用户都在问的真问题清单",
+      "expected_output": "生成 problem_list.json 和 problem_list.md，包含从网络检索的减脂相关问题，每条问题有 source_url，覆盖基础/旅程/人群场景/争议时效 4 个视角",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我全量找一棵树的真问题，输出 JSON 和 Markdown 两份文件",
+      "expected_output": "生成问题清单，主题粒度较抽象，应覆盖基础定义、种植场景、养护问题、历史/争议等视角，没有 AI 生成的问题",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "真实用户关于新能源汽车都在问什么？去网上检索一下",
+      "expected_output": "生成问题清单，包含续航、充电、品牌对比、政策、安全等真实问题，来源包含一手/二手/三手",
+      "files": []
+    }
+  ]
+}

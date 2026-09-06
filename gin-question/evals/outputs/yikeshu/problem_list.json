@@ -1,0 +1,230 @@
+{
+  "topic": "一棵树",
+  "generated_at": "2026-08-31T15:06:00Z",
+  "exit_reason": "saturated",
+  "retrieval_rounds": 1,
+  "problems": [
+    {
+      "text": "什么是古树名木？为什么要保护古树名木？",
+      "original": "什么是古树名木？为什么要保护古树名木？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/sl/656669.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "什么是古树名木？"
+      ],
+      "status": "confirmed",
+      "id": "P001"
+    },
+    {
+      "text": "哪些树木算是古树名木呢？",
+      "original": "哪些树木算是古树名木呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/sl/656669.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P002"
+    },
+    {
+      "text": "为什么不能随意移植古树名木？",
+      "original": "为什么不能随意移植古树名木？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/sl/656669.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P003"
+    },
+    {
+      "text": "保护古树名木只是主管部门的事情吗？",
+      "original": "保护古树名木只是主管部门的事情吗？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/sl/656669.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P004"
+    },
+    {
+      "text": "什么样的树才是古树名木？",
+      "original": "什么样的树才是古树名木？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/sl/656669.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P005"
+    },
+    {
+      "text": "树龄超过百岁即为古树？",
+      "original": "树龄超过百岁即为古树？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/dzw/663484.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P006"
+    },
+    {
+      "text": "“一棵树，为什么能活这么久？",
+      "original": "“一棵树，为什么能活这么久？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.forestry.gov.cn/c/www/dzw/663484.jhtml",
+          "type": "primary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P007"
+    },
+    {
+      "text": "三星堆神树，究竟蕴含着哪些中华文化内涵呢？",
+      "original": "三星堆神树，究竟蕴含着哪些中华文化内涵呢？",
+      "retrieval_perspective": "争议时效",
+      "sub_dimension": "时效",
+      "sources": [
+        {
+          "url": "https://yllhj.beijing.gov.cn/ztxx/lhysh/sh/202209/t20220915_2816141.shtml",
+          "type": "primary",
+          "frequency": 2
+        }
+      ],
+      "total_frequency": 2,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P008"
+    },
+    {
+      "text": "甲方信风水？",
+      "original": "甲方信风水？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Where",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/504293265_121123708",
+          "type": "secondary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P009"
+    },
+    {
+      "text": "有哪些景观树最适合种植在庭院呢？",
+      "original": "有哪些景观树最适合种植在庭院呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "Where",
+      "sources": [
+        {
+          "url": "https://www.sohu.com/a/504293265_121123708",
+          "type": "secondary",
+          "frequency": 3
+        }
+      ],
+      "total_frequency": 3,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "confirmed",
+      "id": "P010"
+    }
+  ],
+  "pending_validation": [
+    {
+      "text": "为什么要实施这么大的力度保护古树名木呢？",
+      "original": "为什么要实施这么大的力度保护古树名木呢？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.xinhuanet.com/food/20250318/16e89da3e17e45afa7fa1c4a76e9843c/c.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [
+        "为什么要保护古树名木？"
+      ],
+      "status": "single_source",
+      "id": "PV001"
+    },
+    {
+      "text": "古树与人是如何相护相守的，又是怎么与当地人的生活密不可分的？",
+      "original": "古树与人是如何相护相守的，又是怎么与当地人的生活密不可分的？",
+      "retrieval_perspective": "基础",
+      "sub_dimension": "When",
+      "sources": [
+        {
+          "url": "https://www.xinhuanet.com/food/20250318/16e89da3e17e45afa7fa1c4a76e9843c/c.html",
+          "type": "tertiary",
+          "frequency": 1
+        }
+      ],
+      "total_frequency": 1,
+      "source_count": 1,
+      "duplicates": [],
+      "status": "single_source",
+      "id": "PV002"
+    }
+  ]
+}
