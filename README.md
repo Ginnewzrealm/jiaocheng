@@ -1,0 +1,47 @@
+# jiaocheng：教程写作技能组 · Stage 0
+
+输入一个主题词 → 网上系统性发现优质教程源 → 采集为本地 Markdown 资料库 + 机器可读验收报告。
+写教程工作流的最前段：素材层。**发现什么采什么全留痕，判断可追溯。**
+
+## 两个原子技能
+
+| 技能 | 角色 | 输入 → 输出 |
+|---|---|---|
+| **gin-tutorial-source-scan** | 发现层 | 主题词 → `sources.json`（六层资料地图逐层枚举，逐条质量定级 high/medium/unknown/reject，拒绝也落盘带理由，coverage 覆盖检查） |
+| **gin-tutorial-harvest** | 采集层 | `sources.json` + 输出目录 → 按层分目录的 Markdown 资料库 + `coverage-manifest.json`（验收：素材 ≥ 3× 目标成稿字数、每 TOP 问题 ≥2 独立来源） |
+
+中间靠 sources.json 机器交接，可编排进更大的工作流（Stage 2 选题裁决直接读 coverage-manifest）。
+
+## 设计要点（全部来自实战踩坑）
+
+- **六层资料地图**：L1 官方源 / L2 GitHub / L3 中文社区 / L4 英文社区 / L5 讨论区 / L6 学术
+- **营销过滤是硬需求**：搜索噪音极大（减脂主题前 20 条一半微商软文），拒绝信号正则来自真实被拒样本
+- **通道调度优先级**：域名黑名单（知乎等反爬站）> action 标注 > 扩展名；firecrawl 免 key 可单页采集，配 key 解锁整站扒取
+- **失败先定性再处置**：`explain` 命令区分 配额耗尽/目标站封禁/JS 渲染墙/内容有效——不读输出就重试 = 浪费配额
+- **学术镜像降级**：PubMed/PMC 被封自动经 Europe PMC 同 ID 镜像重采
+- **语言政策**：教材级源（官方/学术）不限语言，媒体/UGC 按目标读者语言
+- **冗余源不烧配额**：镜像/短讯类标 `redundant_with` 直接跳过
+
+## 快速开始
+
+```bash
+# 1. 发现（给主题词，跑六层枚举，产出 sources.json）
+cd gin-tutorial-source-scan
+python3 scripts/source_scan.py grade --title "..." --url "..."   # 逐条定级
+python3 scripts/source_scan.py add --file sources.json --title "..." --url "..." \
+    --layer L3 --lang zh --value high --note "价值说明" --action "单页采集"
+
+# 2. 采集（配 key 后无配额限制）
+echo '{"firecrawl_api_key": "fc-..."}' > ~/.config/gin-tutorial/config.yaml
+cd gin-tutorial-harvest
+python3 scripts/harvest.py harvest-one --dir <资料库目录> --url "<url>" --title "<标题>" --layer L3
+python3 scripts/harvest.py manifest --dir <资料库目录> --topic "<主题>" --target-words 8000
+```
+
+## 测试
+
+```bash
+python3 -m pytest gin-tutorial-source-scan/tests gin-tutorial-harvest/tests -q   # 55 passed
+```
+
+每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。

@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+sources.json
+coverage-manifest.json
+progress.json
