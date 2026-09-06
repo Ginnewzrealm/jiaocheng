@@ -211,6 +211,37 @@ def test_report_items_include_l4_subjective_items(good_text):
         assert key in labels
 
 
+# ---------- 对标 hv-analysis 写作方法论（用户拍板 2026-09-06） ----------
+
+def test_no_mainline_pullback_flagged():
+    """扣主线句（hv-analysis 节奏观）：偏离主线后要用一句拉回。
+    通篇零回扣章题词 = 只发散文不散文、形散神也散 → 拦。"""
+    text = ("减脂平台期是什么。\n\n" + "它有很多表现和成因值得仔细分析。\n\n" * 4 +
+            "我们需要从多个角度看待这个现象。\n\n" * 4 + "对吧？")
+    r = qc.check_humanity(text, title="减脂平台期")
+    assert any("扣主线" in w or "主线" in w for w in r["warnings"])
+
+
+def test_mainline_pullback_ok(good_text):
+    r = qc.check_humanity(good_text, title="体重不动了，是失败还是平台期？")
+    assert not any("扣主线" in w or "主线" in w for w in r["warnings"])
+
+
+def test_unflagged_speculation_flagged():
+    """hv-analysis'敢下判断'：推测必须明确标注。
+    '未来一定会反弹'这类无标注断言 → 拦（同时命中绝对化，但推测标注要独立成项）。"""
+    text = ("体重停滞后恢复进食，体重一定会大幅反弹。" * 6 + "对吧？")
+    r = qc.check_humanity(text, title="体重停滞")
+    assert any("推测" in w or "标注" in w for w in r["warnings"])
+
+
+def test_flagged_speculation_ok():
+    text = ("体重停滞后恢复进食，体重可能会反弹——这是我的推测，目前只有个案观察。"
+            * 3 + "对吧？")
+    r = qc.check_humanity(text, title="体重停滞")
+    assert not any("推测" in w or "标注" in w for w in r["warnings"])
+
+
 # ---------- CLI ----------
 
 def test_cli_check_outputs_json(tmp_path):

@@ -27,6 +27,39 @@ _PARA_LIMIT = 300  # wechat L1-7：段落不超过 300 字
 
 _ABSOLUTE_RE = re.compile(r"(?<![不必])(一定|绝对|百分百|必然|肯定会)")
 
+# ---------- 扣主线（hv-analysis 节奏观：偏离后一句拉回，要高频） ----------
+
+_HEAD_STOP = set("的了是在不和有我你他这那也就都又还与或及很更最被把"
+                 "让向从到对着呢吗吧啊呀嘛么其之为以及而且因为所以"
+                 "一个我们他们你们自己现在时候问题东西情况地方")
+
+
+def _title_keywords(text, title):
+    """从 title（或正文首个 H1）提取 2 字词块（过滤停用块），供扣主线统计。
+    用 2 字块而非整词：'是失败还是平台期'整词在正文永远不出现，
+    拆成'失败/平台'才能匹配真实回扣句。"""
+    src = title or ""
+    if not src:
+        m = re.search(r"^#\s+(.+)$", text, re.M)
+        src = m.group(1) if m else ""
+    words = set()
+    for m in re.finditer(r"[一-鿿]{2,}", src):
+        run = m.group(0)
+        if re.fullmatch(r"第[一二三四五六七八九十]+章", run):
+            continue
+        for i in range(len(run) - 1):
+            w = run[i:i + 2]
+            if w not in _HEAD_STOP:
+                words.add(w)
+    return words
+
+# ---------- 推测标注（hv-analysis'敢下判断'：推测必须明说） ----------
+
+_FUTURE_RE = re.compile(r"(未来|接下来|之后|以后|恢复|下一轮|下一步|长期看|短期内)")
+_STRONG_RE = re.compile(r"(一定会|必然|必将|百分百|肯定会)")
+_HEDGE_RE = re.compile(r"(可能|也许|大概|或许|推测|估计|猜测|预计|大概率|"
+                       r"尚未|有待|待验证|证据有限|个案|我的判断|我认为)")
+
 # ---------- 证据密度：引文标注不算"真数字" ----------
 
 _LPATH_RE = re.compile(r"L[1-7][_研究补充]*/\S+")
@@ -99,10 +132,34 @@ _L4_ITEMS = [
 ]
 
 
-def check_humanity(text):
+def check_humanity(text, title=None):
     """对一章正文跑四层活人感机检。返回
-    {"errors","warnings","report_items","score","verdict",...}。"""
+    {"errors","warnings","report_items","score","verdict",...}。
+    title: 章标题（不给则从正文首个 H1 提取），用于扣主线统计。"""
     errors, warnings = [], []
+
+    # L2：扣主线句（hv-analysis：偏离主线后要高频回扣章题词）
+    kws = _title_keywords(text, title)
+    prose_lines = [l.strip() for l in text.splitlines()
+                   if l.strip() and not l.lstrip().startswith(("#", "|", ">",
+                                                               "- ", "* "))]
+    if len(prose_lines) >= 5 and kws:
+        pullback = sum(1 for l in prose_lines if any(k in l for k in kws))
+        if pullback < 2:
+            warnings.append(f"⚠️ 扣主线句缺席：{len(prose_lines)} 行散文只有 "
+                            f"{pullback} 行回扣章题词——形散神也散，偏离后"
+                            f"要有一句把读者拉回主线")
+
+    # L3：推测标注（hv-analysis'敢下判断'：推测明说，不装作事实）
+    for sent in _SENT_SPLIT_RE.split(text):
+        s = sent.strip()
+        if not s or len(s) > 120:
+            continue
+        if (_FUTURE_RE.search(s) and _STRONG_RE.search(s)
+                and not _HEDGE_RE.search(s)):
+            warnings.append(f"⚠️ 未标注推测：'{s[:25]}…'——对未来下强断言"
+                            f"要有'可能/推测/证据有限'类标注，别装作事实")
+            break
 
     # L1：段落 ≤300 字（硬规则）
     for chars, block in _prose_blocks(text):

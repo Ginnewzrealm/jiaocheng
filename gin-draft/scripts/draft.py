@@ -30,6 +30,48 @@ _RHETORIC_PATTERNS = [
     (re.compile(r"不是[^，。]{1,15}，?(而)?是"), "「不是A，是B」"),
 ]
 
+# ---------- 回环呼应（hv-analysis 写作方法论：开头埋钩子，结尾 callback） ----------
+
+# 章末预告行不算 callback——预告下一章是"往前指"，回环是"往后扣"
+_PREVIEW_RE = re.compile(r"下一章|下一节|下章|预告|NextSteps|下一步")
+_HEAD_STOP = set("的了是在不和有我你他这那也就都又还与或及很更最被把"
+                 "让向从到对着呢吗吧啊呀嘛么其之为以及而且因为所以"
+                 "一个我们他们你们自己现在时候问题东西情况地方")
+
+
+def _loopback_ok(text, case_name):
+    """章末 1/4 的散文段落（非标题/列表/表格/预告行）里，必须出现
+    章首 5 行的某个关键词（≥2 字实词）或贯穿案例名。"""
+    head = "\n".join(text.splitlines()[:5])
+    keywords = set()
+    for m in re.finditer(r"[一-鿿]{2,}", head):
+        w = m.group(0)
+        if w not in _HEAD_STOP and w not in ("第一章", "第二章", "第三章",
+                                             "第四章", "第五章"):
+            keywords.add(w)
+    if case_name:
+        keywords.add(case_name)
+    if not keywords:
+        return False
+    tail = text[len(text) // 4 * 3:]
+    for line in tail.splitlines():
+        s = line.strip()
+        if not s or s.startswith(("#", "|", ">", "-", "*")):
+            continue
+        if _PREVIEW_RE.search(s):
+            continue
+        if any(k in s for k in keywords):
+            return True
+    return False
+
+
+# ---------- 用人话写（hv-analysis：具体细节代替概括，空洞概括词拦截） ----------
+
+_VAGUE_RE = re.compile(
+    r"(取得了|实现了|得到了|有了|达成了)([^，。；]{0,10}?)"
+    r"(快速|显著|明显|巨大|长足|广泛|进一步)([^，。；]{0,8}?)"
+    r"(增长|发展|进步|提升|应用|成效|突破|成功|改善)")
+
 # ---------- 章首契约：写给谁 + 读完能做什么 ----------
 
 _CONTRACT_READER = re.compile(r"写给|适合|这篇(章|文章)?.{0,6}(给|适合)")
@@ -109,6 +151,18 @@ def check_chapter(text, materials=None, library=None, case_name=None):
     if case_name and case_name not in text:
         errors.append(f"❌ 贯穿案例「{case_name}」未在正文出场——大纲钉死的案例"
                       f"人物必须出现（用得好不好归 Stage 6）")
+
+    # F6 回环呼应（hv-analysis：章首钩子章末 callback）
+    if not _loopback_ok(text, case_name):
+        errors.append("❌ 缺回环呼应：章末散文（非预告行）要回扣章首关键词"
+                      "或贯穿案例——开头埋的钩子结尾要响（契诃夫之枪）")
+
+    # F7 用人话写（hv-analysis：具体细节代替概括）
+    vague = _VAGUE_RE.findall(text)
+    if vague:
+        hits = sorted({"".join(v) for v in vague})
+        errors.append(f"❌ 空洞概括 {hits}——'取得了显著进步'这类句子零信息量，"
+                      f"换成具体数字和案例（hv-analysis'用人话写'）")
 
     # F5 句式密度
     for pat, name in _RHETORIC_PATTERNS:

@@ -24,6 +24,15 @@ def ch1_text():
     return open(CH1, encoding="utf-8").read()
 
 
+@pytest.fixture(scope="module")
+def good_text():
+    """过机检的实战章（gin-draft e2e 产出）。"""
+    p = "/tmp/gin-draft-e2e/ch1.md"
+    if not os.path.exists(p):
+        pytest.skip("e2e 实战章不存在")
+    return open(p, encoding="utf-8").read()
+
+
 # ---------- F4：素材锚定检查（失败样本：论断零出处） ----------
 
 def test_anchor_rate_below_60_flagged(ch1_text):
@@ -128,6 +137,35 @@ def test_real_material_ok(tmp_path):
     (tmp_path / "L3" / "a.md").write_text("x", encoding="utf-8")
     r = draft.check_chapter("正文", materials=["L3/a.md"], library=str(tmp_path))
     assert not any("不存在" in e for e in r["errors"])
+
+
+# ---------- 对标 hv-analysis 写作方法论（用户拍板 2026-09-06） ----------
+
+def test_no_loopback_flagged(ch1_text):
+    """回环呼应：章首埋的钩子，章末要有 callback。
+    基线章首提'平台期'，章末只有'下一章预告'，零回扣 → 拦。"""
+    r = draft.check_chapter(ch1_text)
+    assert any("回环" in e for e in r["errors"])
+
+
+def test_loopback_ok(good_text):
+    """章末段回扣章首关键词（案例名/章题词）即过。"""
+    r = draft.check_chapter(good_text)
+    assert not any("回环" in e for e in r["errors"])
+
+
+def test_vague_summary_flagged():
+    """hv-analysis'用人话写'：具体细节代替概括。
+    '实现了快速增长/得到了广泛应用'类空洞概括 → 拦。"""
+    bad = ("正文" * 50 + "\n\n这种方法在实践中得到了广泛应用，"
+           "很多使用者都取得了明显的进步。")
+    r = draft.check_chapter(bad)
+    assert any("空洞" in e for e in r["errors"])
+
+
+def test_specific_detail_ok(good_text):
+    r = draft.check_chapter(good_text)
+    assert not any("空洞" in e for e in r["errors"])
 
 
 # ---------- CLI ----------
