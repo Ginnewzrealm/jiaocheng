@@ -36,9 +36,11 @@ description: 教程写作流水线编排器。给一个主题，把 source-scan/
 <dir>/library/coverage-manifest.json   Stage 0 产物（资料库，可软链）
 <dir>/problem_list.json                Stage 1 产物
 <dir>/answers/answers-manifest.json    Stage 3 产物
-<dir>/outline.json                     Stage 4 产物
-<dir>/chapters/*.md                    Stage 5 章文件（非空才算）
-<dir>/checks/<章名>.draft.json         Stage 5 机检报告（errors 必须 = 0）
+<dir>/outlines/大纲_<slug>.json        Stage 4 产物（一题一文，至少 1 篇机检通过）
+<dir>/outlines/大纲_<slug>.md          Stage 4 审核件（闸门2给用户看的就是这个）
+<dir>/outlines/大纲一览.md             Stage 4 系列导航（多篇时）
+<dir>/chapters/*.md                    Stage 5 篇文件（非空才算；v2 一篇 = 大纲一篇）
+<dir>/checks/<篇名>.draft.json         Stage 5 机检报告（errors 必须 = 0）
 <dir>/qc/report.json                   Stage 6 质检报告（verdict 通过/minor 才许交付）
 <dir>/confirmations.json               4 闸门确认记录
 <dir>/blocked.md                       卡线记录（出现时停线）
@@ -99,6 +101,10 @@ python3 scripts/flow_controller.py confirm --dir <d> --gate publish
   - 下一批做什么、预计量级
   - 等用户"继续"再进下一批。
 - **闸门批**：到 4 硬闸门任一个，必须拿到用户明确拍板，写进 `confirmations.json` 才算数。
+- **【铁律】汇报必须内嵌产物正文**：凡给用户审核的产物（大纲目录表、文章正文、
+  质检报告），必须把内容**粘贴内嵌在聊天消息里**。只报文件路径、让用户自己
+  Read 文件不算交付——Read 工具的记录不出现在用户聊天窗口，用户根本看不到
+  产物（2026-09-06 减脂 e2e 实测踩坑两次）。路径可以附在正文之后，不能替代正文。
 
 ### 闸门记录格式
 
@@ -114,12 +120,12 @@ python3 scripts/flow_controller.py confirm --dir <d> --gate publish
 - "挖 XX 主题的权威资料/教程" → source-scan + harvest
 - "挖 XX 领域内所有问题" → gin-question
 - "挖 XX 问题所有的答案" → gin-answer
-- "给这些问题排个大纲" → gin-outline
-- "把第 X 章写出来" → gin-draft
-- "体检这章" → gin-qc
+- "给这个问题排个大纲" → gin-outline（一题一文，一张达标卡一篇）
+- "把第 X 篇写出来" → gin-draft
+- "体检这篇" → gin-qc
 
 ## 反模式（机检已堵，人检兜底）
 
-- touch 空文件冒充产物（manifest 坏 JSON、空章、无 errors=0 报告的章）——flow_controller 已拒
+- touch 空文件冒充产物（manifest 坏 JSON、空篇、无 errors=0 报告的篇）——flow_controller 已拒
 - 没选题就开工、没确认大纲就写正文、质检不通过就交付——闸门已拒
 - 一个阶段失败了跳过它先做后面——状态机顺序不可跳跃

@@ -44,6 +44,14 @@ def with_problems(with_library):
     return with_library
 
 
+
+
+def _outline_v2(tdir):
+    """v2 Stage 4 产物：outlines/ 下非空 json。"""
+    od = tdir / "outlines"
+    od.mkdir(exist_ok=True)
+    (od / "o.json").write_text("{}", encoding="utf-8")
+
 def _confirm(tdir, **gates):
     (tdir / "confirmations.json").write_text(
         json.dumps(gates, ensure_ascii=False), encoding="utf-8")
@@ -113,11 +121,20 @@ def test_stage4_ok_with_manifest(with_problems):
     assert ok
 
 
+def test_v1_outline_json_root_not_recognized(with_problems):
+    """v1 单文件 outline.json 已废止：Stage 4 产物是 outlines/*.json（一题一文）。"""
+    _confirm(with_problems, topic="x")
+    _manifest(with_problems)
+    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    st = fc.stage_status(with_problems)
+    assert st["stage4"]["satisfied"] is False
+
+
 def test_gate_outline_blocks_stage5(with_problems):
     """大纲机检过了但你没确认 → 不许开写（防 AI 自嗨写正文）。"""
     _confirm(with_problems, topic="x")
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ok, reasons = fc.validate_next(with_problems, "stage5")
     assert not ok
     assert any("大纲" in r for r in reasons)
@@ -126,7 +143,7 @@ def test_gate_outline_blocks_stage5(with_problems):
 def test_stage5_ok_after_outline_confirmed(with_problems):
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ok, _ = fc.validate_next(with_problems, "stage5")
     assert ok
 
@@ -135,7 +152,7 @@ def test_stage6_requires_chapters(with_problems):
     """一章都没写 → 质检无米下锅。"""
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ok, reasons = fc.validate_next(with_problems, "stage6")
     assert not ok
 
@@ -144,7 +161,7 @@ def test_gate_l4_and_publish_block_delivery(with_problems):
     """机检报告有了但 L4 人审/发布确认缺一个 → 不许交付。"""
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ch = with_problems / "chapters"
     ch.mkdir()
     (ch / "ch1.md").write_text("# 第一章", encoding="utf-8")
@@ -162,7 +179,7 @@ def test_delivery_ok_with_all_confirmations(with_problems):
     _confirm(with_problems, topic="x", outline=True,
              l4=["温度感", "独特性", "姿态", "心流"], publish=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ch = with_problems / "chapters"
     ch.mkdir()
     (ch / "ch1.md").write_text("# 第一章", encoding="utf-8")
@@ -184,7 +201,7 @@ def test_stage5_requires_clean_draft_check(with_problems):
     """借口：章文件存在就算写完。堵法：每章要配 errors=0 的机检报告。"""
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ch = with_problems / "chapters"
     ch.mkdir()
     (ch / "ch1.md").write_text("# 第一章", encoding="utf-8")
@@ -208,7 +225,7 @@ def test_empty_chapter_not_counted(with_problems):
     """借口：touch 空 .md 冒充写完的章。堵法：空章不算章节。"""
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ch = with_problems / "chapters"
     ch.mkdir()
     (ch / "ch1.md").write_text("   \n", encoding="utf-8")
@@ -226,7 +243,7 @@ def test_qc_verdict_fail_blocks_delivery(with_problems):
     _confirm(with_problems, topic="x", outline=True,
              l4=["温度感"], publish=True)
     _manifest(with_problems)
-    (with_problems / "outline.json").write_text("{}", encoding="utf-8")
+    _outline_v2(with_problems)
     ch = with_problems / "chapters"
     ch.mkdir()
     (ch / "ch1.md").write_text("# 第一章\n\n正文。" * 20, encoding="utf-8")

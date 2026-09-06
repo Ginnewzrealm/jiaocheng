@@ -50,7 +50,8 @@ def _manifest(tdir):
 
 
 def _outline(tdir):
-    _write(tdir, "outline.json", "{}")
+    # v2：一题一文，outlines/ 下非空 json 才算 Stage 4 产物
+    _write(tdir, "outlines/大纲_Q1.json", json.dumps({"问题": "Q1"}, ensure_ascii=False))
 
 
 def _chapter(tdir):
@@ -199,7 +200,7 @@ def test_rollback_keeps_artifacts(tmp_path):
     """软回环：产物文件不动，供对比。"""
     d = _full(tmp_path)
     _cli("rollback", "--dir", str(d), "--to", "stage4")
-    assert (d / "outline.json").is_file()
+    assert (d / "outlines" / "大纲_Q1.json").is_file()
     assert (d / "chapters" / "ch1.md").is_file()
     # 重置后闸门重新拦截：修好大纲前不许再推进写作
     ok, reasons = fc.validate_next(d, "stage5")

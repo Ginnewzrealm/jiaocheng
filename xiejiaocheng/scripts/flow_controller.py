@@ -45,7 +45,7 @@ GATE_CHECK_ORDER = ["stage3", "stage4", "stage5", "stage6", "delivered"]
 _LIB_MANIFEST = ("library", "coverage-manifest.json")
 _PROBLEM_LIST = ("problem_list.json",)
 _ANSWERS_MANIFEST = ("answers", "answers-manifest.json")
-_OUTLINE = ("outline.json",)
+_OUTLINES_DIR = "outlines"
 _QC_REPORT = ("qc", "report.json")
 _CONFIRMATIONS = "confirmations.json"
 
@@ -81,6 +81,21 @@ def _chapters(tdir):
     return out
 
 
+def _outlines(tdir):
+    """v2 Stage 4 产物：outlines/ 下非空 .json（一题一文，一篇一文件）。"""
+    od = tdir / _OUTLINES_DIR
+    if not od.is_dir():
+        return []
+    out = []
+    for p in sorted(od.glob("*.json")):
+        try:
+            if p.read_text(encoding="utf-8", errors="ignore").strip():
+                out.append(p)
+        except OSError:
+            continue
+    return out
+
+
 def _draft_clean(tdir, chapter_md):
     """Stage 5 机检报告：errors 必须归 0，否则章文件存在也不算写完。"""
     data = _load_json(tdir / "checks" / (chapter_md.stem + ".draft.json"))
@@ -107,7 +122,7 @@ def stage_status(tdir):
     lib_ok = _lib_ok(tdir)
     pl_ok = _has(tdir, *_PROBLEM_LIST)
     manifest_ok = _has(tdir, *_ANSWERS_MANIFEST)
-    outline_ok = _has(tdir, *_OUTLINE)
+    outline_ok = bool(_outlines(tdir))
     chs = _chapters(tdir)
     checks = {c.name: _draft_clean(tdir, c) for c in chs}
     qc_verdict = _qc_verdict(tdir)
@@ -120,7 +135,8 @@ def stage_status(tdir):
                   "confirmed": conf.get("topic")},
         "stage3": {"satisfied": manifest_ok,
                    "asset": "answers/answers-manifest.json"},
-        "stage4": {"satisfied": outline_ok, "asset": "outline.json",
+        "stage4": {"satisfied": outline_ok, "asset": "outlines/*.json",
+                   "outlines": len(_outlines(tdir)),
                    "gate": "大纲确认", "gate_passed": bool(conf.get("outline"))},
         "stage5": {"satisfied": bool(chs) and all(checks.values()),
                    "chapters": len(chs),
@@ -157,8 +173,8 @@ def validate_next(tdir, target):
             reasons.append("缺 answers/answers-manifest.json"
                            "（先跑 Stage 3 找答案）")
     if idx >= STAGES.index("stage5"):
-        if not _has(tdir, *_OUTLINE):
-            reasons.append("缺 outline.json（先跑 Stage 4 出大纲）")
+        if not _outlines(tdir):
+            reasons.append("缺 outlines/*.json（先跑 Stage 4 出大纲，一题一文）")
         if not conf.get("outline"):
             reasons.append("硬闸门未过：大纲未确认"
                            f"（{_CONFIRMATIONS} 缺 outline=true）")

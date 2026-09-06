@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""gin-outline 回归测试——每条规则对应红阶段一条真实失败样本（F1-F7）。
+"""gin-outline v2 回归测试——一题一文 + 目录表 + 人话标题。
 
+每条规则对 references/outline-methodology.md 一个条目：
+§6 素材存在/卡片真实/每节证据；§2 每节干什么；§3 标题人话化；
+§1 三决策（写给/读完能/节数）；§4 开头非概念；§5 卡片达标才许施工。
 运行：python3 -m pytest tests/ -q
 """
 import json
@@ -14,207 +17,193 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 import outline  # noqa: E402
 
 
-# ---------- 测试夹具 ----------
-
 @pytest.fixture
 def env(tmp_path):
-    """造一个最小资料库 + 答案卡 manifest + 问题清单。"""
     lib = tmp_path / "lib"
-    (lib / "L3").mkdir(parents=True)
-    (lib / "L3" / "a.md").write_text("x", encoding="utf-8")
-    (lib / "L3" / "b.md").write_text("x", encoding="utf-8")
+    for d in ["L1", "L3", "L7_研究补充"]:
+        (lib / d).mkdir(parents=True)
+    (lib / "L3" / "底层逻辑.md").write_text("x", encoding="utf-8")
     manifest = {
-        "topic": "减脂",
-        "cards": [
-            {"问题": "进入减脂平台期该怎么办？", "类型": "方法型", "置信度": "中",
-             "状态": "达标"},
-            {"问题": "减脂和减肥有什么区别？", "类型": "事实型", "置信度": "高",
-             "状态": "达标"},
+        "观察哨": [],
+        "达标卡": [
+            {"问题": "减肥时热量缺口标准是多少", "类型": "方法型", "状态": "达标",
+             "置信度": "高", "一句话答案": "每日300-500大卡",
+             "出处": [{"来源": "L3/底层逻辑.md", "定级": "high"}]},
+            {"问题": "减重10斤跟减脂10斤的区别", "类型": "事实型", "状态": "达标",
+             "置信度": "高", "一句话答案": "减重≠减脂",
+             "出处": [{"来源": "L3/底层逻辑.md", "定级": "high"}]},
         ],
     }
-    problems = [
-        {"id": "P011", "text": "进入减脂平台期该怎么办？", "total_frequency": 9},
-        {"id": "P023", "text": "平台期一般会持续多久？", "total_frequency": 4},
-        {"id": "P001", "text": "减脂和减肥有什么区别？", "total_frequency": 3},
-    ]
-    return {"lib": str(lib), "manifest": manifest, "problems": problems}
+    mf = tmp_path / "answers-manifest.json"
+    mf.write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+    return {"dir": tmp_path, "manifest": mf, "lib": lib}
 
 
-def _outline(**over):
+def _article(**over):
+    """v2 合法单篇大纲（6 节，人话标题）。"""
     o = {
-        "主题": "减脂平台期",
-        "目标读者": "新手",
-        "贯穿案例": "案例小张",
-        "章节": [
-            {"章": "什么是平台期", "目标": "能判断真假平台期",
-             "卡片": ["进入减脂平台期该怎么办？"], "素材": ["L3/a.md"]},
-            {"章": "怎么破", "目标": "能执行五步排查流程",
-             "卡片": ["进入减脂平台期该怎么办？"], "素材": ["L3/b.md"]},
+        "问题": "减肥时热量缺口标准是多少",
+        "标题": "减肥时热量缺口，到底该留多少？",
+        "类型": "方法型",
+        "写给": "打算开始控制饮食、但从没算过账的减肥者",
+        "读完能": "能算出自己的TDEE并设定每日300-500大卡缺口",
+        "小节": [
+            {"节": 1, "标题": "先算一笔身体的账",
+             "干什么": "小张3斤得而复失开场，引出要算账", "证据": ["一句话答案"]},
+            {"节": 2, "标题": "你一天到底消耗多少",
+             "干什么": "TDEE三构成+活动系数，算出读者自己的数", "证据": ["出处"]},
+            {"节": 3, "标题": "选多大的缺口才合适",
+             "干什么": "三档对照，标准答案300-500", "证据": ["出处"]},
+            {"节": 4, "标题": "别减掉肌肉",
+             "干什么": "蛋白质+力量训练两杠杆", "证据": ["出处"]},
+            {"节": 5, "标题": "填出你的缺口计算器",
+             "干什么": "动手填模板", "证据": ["一句话答案"]},
+            {"节": 6, "标题": "回到小张那2斤反弹",
+             "干什么": "拆解水分回流+没纪律，回收开头", "证据": ["一句话答案"]},
         ],
+        "素材": ["L3/底层逻辑.md"],
+        "未采用": {},
     }
     o.update(over)
     return o
 
 
-# ---------- F2：缺口判定必须有标准（失败样本：缺口清单恒空） ----------
-
-def test_find_gaps_flags_uncovered_subquestions(env):
-    """问题清单里与主题相关的"平台期一般会持续多久"没有对应答案卡
-    → 必须进缺口清单。红阶段基线直接交了空清单。"""
-    gaps = outline.find_gaps(env["manifest"], env["problems"], "减脂平台期")
-    assert any("持续多久" in g["问题"] for g in gaps)
+def _run(env, o):
+    return outline.check_outline(o, json.loads(env["manifest"].read_text(
+        encoding="utf-8")), str(env["lib"]))
 
 
-def test_find_gaps_covered_question_not_flagged(env):
-    gaps = outline.find_gaps(env["manifest"], env["problems"], "减脂平台期")
-    assert not any("进入减脂平台期" in g["问题"] for g in gaps)
+# ---------- 合法基线 ----------
+
+def test_valid_article_passes(env):
+    r = _run(env, _article())
+    assert r["errors"] == [] and r["warnings"] == []
 
 
-def test_find_gaps_ignores_unrelated_questions(env):
-    """"减脂和减肥区别"与"平台期"主题无关，不许混进缺口。"""
-    gaps = outline.find_gaps(env["manifest"], env["problems"], "减脂平台期")
-    assert not any("区别" in g["问题"] for g in gaps)
+# ---------- §6 素材/卡片/证据 ----------
 
-
-# ---------- F1：映射注水检查（失败样本：一张卡映射全部章节） ----------
-
-def test_same_card_in_every_chapter_flagged(env):
-    o = _outline()
-    o["章节"] = [{"章": f"第{i}章", "目标": "能执行流程",
-                  "卡片": ["进入减脂平台期该怎么办？"], "素材": ["L3/a.md"]}
-                 for i in range(4)]
-    warns = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("注水" in w for w in warns)
-
-
-def test_normal_mapping_not_flagged(env):
-    warns = outline.check_outline(_outline(), env["manifest"], env["lib"])
-    assert not any("注水" in w for w in warns)
-
-
-# ---------- F5：素材幽灵引用（原则继承自 gin-answer 出处机检） ----------
-
-def test_ghost_material_file_flagged(env):
-    o = _outline()
-    o["章节"][0]["素材"] = ["L3/幽灵文件.md"]
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("不存在" in e for e in errs)
-
-
-def test_ghost_card_flagged(env):
-    o = _outline()
-    o["章节"][0]["卡片"] = ["库里没有的问题？"]
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("不在答案卡库" in e for e in errs)
-
-
-def test_valid_outline_passes_material_check(env):
-    errs = outline.check_outline(_outline(), env["manifest"], env["lib"])
-    assert not any("不存在" in e for e in errs)
-
-
-# ---------- F3：章节目标必须是动作动词（course-outline 五决策落地） ----------
-
-def test_chapter_objective_missing_flagged(env):
-    o = _outline()
-    del o["章节"][0]["目标"]
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("目标" in e for e in errs)
-
-
-def test_chapter_objective_knowledge_verb_flagged(env):
-    o = _outline()
-    o["章节"][0]["目标"] = "学一下平台期的东西"
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("动作动词" in e for e in errs)
-
-
-def test_chapter_objective_action_verb_ok(env):
-    errs = outline.check_outline(_outline(), env["manifest"], env["lib"])
-    assert not any("动作动词" in e for e in errs)
-
-
-# ---------- F6：排序合法性——知识章必须在动作章之前 ----------
-
-def test_action_chapter_before_knowledge_flagged(env):
-    """脚踩西瓜皮：先讲'怎么破'再讲'什么是平台期'必须被拦。"""
-    o = _outline()
-    o["章节"] = [
-        {"章": "怎么破", "目标": "能执行五步排查流程", "卡片": ["进入减脂平台期该怎么办？"], "素材": ["L3/b.md"]},
-        {"章": "什么是平台期", "目标": "能说出平台期定义", "卡片": ["进入减脂平台期该怎么办？"], "素材": ["L3/a.md"]},
-    ]
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("排序" in e or "先备" in e for e in errs)
-
-
-def test_knowledge_before_action_ok(env):
-    errs = outline.check_outline(_outline(), env["manifest"], env["lib"])
-    assert not any("排序" in e or "先备" in e for e in errs)
-
-
-# ---------- F7：贯穿案例钉死检查 ----------
-
-def test_missing_running_case_flagged(env):
-    o = _outline()
-    del o["贯穿案例"]
-    errs = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("贯穿案例" in e for e in errs)
-
-
-# ---------- 每张达标卡必须被用到（Socialpranker synthesis gap 校验） ----------
-
-def test_undrafted_card_flagged(env):
-    """答案库里"减脂和减肥有什么区别"达标卡没被任何章节用到
-    → 要么映射进大纲，要么进缺口说明（synthesis gap 防白找）。"""
-    o = _outline()
-    warns = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("未使用" in w for w in warns)
-
-
-# ---------- 重构阶段：堵合理化借口 ----------
-
-def test_skipped_card_without_reason_flagged(env):
-    """借口：'不用的卡全塞进未采用列表就免检了'。
-    堵法：未采用必须给理由，没理由的警告。"""
-    o = _outline()
-    o["未采用卡片"] = ["减脂和减肥有什么区别？"]
-    r = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("未采用" in w and "理由" in w for w in r)
-
-
-def test_skipped_card_with_reason_ok(env):
-    o = _outline()
-    o["未采用卡片"] = ["减脂和减肥有什么区别？"]
-    o["未采用理由"] = {"减脂和减肥有什么区别？": "与平台期主题偏离，留给入门篇"}
-    r = outline.check_outline(o, env["manifest"], env["lib"])
-    assert not any("未使用" in w for w in r)
-
-
-def test_all_cards_skipped_flagged(env):
-    """借口：'全部弃用'等于大纲和答案库脱节，机器必须拦。"""
-    o = _outline()
-    o["章节"] = []
-    o["未采用卡片"] = list(o["未采用理由"] or {}) if o.get("未采用理由") else []
-    # 把两张达标卡全部声明弃用（各带理由）
-    o["未采用卡片"] = ["进入减脂平台期该怎么办？", "减脂和减肥有什么区别？"]
-    o["未采用理由"] = {"进入减脂平台期该怎么办？": "x", "减脂和减肥有什么区别？": "y"}
-    r = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("全部" in e or "脱节" in e for e in r)
-
-
-def test_neng_plus_knowledge_verb_flagged(env):
-    """借口：'能了解平台期概念'——用'能'字开头伪装动作目标。
-    堵法：能/会+知识动词的组合按知识章处理且单独警告。"""
-    o = _outline()
-    o["章节"][0]["目标"] = "能了解平台期的概念"
-    r = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("伪装" in e or "动作动词" in e for e in r)
+def test_ghost_material_flagged(env):
+    o = _article(素材=["L3/不存在的文件.md"])
+    assert any("素材" in e for e in _run(env, o)["errors"])
 
 
 def test_material_dir_not_file_flagged(env):
-    """借口：素材写个目录路径凑数（os.path.exists 对目录也 True）。
-    堵法：必须是文件。"""
-    o = _outline()
-    o["章节"][0]["素材"] = ["L3"]
-    r = outline.check_outline(o, env["manifest"], env["lib"])
-    assert any("不是文件" in e or "不存在" in e for e in r)
+    o = _article(素材=["L3"])
+    assert any("素材" in e for e in _run(env, o)["errors"])
+
+
+def test_ghost_card_flagged(env):
+    o = _article(问题="库里没有的问题")
+    assert any("卡片" in e or "问题" in e for e in _run(env, o)["errors"])
+
+
+def test_card_not_up_to_standard_flagged(env):
+    m = json.loads(env["manifest"].read_text(encoding="utf-8"))
+    m["达标卡"][0]["状态"] = "待补采"
+    r = outline.check_outline(_article(), m, str(env["lib"]))
+    assert any("达标" in e for e in r["errors"])
+
+
+def test_section_without_evidence_flagged(env):
+    o = _article()
+    o["小节"][2]["证据"] = []
+    assert any("证据" in e for e in _run(env, o)["errors"])
+
+
+# ---------- §2 每节必须有施工说明 ----------
+
+def test_section_missing_ganshenme_flagged(env):
+    o = _article()
+    o["小节"][1]["干什么"] = "  "
+    assert any("干什么" in e for e in _run(env, o)["errors"])
+
+
+# ---------- §3 标题人话化 ----------
+
+def test_definition_style_title_flagged(env):
+    """❌ 定义式标题（什么是X/X的定义）——开头非概念的人话化执行。"""
+    o = _article()
+    o["小节"][0]["标题"] = "什么是热量缺口"
+    assert any("定义" in e or "概念" in e for e in _run(env, o)["errors"])
+
+
+def test_term_ending_title_warns(env):
+    """⚠️ 术语词收尾（档位/杠杆/映射…）——真人不会这么念。"""
+    o = _article()
+    o["小节"][2]["标题"] = "选定缺口档位"
+    o["小节"][3]["标题"] = "配上两个保肌杠杆"
+    r = _run(env, o)
+    assert any("档位" in w or "人话" in w for w in r["warnings"])
+
+
+def test_plain_title_ok(env):
+    o = _article()
+    o["小节"][2]["标题"] = "选定合适的热量缺口"
+    o["小节"][3]["标题"] = "怎么同时保住肌肉"
+    r = _run(env, o)
+    assert not any("人话" in w for w in r["warnings"])
+
+
+# ---------- §1 三决策 ----------
+
+def test_duenneng_missing_flagged(env):
+    o = _article()
+    del o["读完能"]
+    assert any("读完能" in e for e in _run(env, o)["errors"])
+
+
+def test_duenneng_knowledge_verb_flagged(env):
+    o = _article(读完能="能了解热量缺口的概念")
+    assert any("读完能" in e for e in _run(env, o)["errors"])
+
+
+def test_duenneng_action_ok(env):
+    o = _article(读完能="能算出自己的TDEE并设定每日缺口")
+    assert _run(env, o)["errors"] == []
+
+
+def test_xiegei_generic_flagged(env):
+    o = _article(写给="新手")
+    assert any("写给" in e for e in _run(env, o)["errors"])
+
+
+def test_section_count_out_of_range_warns(env):
+    o = _article()
+    o["小节"] = o["小节"][:3]
+    r = _run(env, o)
+    assert any("小节" in w or "节数" in w for w in r["warnings"])
+
+
+# ---------- v1 格式守卫 ----------
+
+def test_v1_schema_rejected(env):
+    """v1 多章格式已废止，给出指路提示。"""
+    v1 = {"主题": "x", "章节": [{"章": "a", "目标": "b",
+                                 "卡片": ["c"], "素材": ["L3/底层逻辑.md"]}]}
+    r = outline.check_outline(v1, json.loads(
+        env["manifest"].read_text(encoding="utf-8")), str(env["lib"]))
+    assert any("v1" in e or "模板" in e for e in r["errors"])
+
+
+# ---------- find_gaps（v1 保留，行为不变） ----------
+
+def test_find_gaps_flags_uncovered_subquestions(env):
+    problems = {"problems": [{"问题": "减肥时热量缺口标准是多少"},
+                             {"问题": "减脂期穿暴汗服有用吗"}]}
+    r = outline.find_gaps(json.loads(env["manifest"].read_text(
+        encoding="utf-8")), problems, "减脂")
+    assert any("暴汗服" in g["问题"] for g in r["缺口"])
+
+
+def test_find_gaps_covered_question_not_flagged(env):
+    problems = {"problems": [{"问题": "减肥时热量缺口标准是多少"}]}
+    r = outline.find_gaps(json.loads(env["manifest"].read_text(
+        encoding="utf-8")), problems, "减脂")
+    assert all("热量缺口" not in g for g in r["缺口"])
+
+
+def test_find_gaps_ignores_unrelated_questions(env):
+    problems = {"problems": [{"问题": "量子计算机怎么造"}]}
+    r = outline.find_gaps(json.loads(env["manifest"].read_text(
+        encoding="utf-8")), problems, "减脂")
+    assert r["缺口"] == []
