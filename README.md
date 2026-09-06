@@ -3,6 +3,10 @@
 输入一个主题词 → 网上系统性发现真实用户问题 → 找到优质教程源 → 采集为本地 Markdown 资料库 → 逐问题深度研究出答案卡 → 按学习路径重组为教程大纲 → 逐章施工写出正文 → 四层活人感终检。
 写教程工作流的全流水线：素材层 + 答案层 + 结构层 + 写作层 + 质检层。**发现什么采什么全留痕，判断可追溯。**
 
+## 编排器：xiejiaocheng
+
+**xiejiaocheng** 是流水线路由器：给一个主题，把下面七个原子技能串成完整生产线。三个职责——**资产认账**（单独跑过的阶段检测到产物自动跳过，成果回流流水线）、**4 个硬闸门**（选题拍板/大纲确认/L4人审/发布，没确认不许推进，`scripts/flow_controller.py` 强制）、**分批汇报**（批内自动，批边界需确认）。原子技能也都能单独触发（"挖 XX 的资料"/"挖 XX 领域的问题"/"挖 XX 问题的答案"），只调不改。
+
 ## 七个原子技能
 
 | 技能 | 角色 | 输入 → 输出 | 测试 |
@@ -30,6 +34,11 @@
 ## 快速开始
 
 ```bash
+# 0. 编排（推荐入口：资产认账 + 硬闸门 + 分批汇报）
+cd xiejiaocheng
+python3 scripts/flow_controller.py status --dir <tutorial工作目录>   # 各阶段产物/闸门状态
+python3 scripts/flow_controller.py next --dir <d> --to stage3        # 放行校验（闸门+资产）
+
 # 1. 发现（给主题词，跑六层枚举，产出 sources.json）
 cd gin-tutorial-source-scan
 python3 scripts/source_scan.py grade --title "..." --url "..."   # 逐条定级
@@ -51,7 +60,7 @@ python3 scripts/draft.py check --file <章.md> --materials <素材路径,逗号�
 ## 测试
 
 ```bash
-python3 -m pytest gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 192 passed
+python3 -m pytest xiejiaocheng/tests gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 212 passed
 ```
 
 每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。
