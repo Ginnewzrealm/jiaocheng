@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 """gin-qc 回归测试——每条规则对应四层活人感体系的一个真实失败样本。
 
-基线素材（真实文本，非手造）：
-- GOOD: /tmp/gin-draft-e2e/ch1.md（过 gin-draft 机检的实战章节）
-- BAD:  /tmp/gin-draft-baseline/ch1.md（红阶段裸写章）
+基线素材（真实文本，非手造），按优先级查找：
+- GOOD: tests/fixtures/good_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-e2e/ch1.md（e2e 产物）
+- BAD:  tests/fixtures/bad_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-baseline/ch1.md（e2e 产物）
+
+素材均不存在时，依赖它们的测试 skip（不 error）——把真实章节放进 tests/fixtures/ 即恢复执行。
+补齐方式：跑一次 gin-draft 减脂 e2e，把过机检章和裸写章分别复制为上述两个 fixture 文件。
 
 运行：python3 -m pytest tests/ -q
 """
@@ -17,18 +20,33 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 import qc  # noqa: E402
 
-GOOD = "/tmp/gin-draft-e2e/ch1.md"
-BAD = "/tmp/gin-draft-baseline/ch1.md"
+_HERE = os.path.dirname(__file__)
+
+GOOD_CANDIDATES = [
+    os.path.join(_HERE, "fixtures", "good_ch1.md"),
+    "/tmp/gin-draft-e2e/ch1.md",
+]
+BAD_CANDIDATES = [
+    os.path.join(_HERE, "fixtures", "bad_ch1.md"),
+    "/tmp/gin-draft-baseline/ch1.md",
+]
+
+
+def _load_first_existing(candidates, label):
+    for path in candidates:
+        if os.path.exists(path):
+            return open(path, encoding="utf-8").read()
+    pytest.skip(f"基线素材不存在：{label}（把真实章节放进 tests/fixtures/ 或先跑 gin-draft 减脂 e2e）")
 
 
 @pytest.fixture(scope="module")
 def good_text():
-    return open(GOOD, encoding="utf-8").read()
+    return _load_first_existing(GOOD_CANDIDATES, "GOOD 过机检章")
 
 
 @pytest.fixture(scope="module")
 def bad_text():
-    return open(BAD, encoding="utf-8").read()
+    return _load_first_existing(BAD_CANDIDATES, "BAD 裸写章")
 
 
 # ---------- L1 硬性规则 ----------

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 """gin-draft 回归测试——每条规则对应红阶段一条真实失败样本。
 
-基线：/tmp/gin-draft-baseline/ch1.md（"平台期"第一章，裸写无规则）
+基线：tests/fixtures/bad_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-baseline/ch1.md（"平台期"第一章，裸写无规则）
+素材不存在时相关测试 skip（不 error）——跑一次减脂 e2e 把裸写章放进 tests/fixtures/ 即恢复。
 运行：python3 -m pytest tests/ -q
 """
 import os
@@ -16,21 +17,28 @@ import draft  # noqa: E402
 
 # ---------- 夹具：基线章节（真实失败样本的来源） ----------
 
-CH1 = "/tmp/gin-draft-baseline/ch1.md"
+CH1_CANDIDATES = [
+    os.path.join(os.path.dirname(__file__), "fixtures", "bad_ch1.md"),
+    "/tmp/gin-draft-baseline/ch1.md",
+]
 
 
 @pytest.fixture(scope="module")
 def ch1_text():
-    return open(CH1, encoding="utf-8").read()
+    for path in CH1_CANDIDATES:
+        if os.path.exists(path):
+            return open(path, encoding="utf-8").read()
+    pytest.skip("基线章节不存在：把真实裸写章放进 tests/fixtures/bad_ch1.md 或先跑减脂 e2e")
 
 
 @pytest.fixture(scope="module")
 def good_text():
-    """过机检的实战章（gin-draft e2e 产出）。"""
-    p = "/tmp/gin-draft-e2e/ch1.md"
-    if not os.path.exists(p):
-        pytest.skip("e2e 实战章不存在")
-    return open(p, encoding="utf-8").read()
+    """过机检的实战章（仓库 fixtures 或 gin-draft e2e 产出）。"""
+    for p in [os.path.join(os.path.dirname(__file__), "fixtures", "good_ch1.md"),
+                          "/tmp/gin-draft-e2e/ch1.md"]:
+        if os.path.exists(p):
+            return open(p, encoding="utf-8").read()
+    pytest.skip("e2e 实战章不存在：把过机检章放进 tests/fixtures/good_ch1.md")
 
 
 # ---------- F4：素材锚定检查（失败样本：论断零出处） ----------

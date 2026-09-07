@@ -60,7 +60,11 @@ python3 scripts/draft.py check --file <章.md> --materials <素材路径,逗号�
 ## 测试
 
 ```bash
-python3 -m pytest xiejiaocheng/tests gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 226 passed
+python3 -m pytest xiejiaocheng/tests gin-question/tests gin-tutorial-source-scan/tests gin-tutorial-harvest/tests gin-answer/tests gin-outline/tests gin-draft/tests gin-qc/tests -q   # 208 passed, 18 skipped
+
+> 18 个 skip 来自 gin-draft / gin-qc 依赖的真实基线章节（非手造样本）：
+> 把减脂 e2e 产出的裸写章、过机检章分别放入 `gin-draft/tests/fixtures/bad_ch1.md`、`good_ch1.md`
+> （gin-qc 读同名 fixtures），这些测试即恢复执行。
 ```
 
 每个规则都有回归测试，样本来自 2026-09 减脂/力量训练两轮实战。
