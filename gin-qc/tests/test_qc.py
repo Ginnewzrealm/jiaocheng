@@ -324,6 +324,63 @@ def test_intensifier_spare_ok():
     assert not any("程度" in w for w in r["warnings"])
 
 
+# ---------- 教程排版构件机检（2026-09-12 调研批次：H层级/步骤结构/加粗密度） ----------
+
+def test_heading_level_skip_flagged():
+    """H2 直接下 H4 = 层级跳级 ❌——教程的标题层级必须连续，跳级是排版事故。"""
+    text = "# 篇名\n\n## 第一节\n\n正文内容，说一件事。\n\n#### 突然跳到四级\n\n正文。"
+    r = qc.check_humanity(text)
+    assert any("跳级" in e for e in r["errors"])
+
+
+def test_lone_h3_flagged():
+    """全文仅 1 个 H3 = 孤儿标题 ⚠️（OpenALG 规范：lone heading）。
+    H3 只在节内步骤分组需要导航时才上，单蹦一个是不完整结构。"""
+    text = "# 篇名\n\n## 第一节\n\n正文内容。\n\n### 唯一的细分\n\n正文。\n\n## 第二节\n\n正文。"
+    r = qc.check_humanity(text)
+    assert any("孤立" in w or "孤儿" in w for w in r["warnings"])
+
+
+def test_multiple_h3_ok():
+    text = ("# 篇名\n\n## 第一节\n\n### 细分一\n\n正文内容。\n\n### 细分二\n\n正文。"
+            "\n\n## 第二节\n\n正文。")
+    r = qc.check_humanity(text)
+    assert not any("孤立" in w or "孤儿" in w for w in r["warnings"])
+
+
+def test_method_section_without_steps_flagged():
+    """标题带动作词（怎么/如何/算出/设置…）的小节 = 方法节，
+    方法节通篇散文、没有一个有序列表 = 缺步骤结构 ⚠️——教程的'怎么做'
+    必须用步骤呈现，这是'像教程'的核心构件。"""
+    text = ("# 篇名\n\n## 怎么算出你的热量缺口\n\n"
+            "先算消耗，再定缺口，最后填进表格。说起来很简单。" * 4)
+    r = qc.check_humanity(text)
+    assert any("步骤" in w for w in r["warnings"])
+
+
+def test_method_section_with_steps_ok():
+    text = ("# 篇名\n\n## 怎么算出你的热量缺口\n\n"
+            "按三步走：\n\n1. 算出你的 TDEE\n2. 选定缺口档位\n3. 填进每日目标\n\n"
+            "每一步都要落到数字上。对吧？")
+    r = qc.check_humanity(text)
+    assert not any("步骤" in w for w in r["warnings"])
+
+
+def test_bold_density_flagged():
+    """加粗密度 >10 处/千字 ⚠️——满地加粗=处处强调=无强调。"""
+    unit = "**关键概念**很重要，**核心方法**要注意，**这个步骤**别跳过。"
+    text = "# 篇名\n\n" + unit * 12  # 36 处加粗，约 430 字 → 远超阈值
+    r = qc.check_humanity(text)
+    assert any("加粗" in w for w in r["warnings"])
+
+
+def test_bold_spare_ok():
+    text = ("# 篇名\n\n体重停滞是身体的适应机制，通常持续两到三周。"
+            "水分回流占了反弹大头，**别急着加运动量**。记录饮食能帮你区分两者。" * 3)
+    r = qc.check_humanity(text)
+    assert not any("加粗" in w for w in r["warnings"])
+
+
 def test_cli_check_outputs_json(tmp_path):
     import json
     import subprocess

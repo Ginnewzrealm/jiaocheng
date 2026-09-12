@@ -89,6 +89,28 @@ _RANGWOMEN_RE = re.compile(r"让我们")
 _INTENSIFIER_RE = re.compile(r"(非常|十分|极其|格外|极为|极大地|大幅度|显著)")
 _INTENSIFIER_LIMIT = 3
 
+# ---------- 教程排版构件机检（2026-09-12 调研批次：OpenALG 标题规范/教程结构） ----------
+
+_HEADING_RE = re.compile(r"^(#{1,6})\s", re.M)
+_STEP_TITLE_RE = re.compile(r"(怎么|如何|步骤|动手|算出|设置|配置|填出|做出|搭建)")
+_BOLD_RE = re.compile(r"\*\*[^*]+\*\*")
+_BOLD_LIMIT_PER_1K = 10  # 加粗 >10 处/千字 = 满地加粗 = 无强调
+
+
+def _heading_levels(text):
+    return [len(m.group(1)) for m in _HEADING_RE.finditer(text)]
+
+
+def _step_sections_missing_lists(text):
+    """标题带动作词的 H2 小节（方法节）内没有有序列表的个数。"""
+    titles = re.findall(r"^##\s+(.+)$", text, flags=re.M)
+    bodies = re.split(r"^##\s+.+$", text, flags=re.M)[1:]
+    missing = 0
+    for title, body in zip(titles, bodies):
+        if _STEP_TITLE_RE.search(title) and not re.search(r"^\s*\d+\.\s", body, re.M):
+            missing += 1
+    return missing
+
 # ---------- L2：句子切分 ----------
 
 _SENT_SPLIT_RE = re.compile(r"[。！？!?；;…]+")
@@ -270,6 +292,32 @@ def check_humanity(text, title=None):
                         f"（{sorted(set(_INTENSIFIER_RE.findall(text)))}，"
                         f"≥{_INTENSIFIER_LIMIT}）——删掉程度词，让数字和事实"
                         f"自己说话")
+
+    # 排版构件：H 层级连续性（❌ 跳级）与孤儿 H3（⚠️，OpenALG 规范）
+    levels = _heading_levels(text)
+    for a, b in zip(levels, levels[1:]):
+        if b - a > 1:
+            errors.append(f"❌ 标题层级跳级：H{a} 直接下 H{b}——标题层级必须"
+                          f"连续，跳级是排版事故（H3 不存在就先在 H2 下补散文）")
+            break
+    if levels.count(3) == 1 and levels.count(2) >= 2:
+        warnings.append("⚠️ 孤立 H3：全文仅 1 个 H3 无配对——H3 只在节内步骤"
+                        f"分组需要导航时才上，单蹦一个是不完整结构，要么补成对"
+                        f"要么降回正文")
+
+    # 排版构件：方法节缺步骤结构（'怎么做'必须有步骤呈现，这是教程的核心构件）
+    n_missing_steps = _step_sections_missing_lists(text)
+    if n_missing_steps:
+        warnings.append(f"⚠️ {n_missing_steps} 个方法节（标题带'怎么/如何/算出'"
+                        f"等动作词）通篇无有序列表——教程的'怎么做'要用步骤"
+                        f"呈现：1. 2. 3.，每项动作开头")
+
+    # 排版构件：加粗密度
+    n_bold = len(_BOLD_RE.findall(text))
+    if n_chars >= 300 and n_bold * 1000 > _BOLD_LIMIT_PER_1K * n_chars:
+        warnings.append(f"⚠️ 加粗 {n_bold} 处（约 {n_bold * 1000 // n_chars} 处/千字，"
+                        f"上限 {_BOLD_LIMIT_PER_1K}）——满地加粗=处处强调=无强调，"
+                        f"只留真正的关键句")
 
     # L3：身份共鸣（明确称呼目标读者）
     if n_chars >= 300 and text.count("你") < 2:
