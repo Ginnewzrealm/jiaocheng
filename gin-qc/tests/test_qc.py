@@ -262,6 +262,68 @@ def test_flagged_speculation_ok():
 
 # ---------- CLI ----------
 
+
+# ---------- AI 腔结构特征（2026-09-12 调研批次：排比/段末总结/让我们/程度副词） ----------
+
+def test_parallel_triplet_flagged():
+    """排比三连（'不仅…更…还…'式同构并列）是 AI 腔最强结构特征。
+    一篇出现 ≥2 处 → 警告；真人偶发一句是修辞。"""
+    text = ("减脂不仅是少吃，更是重新理解身体的能量账。你要先算清消耗。"
+            "这个过程中，既能保住肌肉，又能稳定情绪。" * 3
+            + "坚持记录你就会发现变化。")
+    r = qc.check_humanity(text)
+    assert any("排比" in w for w in r["warnings"])
+
+
+def test_single_parallel_ok():
+    """一处排比是正常修辞，不警告。"""
+    parallel_once = "减脂不仅是少吃，更是重新理解身体的能量账。"
+    filler = ("体重停滞是身体的适应机制在起作用，通常持续两到三周。"
+              "水分回流占了反弹的大头，别急着加运动量。"
+              "记录饮食能帮你区分水分和脂肪，数据比体重秤诚实。")
+    r = qc.check_humanity(parallel_once + filler * 3)
+    assert not any("排比" in w for w in r["warnings"])
+
+
+def test_paragraph_summary_tic_flagged():
+    """段末总结口头禅：几乎每段都以'所以/也就是说/这意味着'收尾，
+    段段有小结是 AI 的典型骨架。真人写作大部分段落直接停在事实上。"""
+    para1 = "体重停滞是身体的适应机制在起作用。所以不用慌。"
+    para2 = "水分回流占了反弹的大头。也就是说不是脂肪回来了。"
+    para3 = "记录饮食能帮你区分两者。这意味着数据比体重秤诚实。" * 8
+    r = qc.check_humanity(para1 + "\n\n" + para2 + "\n\n" + para3)
+    assert any("段末" in w or "总结" in w for w in r["warnings"])
+
+
+def test_natural_paragraph_endings_ok():
+    """段落直接停在事实上、没有总结口头禅 → 不警告。"""
+    text = ("体重停滞是身体的适应机制在起作用，通常持续两到三周。"
+            "水分回流占了反弹的大头，别急着加运动量。" * 5)
+    r = qc.check_humanity(text)
+    assert not any("段末" in w or "总结" in w for w in r["warnings"])
+
+
+def test_rangwomen_invitation_flagged():
+    """'让我们…'邀请句是 AI 讲解的标志性起手式，真人教程几乎不用。"""
+    text = ("让我们先来看看体重为什么会停滞。" * 6 + "对吧？")
+    r = qc.check_humanity(text)
+    assert any("让我们" in w for w in r["warnings"])
+
+
+def test_intensifier_density_flagged():
+    """程度副词/空洞形容词堆砌：'非常/十分/极大地/显著' ≥3 次/篇 → 警告。
+    真人口语有'很'，但书面堆程度词是 AI 味。"""
+    text = ("这个方法非常有效，效果十分显著。" * 5 + "坚持就会看到变化。")
+    r = qc.check_humanity(text)
+    assert any("程度" in w for w in r["warnings"])
+
+
+def test_intensifier_spare_ok():
+    text = ("这个方法很朴素：每天记录饮食。坚持两三周就能看到趋势。" * 4)
+    r = qc.check_humanity(text)
+    assert not any("程度" in w for w in r["warnings"])
+
+
 def test_cli_check_outputs_json(tmp_path):
     import json
     import subprocess

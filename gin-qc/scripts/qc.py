@@ -65,6 +65,30 @@ _HEDGE_RE = re.compile(r"(可能|也许|大概|或许|推测|估计|猜测|预�
 _LPATH_RE = re.compile(r"L[1-7][_研究补充]*/\S+")
 _YEAR_PAREN_RE = re.compile(r"（[^）]*\d{4}[^）]*）")
 
+# ---------- AI 腔结构特征（2026-09-12 调研批次：Wikipedia/掘金去 AI 味实操） ----------
+
+# 排比三连："不仅…更…还…"式同构并列。真人偶发一句是修辞，密了是 AI 腔。
+_PARALLEL_PATTERNS = [
+    re.compile(r"不仅[^，。；！？]{1,25}，(而且|更|还|也)"),
+    re.compile(r"既[^，。；！？]{1,25}，又"),
+    re.compile(r"是[^，。；！？]{1,18}，是[^，。；！？]{1,18}，(还是|也是|又是)"),
+    re.compile(r"既要[^，。；！？]{1,18}，又要"),
+]
+_PARALLEL_LIMIT = 2  # ≥2 处/篇才警告：单句排比是正常修辞
+
+# 段末总结口头禅：段落末句以总结连接词起手。段段有小结是 AI 的典型骨架，
+# 真人写作大部分段落直接停在事实上。（"说白了/不难发现"等在 gin-draft
+# 禁区词表已拦出现；本条拦的是"位置在段末"这个病灶，与禁区词互补不重复。）
+_PARA_SUMMARY_MARKERS = ("所以", "也就是说", "这意味着", "总的来说",
+                         "总之", "由此可见")
+
+# "让我们"邀请句：AI 讲解的标志性起手式，真人教程几乎不用。
+_RANGWOMEN_RE = re.compile(r"让我们")
+
+# 程度副词/空洞形容词堆砌。"很"不算（真人口语），书面程度词才算。
+_INTENSIFIER_RE = re.compile(r"(非常|十分|极其|格外|极为|极大地|大幅度|显著)")
+_INTENSIFIER_LIMIT = 3
+
 # ---------- L2：句子切分 ----------
 
 _SENT_SPLIT_RE = re.compile(r"[。！？!?；;…]+")
@@ -122,6 +146,20 @@ def _verdict_of(score):
     if score >= 70:
         return "通过但提示 minor 问题"
     return "不通过"
+
+
+def _para_summary_ratio(text):
+    """段末总结口头禅：返回 (命中段落数, 散文段落数)。"""
+    total, hit = 0, 0
+    for _chars, block in _prose_blocks(text):
+        sents = [s.strip() for s in _SENT_SPLIT_RE.split(block) if s.strip()]
+        if not sents:
+            continue
+        total += 1
+        last = sents[-1].lstrip("，,、\"'“‘")
+        if last.startswith(_PARA_SUMMARY_MARKERS):
+            hit += 1
+    return hit, total
 
 
 _L4_ITEMS = [
@@ -205,6 +243,33 @@ def check_humanity(text, title=None):
     if abs_hits:
         warnings.append(f"⚠️ 绝对化词汇 {abs_hits}——核心判断留灰度，"
                         f"把'一定/绝对'换成条件和概率")
+
+    # L3：排比三连（AI 腔最强结构特征，2026-09-12 调研批次）
+    n_parallel = sum(len(p.findall(text)) for p in _PARALLEL_PATTERNS)
+    if n_parallel >= _PARALLEL_LIMIT:
+        warnings.append(f"⚠️ 排比三连 {n_parallel} 处/篇（≥{_PARALLEL_LIMIT}）"
+                        f"——'不仅…更…还…'式同构并列是 AI 腔的典型骨架，"
+                        f"单句是好修辞，密了就是口头禅")
+
+    # L3：段末总结口头禅（段段以'所以/也就是说'收尾 = AI 骨架）
+    para_hit, para_total = _para_summary_ratio(text)
+    if para_total >= 3 and para_hit / para_total > 0.3 and para_hit >= 2:
+        warnings.append(f"⚠️ 段末总结口头禅：{para_hit}/{para_total} 个段落"
+                        f"以'所以/也就是说/这意味着'收尾——段段有小结是"
+                        f"AI 的典型骨架，真人写作大部分段落直接停在事实上")
+
+    # L3："让我们"邀请句（AI 讲解标志性起手式）
+    if _RANGWOMEN_RE.search(text):
+        warnings.append("⚠️ '让我们…'邀请句——AI 讲解的标志性起手式，"
+                        "真人教程几乎不用，直接陈述即可")
+
+    # L3：程度副词堆砌（'很'不算，书面程度词才算）
+    n_intensifier = len(_INTENSIFIER_RE.findall(text))
+    if n_intensifier >= _INTENSIFIER_LIMIT:
+        warnings.append(f"⚠️ 程度副词堆砌 {n_intensifier} 次/篇"
+                        f"（{sorted(set(_INTENSIFIER_RE.findall(text)))}，"
+                        f"≥{_INTENSIFIER_LIMIT}）——删掉程度词，让数字和事实"
+                        f"自己说话")
 
     # L3：身份共鸣（明确称呼目标读者）
     if n_chars >= 300 and text.count("你") < 2:
