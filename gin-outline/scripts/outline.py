@@ -69,6 +69,14 @@ _TERM_ENDINGS = ("档位", "杠杆", "映射", "拓扑", "范式", "矩阵", "�
                  "机制", "原理", "流程", "策略", "模型", "框架")
 _GENERIC_READERS = {"新手", "初学者", "小白", "入门用户", "零基础", ""}
 
+# ---------- §4.5 构件分配：教程排版构件（格式锁死，乱填=新造格式） ----------
+
+_COMPONENTS = ("无", "步骤表", "对比表", "提示块", "代码块")
+
+# ---------- §3.5 篇名公式：文档腔后缀（"热量缺口详解"不是教程标题） ----------
+
+_DOC_TITLE_SUFFIX = re.compile(r"(大全|详解|浅析|概述|白皮书|圣经)$")
+
 
 # ---------- 机检 ----------
 
@@ -134,6 +142,19 @@ def check_outline(o, manifest, library=None):
         elif t and t.endswith(_TERM_ENDINGS):
             warnings.append(f"⚠️ [第{i}节] 标题以术语词收尾：{t}——真人不会"
                             f"这么念，术语进'干什么'列（§3 标题人话化）")
+
+        # §4.5 构件：合法值锁死（不分配不拦，缺省=无）
+        comp = (sec.get("构件") or "").strip()
+        if comp and comp not in _COMPONENTS:
+            errors.append(f"❌ [第{i}节] 未知构件：{comp}——合法值："
+                          f"{'/'.join(_COMPONENTS)}（§4.5 构件分配）")
+
+    # §3.5 篇名公式：文档腔后缀 ⚠️
+    big_title = (o.get("标题") or "").strip()
+    if big_title and _DOC_TITLE_SUFFIX.search(big_title):
+        warnings.append(f"⚠️ 篇名文档腔：{big_title}——'大全/详解/浅析'是文档腔"
+                        f"不是教程腔，篇名公式=具体动作+对象+量化承诺"
+                        f"（§3.5，如'3 步算出你的热量缺口'）")
 
     # §6 素材存在且是文件
     if library:

@@ -262,6 +262,125 @@ def test_flagged_speculation_ok():
 
 # ---------- CLI ----------
 
+
+# ---------- AI 腔结构特征（2026-09-12 调研批次：排比/段末总结/让我们/程度副词） ----------
+
+def test_parallel_triplet_flagged():
+    """排比三连（'不仅…更…还…'式同构并列）是 AI 腔最强结构特征。
+    一篇出现 ≥2 处 → 警告；真人偶发一句是修辞。"""
+    text = ("减脂不仅是少吃，更是重新理解身体的能量账。你要先算清消耗。"
+            "这个过程中，既能保住肌肉，又能稳定情绪。" * 3
+            + "坚持记录你就会发现变化。")
+    r = qc.check_humanity(text)
+    assert any("排比" in w for w in r["warnings"])
+
+
+def test_single_parallel_ok():
+    """一处排比是正常修辞，不警告。"""
+    parallel_once = "减脂不仅是少吃，更是重新理解身体的能量账。"
+    filler = ("体重停滞是身体的适应机制在起作用，通常持续两到三周。"
+              "水分回流占了反弹的大头，别急着加运动量。"
+              "记录饮食能帮你区分水分和脂肪，数据比体重秤诚实。")
+    r = qc.check_humanity(parallel_once + filler * 3)
+    assert not any("排比" in w for w in r["warnings"])
+
+
+def test_paragraph_summary_tic_flagged():
+    """段末总结口头禅：几乎每段都以'所以/也就是说/这意味着'收尾，
+    段段有小结是 AI 的典型骨架。真人写作大部分段落直接停在事实上。"""
+    para1 = "体重停滞是身体的适应机制在起作用。所以不用慌。"
+    para2 = "水分回流占了反弹的大头。也就是说不是脂肪回来了。"
+    para3 = "记录饮食能帮你区分两者。这意味着数据比体重秤诚实。" * 8
+    r = qc.check_humanity(para1 + "\n\n" + para2 + "\n\n" + para3)
+    assert any("段末" in w or "总结" in w for w in r["warnings"])
+
+
+def test_natural_paragraph_endings_ok():
+    """段落直接停在事实上、没有总结口头禅 → 不警告。"""
+    text = ("体重停滞是身体的适应机制在起作用，通常持续两到三周。"
+            "水分回流占了反弹的大头，别急着加运动量。" * 5)
+    r = qc.check_humanity(text)
+    assert not any("段末" in w or "总结" in w for w in r["warnings"])
+
+
+def test_rangwomen_invitation_flagged():
+    """'让我们…'邀请句是 AI 讲解的标志性起手式，真人教程几乎不用。"""
+    text = ("让我们先来看看体重为什么会停滞。" * 6 + "对吧？")
+    r = qc.check_humanity(text)
+    assert any("让我们" in w for w in r["warnings"])
+
+
+def test_intensifier_density_flagged():
+    """程度副词/空洞形容词堆砌：'非常/十分/极大地/显著' ≥3 次/篇 → 警告。
+    真人口语有'很'，但书面堆程度词是 AI 味。"""
+    text = ("这个方法非常有效，效果十分显著。" * 5 + "坚持就会看到变化。")
+    r = qc.check_humanity(text)
+    assert any("程度" in w for w in r["warnings"])
+
+
+def test_intensifier_spare_ok():
+    text = ("这个方法很朴素：每天记录饮食。坚持两三周就能看到趋势。" * 4)
+    r = qc.check_humanity(text)
+    assert not any("程度" in w for w in r["warnings"])
+
+
+# ---------- 教程排版构件机检（2026-09-12 调研批次：H层级/步骤结构/加粗密度） ----------
+
+def test_heading_level_skip_flagged():
+    """H2 直接下 H4 = 层级跳级 ❌——教程的标题层级必须连续，跳级是排版事故。"""
+    text = "# 篇名\n\n## 第一节\n\n正文内容，说一件事。\n\n#### 突然跳到四级\n\n正文。"
+    r = qc.check_humanity(text)
+    assert any("跳级" in e for e in r["errors"])
+
+
+def test_lone_h3_flagged():
+    """全文仅 1 个 H3 = 孤儿标题 ⚠️（OpenALG 规范：lone heading）。
+    H3 只在节内步骤分组需要导航时才上，单蹦一个是不完整结构。"""
+    text = "# 篇名\n\n## 第一节\n\n正文内容。\n\n### 唯一的细分\n\n正文。\n\n## 第二节\n\n正文。"
+    r = qc.check_humanity(text)
+    assert any("孤立" in w or "孤儿" in w for w in r["warnings"])
+
+
+def test_multiple_h3_ok():
+    text = ("# 篇名\n\n## 第一节\n\n### 细分一\n\n正文内容。\n\n### 细分二\n\n正文。"
+            "\n\n## 第二节\n\n正文。")
+    r = qc.check_humanity(text)
+    assert not any("孤立" in w or "孤儿" in w for w in r["warnings"])
+
+
+def test_method_section_without_steps_flagged():
+    """标题带动作词（怎么/如何/算出/设置…）的小节 = 方法节，
+    方法节通篇散文、没有一个有序列表 = 缺步骤结构 ⚠️——教程的'怎么做'
+    必须用步骤呈现，这是'像教程'的核心构件。"""
+    text = ("# 篇名\n\n## 怎么算出你的热量缺口\n\n"
+            "先算消耗，再定缺口，最后填进表格。说起来很简单。" * 4)
+    r = qc.check_humanity(text)
+    assert any("步骤" in w for w in r["warnings"])
+
+
+def test_method_section_with_steps_ok():
+    text = ("# 篇名\n\n## 怎么算出你的热量缺口\n\n"
+            "按三步走：\n\n1. 算出你的 TDEE\n2. 选定缺口档位\n3. 填进每日目标\n\n"
+            "每一步都要落到数字上。对吧？")
+    r = qc.check_humanity(text)
+    assert not any("步骤" in w for w in r["warnings"])
+
+
+def test_bold_density_flagged():
+    """加粗密度 >10 处/千字 ⚠️——满地加粗=处处强调=无强调。"""
+    unit = "**关键概念**很重要，**核心方法**要注意，**这个步骤**别跳过。"
+    text = "# 篇名\n\n" + unit * 12  # 36 处加粗，约 430 字 → 远超阈值
+    r = qc.check_humanity(text)
+    assert any("加粗" in w for w in r["warnings"])
+
+
+def test_bold_spare_ok():
+    text = ("# 篇名\n\n体重停滞是身体的适应机制，通常持续两到三周。"
+            "水分回流占了反弹大头，**别急着加运动量**。记录饮食能帮你区分两者。" * 3)
+    r = qc.check_humanity(text)
+    assert not any("加粗" in w for w in r["warnings"])
+
+
 def test_cli_check_outputs_json(tmp_path):
     import json
     import subprocess

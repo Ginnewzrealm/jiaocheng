@@ -185,7 +185,48 @@ def test_v1_schema_rejected(env):
     assert any("v1" in e or "模板" in e for e in r["errors"])
 
 
-# ---------- find_gaps（v1 保留，行为不变） ----------
+# ---------- §4.5 构件分配（2026-09-12 调研批次：教程排版构件） ----------
+
+def test_unknown_component_flagged(env):
+    """"构件"字段是格式锁死项：合法值 无/步骤表/对比表/提示块/代码块，
+    未知值 ❌——乱填构件名等于新造格式，下游 Stage 5 无法施工。"""
+    o = _article()
+    o["小节"][1]["构件"] = "流程图"
+    assert any("构件" in e for e in _run(env, o)["errors"])
+
+
+def test_valid_components_ok(env):
+    o = _article()
+    o["小节"][1]["构件"] = "步骤表"
+    o["小节"][2]["构件"] = "对比表"
+    o["小节"][3]["构件"] = "提示块"
+    o["小节"][4]["构件"] = "代码块"
+    o["小节"][5]["构件"] = "无"
+    r = _run(env, o)
+    assert r["errors"] == []
+
+
+def test_missing_component_ok(env):
+    """不分配构件不拦（渐进路线）：构件是建议字段，缺省=无。"""
+    r = _run(env, _article())
+    assert not any("构件" in w for w in r["warnings"])
+
+
+# ---------- §3.5 篇名公式 ----------
+
+def test_doc_style_title_warns(env):
+    """⚠️ 篇名以 大全/详解/浅析/概述 收尾 = 文档腔不是教程腔。
+    篇名公式：具体动作 + 对象 +（可选量化承诺）。"""
+    o = _article(标题="热量缺口详解")
+    r = _run(env, o)
+    assert any("篇名" in w for w in r["warnings"])
+
+
+def test_action_title_ok(env):
+    o = _article(标题="3 步算出你的热量缺口")
+    r = _run(env, o)
+    assert not any("篇名" in w for w in r["warnings"])
+
 
 def test_find_gaps_flags_uncovered_subquestions(env):
     problems = {"problems": [{"问题": "减肥时热量缺口标准是多少"},
