@@ -15,6 +15,10 @@ import argparse
 import json
 import os
 import re
+import sys
+from tutorial_contract import (VERSION, claim_errors, cli_error, contract_errors,
+                               current_report, diagnostic, finish, inside,
+                               reference_errors, source_paths, stamp)
 
 
 # ---------- 缺口判定 ----------
@@ -83,12 +87,19 @@ _DOC_TITLE_SUFFIX = re.compile(r"(大全|详解|浅析|概述|白皮书|圣经)$
 def check_outline(o, manifest, library=None):
     """单篇大纲机检。返回 {"errors": [...], "warnings": [...]}。"""
     errors, warnings = [], []
+    if not isinstance(o, dict) or not isinstance(manifest, dict):
+        return diagnostic(["大纲和 manifest 必须是对象"])
+    modern = o.get("schema_version") == VERSION
+    if modern:
+        errors.extend(contract_errors(o))
+    elif "schema_version" in o:
+        errors.append("不支持的大纲 schema_version")
 
     # v1 多章格式守卫
     if "章节" in o or "小节" not in o:
         errors.append("❌ v1 多章大纲格式已废止——一题一文，标准格式见 "
                       "references/output-templates.md")
-        return {"errors": errors, "warnings": warnings}
+        return diagnostic(errors, warnings)
 
     card_pool = {c.get("问题", ""): c for c in _cards(manifest)}
 
@@ -100,6 +111,11 @@ def check_outline(o, manifest, library=None):
     elif card.get("状态") != "达标":
         errors.append(f"❌ 卡片未达标（状态={card.get('状态')}）：{q}"
                       f"——先回 gin-answer 补采到达标再排大纲")
+    if modern and card:
+        errors.extend(claim_errors(card, library))
+        errors.extend(reference_errors(o, card))
+        if card.get("schema_version") != VERSION or card.get("置信度") == "低":
+            errors.append("v3 大纲须使用非低置信的 v3 达标卡")
 
     # §1 写给/读完能
     xg = (o.get("写给") or "").strip()
@@ -118,7 +134,9 @@ def check_outline(o, manifest, library=None):
     sections = o.get("小节") or []
 
     # §1 节数
-    if not (5 <= len(sections) <= 8):
+    if not isinstance(sections, list) or any(not isinstance(s, dict) for s in sections):
+        return diagnostic(errors + ["小节须是对象数组"], warnings)
+    if not modern and not (5 <= len(sections) <= 8):
         warnings.append(f"⚠️ 节数 {len(sections)} 超出 5–8 区间——"
                         f"过少内容单薄，过多被切碎（§1 三决策）")
 
@@ -133,10 +151,16 @@ def check_outline(o, manifest, library=None):
         # §6 每节 ≥1 证据
         if not sec.get("证据"):
             errors.append(f"❌ [第{i}节] 每节至少挂 1 条卡片证据（§6）")
+        elif not modern and card:
+            allowed = {k for k, v in card.items() if v}
+            allowed.update(s.get("source_id") for s in card.get("出处", []) if isinstance(s, dict))
+            for ref in sec["证据"]:
+                if not isinstance(ref, str) or ref not in allowed:
+                    errors.append(f"未知卡片证据：{ref}")
 
         # §3/§4 标题：定义式 ❌；术语词收尾 ⚠️
         t = (sec.get("标题") or "").strip()
-        if t and (_DEFINITION_TITLE.match(t) or _DEFINITION_TAIL.search(t)):
+        if not modern and t and (_DEFINITION_TITLE.match(t) or _DEFINITION_TAIL.search(t)):
             errors.append(f"❌ [第{i}节] 定义式标题：{t}——开头必须具体场景，"
                           f"不是概念定义（§4.1 读者先来后理）")
         elif t and t.endswith(_TERM_ENDINGS):
@@ -159,13 +183,12 @@ def check_outline(o, manifest, library=None):
     # §6 素材存在且是文件
     if library:
         for mat in o.get("素材") or []:
-            p = os.path.join(library, mat)
-            if not os.path.exists(p):
-                errors.append(f"❌ 素材不存在：{mat}")
-            elif not os.path.isfile(p):
-                errors.append(f"❌ 素材不是文件：{mat}（写目录路径凑数不行）")
+            try:
+                inside(library, mat)
+            except ValueError as exc:
+                errors.append(f"❌ 素材：{exc}")
 
-    return {"errors": errors, "warnings": warnings}
+    return diagnostic(errors, warnings)
 
 
 # ---------- CLI ----------
@@ -183,6 +206,7 @@ def main():
     c.add_argument("--outline", required=True)
     c.add_argument("--manifest", required=True)
     c.add_argument("--library", default=None)
+    c.add_argument("--output", help="保存大纲检查报告")
 
     args = ap.parse_args()
 
@@ -198,8 +222,21 @@ def main():
         o = json.load(open(args.outline, encoding="utf-8"))
         manifest = json.load(open(args.manifest, encoding="utf-8"))
         r = check_outline(o, manifest, args.library)
-        print(json.dumps(r, ensure_ascii=False, indent=1))
+        if o.get("schema_version") == VERSION and not current_report(manifest, checker="answers-manifest"):
+            r = diagnostic(r["errors"] + ["答案 manifest 未验收或已过期，请重跑 gin-answer manifest"], r["warnings"])
+        paths = [args.outline, args.manifest]
+        if not r["errors"] and card_for(o, manifest):
+            paths += source_paths(card_for(o, manifest), args.library)
+        return finish(stamp(r, "outline", paths, __file__), args.output)
+    return 0
+
+
+def card_for(o, manifest):
+    return next((c for c in _cards(manifest) if c.get("问题") == o.get("问题")), None)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        sys.exit(cli_error(exc))

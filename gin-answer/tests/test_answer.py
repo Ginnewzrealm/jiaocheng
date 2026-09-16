@@ -45,7 +45,8 @@ def _good_card(tmp_path):
     f.write_text("> 来源：x\n> URL：https://example.com/a\n\n---\n\n内容", encoding="utf-8")
     return {
         "问题": "测试", "类型": "事实型", "一句话答案": "答案",
-        "出处": [{"来源": "L3/macros.md", "url": "", "要点": "x"}],
+        "出处": [{"来源": "L3/macros.md", "url": "https://example.com/a", "要点": "x",
+                  "定级": "high", "original_source_id": "original-a"}],
         "置信度": "高", "状态": "达标",
     }, str(lib)
 
@@ -131,8 +132,8 @@ def test_same_article_id_on_academic_host_still_not_independent(tmp_path):
 def test_confidence_high_needs_two_independent_authoritative(tmp_path):
     card, lib = _good_card(tmp_path)
     card["出处"].append({"来源": "L1/官方指南.md", "url": "", "要点": "y",
-                         "定级": "high"})
-    # 本地 L3 一条 + L1 一条 = 两条独立权威
+                         "定级": "high", "original_source_id": "original-b"})
+    # 显式定级且有不同原始出处的两份本地材料
     os.makedirs(os.path.join(lib, "L1"), exist_ok=True)
     open(os.path.join(lib, "L1", "官方指南.md"), "w", encoding="utf-8").write("内容")
     card["争议点"] = []
@@ -162,6 +163,7 @@ def test_confidence_low_when_weak(tmp_path):
 def test_manifest_watchlist_flags_low_confidence(tmp_path):
     card, lib = _good_card(tmp_path)
     card["置信度"] = "低"
+    card["出处"][0]["定级"] = "unknown"
     card["状态"] = "达标"
     cards = [card]
     # 也覆盖"待补采"触发

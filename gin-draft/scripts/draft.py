@@ -17,6 +17,11 @@ import argparse
 import json
 import os
 import re
+import sys
+from tutorial_contract import (VERSION, body_reference_errors, claim_errors, cli_error,
+                               contract_errors, current_report, diagnostic, finish,
+                               matching_card, prose, read_json, reference_errors,
+                               source_paths, stamp)
 
 # ---------- 禁区词表（卡兹克文风，hv-analysis 现成表 + 三篇对标实查） ----------
 
@@ -111,7 +116,7 @@ def _anchor_hits(text):
     return hits
 
 
-def check_chapter(text, materials=None, library=None, case_name=None):
+def check_chapter(text, materials=None, library=None, case_name=None, outline=None, manifest=None):
     """机检单章正文。返回 {"errors","warnings","锚定率","禁区词命中",...}。
 
     materials: 施工单里本章映射的素材数量（list 或 int），用于锚定率分母；
@@ -119,6 +124,20 @@ def check_chapter(text, materials=None, library=None, case_name=None):
     """
     errors, warnings = [], []
     materials = materials or []
+    modern = outline is not None
+    if modern:
+        errors.extend(contract_errors(outline))
+        card = matching_card(outline, manifest)
+        errors.extend(reference_errors(outline, card))
+        if card:
+            errors.extend(claim_errors(card, library))
+            if card.get("状态") != "达标":
+                errors.append("答案卡未达标")
+        if not errors:
+            errors.extend(body_reference_errors(text, outline, card))
+        case_name = outline.get("贯穿人物")
+        materials = outline.get("素材", [])
+    prose_text = prose(text)
 
     # 素材存在性
     if isinstance(materials, (list, tuple)) and library:
@@ -131,7 +150,7 @@ def check_chapter(text, materials=None, library=None, case_name=None):
     hits = _anchor_hits(text)
     denom = max(n_materials, 1)
     rate = min(1.0, hits / (denom * 2))  # 每份素材 2 处锚点 = 满分
-    if rate < 0.6:
+    if rate < 0.6 and not modern:
         errors.append(f"❌ 素材锚定率 {rate:.0%} 低于 60% 红线——论断必须有出处，"
                       f"凭空发挥不出件")
 
@@ -153,12 +172,12 @@ def check_chapter(text, materials=None, library=None, case_name=None):
                       f"人物必须出现（用得好不好归 Stage 6）")
 
     # F6 回环呼应（hv-analysis：章首钩子章末 callback）
-    if not _loopback_ok(text, case_name):
+    if not modern and not _loopback_ok(prose_text, case_name):
         errors.append("❌ 缺回环呼应：章末散文（非预告行）要回扣章首关键词"
                       "或贯穿案例——开头埋的钩子结尾要响（契诃夫之枪）")
 
     # F7 用人话写（hv-analysis：具体细节代替概括）
-    vague = _VAGUE_RE.findall(text)
+    vague = _VAGUE_RE.findall(prose_text)
     if vague:
         hits = sorted({"".join(v) for v in vague})
         errors.append(f"❌ 空洞概括 {hits}——'取得了显著进步'这类句子零信息量，"
@@ -166,15 +185,15 @@ def check_chapter(text, materials=None, library=None, case_name=None):
 
     # F5 句式密度
     for pat, name in _RHETORIC_PATTERNS:
-        n = len(pat.findall(text))
+        n = len(pat.findall(prose_text))
         if n > 2:
             warnings.append(f"⚠️ {name}句式密度 {n} 次/章（上限 2）——单句是好修辞，"
                             f"密了就是口头禅")
 
     # 禁区词
-    banned_hits = sorted({w for w in _BANNED if w in text}, key=text.index)
+    banned_hits = sorted({w for w in _BANNED if w in prose_text}, key=prose_text.index)
 
-    return {"errors": errors, "warnings": warnings,
+    return {**diagnostic(errors, warnings),
             "锚定率": round(rate, 2), "禁区词命中": banned_hits,
             "error_count": len(errors), "warning_count": len(warnings)}
 
@@ -188,6 +207,9 @@ def main():
                    help="素材相对路径，逗号分隔（或纯数字=素材份数）")
     c.add_argument("--library", default=None)
     c.add_argument("--case", dest="case_name", default=None)
+    c.add_argument("--outline", help="v3 大纲；与 --manifest 一起使用")
+    c.add_argument("--manifest", help="已验证的 answers-manifest.json")
+    c.add_argument("--output", help="保存报告到 checks/<article_id>.draft.json")
     args = ap.parse_args()
 
     if args.cmd == "check":
@@ -197,10 +219,25 @@ def main():
             materials = int(raw[0])
         else:
             materials = raw
-        print(json.dumps(check_chapter(text, materials, args.library,
-                                       args.case_name),
-                         ensure_ascii=False, indent=1))
+        if bool(args.outline) != bool(args.manifest):
+            raise ValueError("--outline 和 --manifest 必须同时提供")
+        outline = read_json(args.outline) if args.outline else None
+        manifest = read_json(args.manifest) if args.manifest else None
+        result = check_chapter(text, materials, args.library, args.case_name, outline, manifest)
+        paths = [args.file]
+        if outline is not None:
+            paths += [args.outline, args.manifest]
+            if not current_report(manifest, checker="answers-manifest"):
+                result = diagnostic(result["errors"] + ["答案 manifest 未验收或已过期"], result["warnings"])
+            if not result["errors"]:
+                paths += source_paths(matching_card(outline, manifest), args.library)
+            result["article_id"] = outline.get("article_id")
+        return finish(stamp(result, "draft", paths, __file__), args.output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        sys.exit(cli_error(exc))
