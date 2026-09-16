@@ -18,6 +18,8 @@ import argparse
 import json
 import re
 import statistics
+import sys
+from tutorial_contract import cli_error, diagnostic, finish, prose, stamp
 
 # ---------- L1：硬性规则 ----------
 
@@ -192,18 +194,20 @@ _L4_ITEMS = [
 ]
 
 
-def check_humanity(text, title=None):
+def check_humanity(text, title=None, tutorial_type=None):
     """对一章正文跑四层活人感机检。返回
     {"errors","warnings","report_items","score","verdict",...}。
     title: 章标题（不给则从正文首个 H1 提取），用于扣主线统计。"""
     errors, warnings = [], []
+    text = prose(text)
+    conversational = tutorial_type not in ("操作型", "排错型", "对比型", "决策型")
 
     # L2：扣主线句（hv-analysis：偏离主线后要高频回扣章题词）
     kws = _title_keywords(text, title)
     prose_lines = [l.strip() for l in text.splitlines()
                    if l.strip() and not l.lstrip().startswith(("#", "|", ">",
                                                                "- ", "* "))]
-    if len(prose_lines) >= 5 and kws:
+    if conversational and len(prose_lines) >= 5 and kws:
         pullback = sum(1 for l in prose_lines if any(k in l for k in kws))
         if pullback < 2:
             warnings.append(f"⚠️ 扣主线句缺席：{len(prose_lines)} 行散文只有 "
@@ -231,7 +235,7 @@ def check_humanity(text, title=None):
     # L2：长短句交替（中位数集中度：多数句子挤在中位数 ±20% 内 = 整齐节奏，
     # 防止塞一句超长句拉方差蒙混）
     sents = _sentences(text)
-    if len(sents) >= 5:
+    if conversational and len(sents) >= 5:
         lens = [len(s) for s in sents]
         med = statistics.median(lens)
         near = sum(1 for l in lens if 0.8 * med <= l <= 1.2 * med)
@@ -242,7 +246,7 @@ def check_humanity(text, title=None):
 
     # L2：疑问句对话感
     n_q = len(re.findall(r"[？?]", text))
-    if n_q == 0:
+    if conversational and n_q == 0:
         warnings.append("⚠️ 全章零疑问句——单向输出无对话感，真人讲解会自然抛问")
 
     # L3：证据密度（每 800 字至少 1 行含真数字，且按行分布——
@@ -255,7 +259,7 @@ def check_humanity(text, title=None):
             continue
         if _evidence_digits(line) > 0:
             digit_lines += 1
-    if n_chars >= 300 and digit_lines < required:
+    if tutorial_type is None and n_chars >= 300 and digit_lines < required:
         warnings.append(f"⚠️ 证据密度不足：{n_chars} 字需要 ≥{required} 行含真数字"
                         f"（现 {digit_lines} 行）——空对空论述，"
                         f"把具体数据/案例揉进正文各处，别一行贴完")
@@ -320,7 +324,7 @@ def check_humanity(text, title=None):
                         f"只留真正的关键句")
 
     # L3：身份共鸣（明确称呼目标读者）
-    if n_chars >= 300 and text.count("你") < 2:
+    if conversational and n_chars >= 300 and text.count("你") < 2:
         warnings.append("⚠️ 全章几乎没有'你'——教科书腔，至少 1 处明确"
                         "称呼目标读者")
 
@@ -334,11 +338,13 @@ def check_humanity(text, title=None):
                             "结构过分整齐，列表之间要有人话过渡")
             break
 
-    score = 100 - 5 * len(warnings)
+    score = max(0, 100 - 5 * len(warnings))
     verdict = "不通过" if errors else _verdict_of(score)
-    return {"errors": errors, "warnings": warnings,
+    result = {**diagnostic(errors, warnings),
             "report_items": list(_L4_ITEMS), "score": score, "verdict": verdict,
             "error_count": len(errors), "warning_count": len(warnings)}
+    result["status"] = "fail" if errors or score < 70 else "minor" if score < 85 else "pass"
+    return result
 
 
 def main():
@@ -346,12 +352,19 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("check", help="质检单章")
     c.add_argument("--file", required=True)
+    c.add_argument("--tutorial-type", choices=("操作型", "概念型", "排错型", "对比型", "决策型", "实战型"))
+    c.add_argument("--output")
     args = ap.parse_args()
 
     if args.cmd == "check":
         text = open(args.file, encoding="utf-8").read()
-        print(json.dumps(check_humanity(text), ensure_ascii=False, indent=1))
+        return finish(stamp(check_humanity(text, tutorial_type=args.tutorial_type),
+                            "style", [args.file], __file__), args.output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        sys.exit(cli_error(exc))

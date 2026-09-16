@@ -23,6 +23,7 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 import flow_controller as fc  # noqa: E402
 import progress_reporter as pr  # noqa: E402
+from pipeline_fixture import build
 
 REPO = os.path.join(os.path.dirname(__file__), "..", "scripts",
                     "flow_controller.py")
@@ -40,7 +41,7 @@ def _confirm(tdir, **gates):
 
 
 def _lib(tdir):
-    _write(tdir, "library/coverage-manifest.json", "{}")
+    _write(tdir, "library/coverage-manifest.json", json.dumps({"topic": "t", "entries": [{"path": "L1/a.md"}], "验收": {"material_ok": True, "coverage_gaps": []}}))
 
 
 def _manifest(tdir):
@@ -65,16 +66,8 @@ def _qc(tdir):
 
 
 def _full(tmp_path):
-    """全程场景：一路走到交付，四闸门全过（无阻塞基准）。"""
-    _lib(tmp_path)
-    _write(tmp_path, "problem_list.json", json.dumps({"problems": []}))
-    _confirm(tmp_path, topic="t", outline=True,
-             l4=["温度感"], publish=True)
-    _manifest(tmp_path)
-    _outline(tmp_path)
-    _chapter(tmp_path)
-    _qc(tmp_path)
-    return tmp_path
+    """Use actual producer reports, not hand-written lookalikes."""
+    return build(tmp_path)
 
 
 def _cli(*argv):

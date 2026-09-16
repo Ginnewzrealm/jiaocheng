@@ -8,7 +8,7 @@
 3. 本地出处无法机检      → check_card 校验本地路径存在性
 4. 置信度瞎打            → confidence_grade 三级判定条件成文
 5. 二手转引混入          → check_independence（同域/聚合转载不算独立）
-6. 与资料库冲突无仲裁    → SKILL.md 纪律（本地 L1/L6 优先+标注）
+6. 与资料库冲突无仲裁    → 按原文条件、版本和方法审阅，未解决冲突不放行
 7. 夸大转引靠自觉        → SKILL.md 纪律（倍数宣称回查原始研究）
 8. 观察哨从未触发        → build_manifest 显式分级
 
@@ -22,7 +22,11 @@ import glob
 import json
 import os
 import re
+import sys
+from pathlib import Path
 from urllib.parse import urlparse
+from tutorial_contract import (VERSION, claim_errors, cli_error, diagnostic, finish,
+                               inside, source_paths, stamp, write_json)
 
 # ---------- 规则1：问题类型判定（判定依据必须显式输出） ----------
 
@@ -72,16 +76,26 @@ def check_card(card, library=None):
     红样本#3：基线卡里本地来源 url 为空串，机器无法验证文件真实性。
     规则：本地来源 → 路径必须存在于资料库；联网来源 → URL 非空。
     """
+    if not isinstance(card, dict):
+        return ["答案卡必须是对象"]
     errs = []
+    if not isinstance(card.get("出处"), list) or not card["出处"]:
+        return ["卡片缺非空出处数组"]
     for i, src in enumerate(card.get("出处", []), 1):
+        if not isinstance(src, dict):
+            errs.append("出处必须是对象")
+            continue
         name = src.get("来源", f"出处{i}")
         if is_local_source(src):
             if library:
-                p = os.path.join(library, src["来源"])
-                if not os.path.exists(p):
-                    errs.append(f"本地出处不存在：{src['来源']}（{p}）")
+                try:
+                    inside(library, src["来源"])
+                except ValueError as exc:
+                    errs.append(str(exc))
+            else:
+                errs.append(f"本地出处缺资料库，无法验证：{name}")
         else:
-            if not src.get("url"):
+            if not _valid_url(src.get("url")):
                 errs.append(f"联网出处缺 URL：{name}")
     for field in ("问题", "类型", "一句话答案", "置信度", "状态"):
         if not card.get(field):
@@ -89,7 +103,17 @@ def check_card(card, library=None):
     if card.get("类型") and card["类型"] not in ("事实型", "方法型", "争议型"):
         errs.append(f"卡片类型非法：{card['类型']}（必须是 事实型/方法型/争议型，"
                     f"判定须跑 classify 脚本，依据写入卡片）")
+    if card.get("状态") not in ("达标", "待补采"):
+        errs.append("状态必须是达标/待补采")
+    if "schema_version" in card and card["schema_version"] != VERSION:
+        errs.append("不支持的答案卡 schema_version")
+    if card.get("schema_version") == VERSION:
+        errs.extend(claim_errors(card, library))
     return errs
+
+
+def _valid_url(url):
+    return isinstance(url, str) and urlparse(url).scheme in ("http", "https") and bool(_domain(url))
 
 
 # ---------- 规则5：独立性检查 ----------
@@ -118,8 +142,26 @@ def _article_key(url):
     d = _domain(url)
     if d not in _ACADEMIC_HOSTS:
         return None
-    m = re.search(r"(\d{5,9}|PMC\d+|10\.\d{4,9}/\S+)", url)
-    return m.group(1) if m else None
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    if d == "doi.org":
+        return "doi:" + path.lower()
+    if d == "arxiv.org":
+        return "arxiv:" + re.sub(r"v\d+$", "", path.removeprefix("abs/").removeprefix("pdf/").removesuffix(".pdf"))
+    pmc = re.search(r"PMC\d+", path, re.I)
+    if pmc:
+        return "pmc:" + pmc[0].upper()
+    if d == "pubmed.ncbi.nlm.nih.gov" or (d == "europepmc.org" and "/MED/" in parsed.path):
+        match = re.search(r"\d+", path)
+        return "pmid:" + match[0] if match else None
+    return None
+
+
+def _source_key(src):
+    if src.get("original_source_id"):
+        return "original:" + str(src["original_source_id"]).strip().lower()
+    url = src.get("url", "")
+    return _article_key(url) or ("domain:" + _domain(url) if _domain(url) else None)
 
 
 def check_independence(sources):
@@ -129,12 +171,20 @@ def check_independence(sources):
     规则：同域多条 = 一个来源；聚合转载域 = 永远不能充当独立第二源；
     学术宿主例外——按文章 ID 判独立（同 ID 镜像仍算同一来源）。"""
     warns = []
+    seen_originals = set()
     seen_domains = {}
     seen_articles = {}
     for src in sources:
+        if not isinstance(src, dict):
+            continue
+        original = src.get("original_source_id")
+        if original and original in seen_originals:
+            warns.append(f"同一原始出处不算独立：{original}")
+        if original:
+            seen_originals.add(original)
         url = src.get("url", "")
         if not url:
-            continue  # 本地来源按路径算独立性，不参与域名检查
+            continue  # 无 URL 的本地来源只能按 original_source_id 归组
         d = _domain(url)
         if d in _AGGREGATORS:
             warns.append(f"聚合转载源不算独立来源：{src.get('来源')}（{d}），"
@@ -158,14 +208,25 @@ def check_independence(sources):
 # ---------- 规则4：置信度三级判定 ----------
 
 def _authoritative_sources(card, library):
-    """权威源 = 本地资料库文件（L1/L6 权重最高但 L2-L5 也算数）
-    或显式定级 high 的联网来源。"""
+    """显式 high、有原始出处标识且可核对；落盘本身不提升质量。"""
     auth = []
     for src in card.get("出处", []):
+        if not isinstance(src, dict) or src.get("定级") != "high":
+            continue
+        domain = _domain(src.get("url", ""))
+        if any(domain == a or domain.endswith("." + a) for a in _AGGREGATORS):
+            continue
+        if not _source_key(src):
+            continue
         if is_local_source(src):
-            if library and os.path.exists(os.path.join(library, src["来源"])):
+            try:
+                if not library:
+                    continue
+                inside(library, src["来源"])
                 auth.append(src)
-        elif src.get("定级") == "high":
+            except ValueError:
+                continue
+        elif _valid_url(src.get("url")):
             auth.append(src)
     return auth
 
@@ -180,7 +241,20 @@ def confidence_grade(card, library=None):
     auth = _authoritative_sources(card, library)
     if len(auth) == 0:
         return "低"
-    if len(auth) >= 2 and not card.get("争议点"):
+    # Same domain and explicit original IDs both constrain independence. An ID
+    # must not turn two pages of the same ordinary website into two authorities.
+    groups = set()
+    domains = set()
+    for src in auth:
+        key = _source_key(src)
+        domain = _domain(src.get("url", ""))
+        if key in groups or (domain and domain in domains and not _article_key(src.get("url", ""))):
+            continue
+        groups.add(key)
+        if domain:
+            domains.add(domain)
+    conflicts = card.get("争议点") or any(c.get("conflicts") for c in card.get("claims", []) if isinstance(c, dict))
+    if library and len(groups) >= 2 and not conflicts:
         return "高"
     return "中"
 
@@ -190,8 +264,15 @@ def confidence_grade(card, library=None):
 def build_manifest(cards, topic, library=None):
     """汇总 answers-manifest.json。观察哨显式分级（红样本#8：基线全程
     没有触发标准，机制形同虚设）。"""
-    watchlist = []
-    for card in cards:
+    watchlist, normalized, errors = [], [], []
+    for raw in cards:
+        card = dict(raw)
+        problems = check_card(card, library)
+        card["置信度"] = confidence_grade(card, library)
+        if problems or card["置信度"] == "低":
+            card["状态"] = "待补采"
+        normalized.append(card)
+        errors.extend(f"{card.get('问题', '?')}：{e}" for e in problems)
         reasons = []
         if card.get("置信度") == "低":
             reasons.append("置信度低")
@@ -202,7 +283,9 @@ def build_manifest(cards, topic, library=None):
             break
         for r in reasons:
             watchlist.append({"问题": card.get("问题", "?"), "触发原因": r})
+    cards = normalized
     return {
+        **diagnostic(errors),
         "topic": topic,
         "cards": cards,
         "观察哨": watchlist,
@@ -227,8 +310,8 @@ def validate_card(path, library=None):
     if card.get("置信度") and card["置信度"] != graded:
         warnings.append(
             f"置信度自报「{card['置信度']}」，按规则复算为「{graded}」——"
-            f"以脚本复算为准并回写卡片")
-    return {"errors": errors, "warnings": warnings, "置信度复算": graded}
+            f"validate 为只读；使用 manifest 生成标准化卡片")
+    return diagnostic(errors, warnings, **{"置信度复算": graded})
 
 
 def main():
@@ -241,6 +324,7 @@ def main():
     v = sub.add_parser("validate", help="机检答案卡")
     v.add_argument("--card", required=True)
     v.add_argument("--library", default=None)
+    v.add_argument("--output", help="机检报告路径（不改写答案卡）")
 
     m = sub.add_parser("manifest", help="汇总 answers-manifest.json")
     m.add_argument("--dir", required=True)
@@ -252,21 +336,41 @@ def main():
     if args.cmd == "classify":
         print(json.dumps(classify_question(args.question), ensure_ascii=False))
     elif args.cmd == "validate":
-        print(json.dumps(validate_card(args.card, args.library), ensure_ascii=False))
+        result = validate_card(args.card, args.library)
+        paths = [args.card]
+        if not result["errors"]:
+            paths += source_paths(json.load(open(args.card, encoding="utf-8")), args.library)
+        return finish(stamp(result, "answer", paths, __file__), args.output)
     elif args.cmd == "manifest":
-        cards = []
+        cards, paths = [], []
         for p in sorted(glob.glob(os.path.join(args.dir, "**", "*.json"),
                                   recursive=True)):
             if os.path.basename(p) == "answers-manifest.json":
                 continue
+            if p.endswith(".check.json"):
+                continue
             cards.append(json.load(open(p, encoding="utf-8")))
+            paths.append(p)
         manifest = build_manifest(cards, args.topic, args.library)
+        if not cards or any(c.get("schema_version") != VERSION for c in cards):
+            manifest["errors"].append("流水线 manifest 需要非空 v3 答案卡；先补齐证据账本再重新验证")
+        if len({c.get("问题") for c in cards}) != len(cards):
+            manifest["errors"].append("答案卡问题重复")
+        if any(c.get("状态") != "达标" for c in manifest["cards"]):
+            manifest["errors"].append("仍有待补采卡片，不能作为完成的答案阶段认账")
+        manifest.update(diagnostic(manifest["errors"], manifest["warnings"]))
+        if not manifest["errors"]:
+            for card in cards:
+                paths += source_paths(card, args.library)
+        if paths:
+            manifest = stamp(manifest, "answers-manifest", paths, __file__)
         out = os.path.join(args.dir, "answers-manifest.json")
-        with open(out, "w", encoding="utf-8") as f:
-            json.dump(manifest, f, ensure_ascii=False, indent=2)
-        print(json.dumps({"manifest": out, "cards": len(cards),
-                          "观察哨": len(manifest["观察哨"])}, ensure_ascii=False))
+        return finish(manifest, out)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        sys.exit(cli_error(exc))

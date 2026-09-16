@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "samples": [
+    {
+      "sample_id": "synthetic-print-protocol",
+      "kind": "synthetic-integration",
+      "tutorial_type": "操作型",
+      "domain": "Python",
+      "source": "tests/pipeline_fixture.py",
+      "purpose": "跨阶段协议与受控命令结果验证",
+      "real_reader_evaluation": false,
+      "learning_success_rate": null
+    }
+  ],
+  "real_tutorial_samples": [],
+  "note": "缺失的历史真实章节未补造；未来样本须记录来源、哈希、许可和评估分组。"
+}

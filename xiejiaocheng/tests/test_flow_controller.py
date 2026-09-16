@@ -16,6 +16,7 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 import flow_controller as fc  # noqa: E402
+from pipeline_fixture import build
 
 
 # ---------- 夹具：搭建 tutorial 目录的各种真实状态 ----------
@@ -31,7 +32,7 @@ def with_library(tmp_path):
     """Stage 0 完成态：资料库 + coverage-manifest（减脂 e2e 的真实起点）。"""
     lib = tmp_path / "library"
     lib.mkdir()
-    (lib / "coverage-manifest.json").write_text("{}", encoding="utf-8")
+    (lib / "coverage-manifest.json").write_text(json.dumps({"topic": "减脂", "entries": [{"path": "L1/a.md"}], "验收": {"material_ok": True, "coverage_gaps": []}}), encoding="utf-8")
     return tmp_path
 
 
@@ -39,7 +40,7 @@ def with_library(tmp_path):
 def with_problems(with_library):
     """Stage 1 也完成：problem_list.json 认账（本轮减脂刚跑完）。"""
     (with_library / "problem_list.json").write_text(
-        json.dumps({"topic": "减脂", "problems": []}, ensure_ascii=False),
+        json.dumps({"topic": "减脂", "problems": [{"text": "减脂怎么做"}]}, ensure_ascii=False),
         encoding="utf-8")
     return with_library
 
@@ -47,10 +48,8 @@ def with_problems(with_library):
 
 
 def _outline_v2(tdir):
-    """v2 Stage 4 产物：outlines/ 下非空 json。"""
-    od = tdir / "outlines"
-    od.mkdir(exist_ok=True)
-    (od / "o.json").write_text("{}", encoding="utf-8")
+    build(tdir, through="stage4")
+
 
 def _confirm(tdir, **gates):
     (tdir / "confirmations.json").write_text(
@@ -58,12 +57,7 @@ def _confirm(tdir, **gates):
 
 
 def _manifest(tdir, n=2):
-    ans = tdir / "answers"
-    ans.mkdir(exist_ok=True)
-    cards = [{"问题": f"Q{i}", "置信度": "高", "达标": True} for i in range(n)]
-    (ans / "answers-manifest.json").write_text(
-        json.dumps({"观察哨": [], "达标卡": cards}, ensure_ascii=False),
-        encoding="utf-8")
+    build(tdir, through="stage3")
 
 
 # ---------- 资产认账：检测到产物就跳过，不重复跑 ----------
@@ -144,6 +138,7 @@ def test_stage5_ok_after_outline_confirmed(with_problems):
     _confirm(with_problems, topic="x", outline=True)
     _manifest(with_problems)
     _outline_v2(with_problems)
+    assert fc.cmd_confirm(with_problems, gate="outline")[0] == 0
     ok, _ = fc.validate_next(with_problems, "stage5")
     assert ok
 
@@ -176,23 +171,9 @@ def test_gate_l4_and_publish_block_delivery(with_problems):
 
 
 def test_delivery_ok_with_all_confirmations(with_problems):
-    _confirm(with_problems, topic="x", outline=True,
-             l4=["温度感", "独特性", "姿态", "心流"], publish=True)
-    _manifest(with_problems)
-    _outline_v2(with_problems)
-    ch = with_problems / "chapters"
-    ch.mkdir()
-    (ch / "ch1.md").write_text("# 第一章", encoding="utf-8")
-    ck = with_problems / "checks"
-    ck.mkdir()
-    (ck / "ch1.draft.json").write_text(json.dumps({"errors": 0}),
-                                       encoding="utf-8")
-    qc = with_problems / "qc"
-    qc.mkdir()
-    (qc / "report.json").write_text(json.dumps({"verdict": "通过"}),
-                                    encoding="utf-8")
-    ok, _ = fc.validate_next(with_problems, "delivered")
-    assert ok
+    build(with_problems)
+    ok, reasons = fc.validate_next(with_problems, "delivered")
+    assert ok, reasons
 
 
 # ---------- 机检证据：errors 不归零不算过 ----------
@@ -230,7 +211,7 @@ def test_empty_chapter_not_counted(with_problems):
     ch.mkdir()
     (ch / "ch1.md").write_text("   \n", encoding="utf-8")
     ck = with_problems / "checks"
-    ck.mkdir()
+    ck.mkdir(exist_ok=True)
     (ck / "ch1.draft.json").write_text(json.dumps({"errors": 0}),
                                        encoding="utf-8")
     ok, reasons = fc.validate_next(with_problems, "stage6")
@@ -248,7 +229,7 @@ def test_qc_verdict_fail_blocks_delivery(with_problems):
     ch.mkdir()
     (ch / "ch1.md").write_text("# 第一章\n\n正文。" * 20, encoding="utf-8")
     ck = with_problems / "checks"
-    ck.mkdir()
+    ck.mkdir(exist_ok=True)
     (ck / "ch1.draft.json").write_text(json.dumps({"errors": 0}),
                                        encoding="utf-8")
     qc = with_problems / "qc"
