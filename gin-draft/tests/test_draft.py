@@ -96,13 +96,13 @@ def test_table_or_template_also_counts():
 
 def test_case_character_absent_flagged(ch1_text):
     r = draft.check_chapter(ch1_text, case_name="小张")
-    assert any("案例" in e for e in r["errors"])
+    assert any("贯穿案例「小张」未在正文出场" in e for e in r["errors"])
 
 
 def test_case_character_present_ok(ch1_text):
     """同一章正文只要案例人物出现 ≥1 次即过（"用得好不好"归 Stage 6）。"""
     r = draft.check_chapter(ch1_text + "\n小张也卡在这一步。", case_name="小张")
-    assert not any("案例" in e for e in r["errors"])
+    assert not any("贯穿案例「小张」未在正文出场" in e for e in r["errors"])
 
 
 # ---------- F5：句式密度（失败样本："不是A，是B"一章用5次变口头禅） ----------
