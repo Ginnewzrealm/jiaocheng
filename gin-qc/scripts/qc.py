@@ -229,7 +229,7 @@ def check_humanity(text, title=None, tutorial_type=None):
     for chars, block in _prose_blocks(text):
         if chars > _PARA_LIMIT:
             head = block.strip().replace("\n", "")[:20]
-            errors.append(f"❌ 段落 {chars} 字超过 {_PARA_LIMIT} 字上限"
+            (warnings if tutorial_type else errors).append(f"段落 {chars} 字超过 {_PARA_LIMIT} 字建议长度"
                           f"（'{head}…'）——一堵文字墙，拆开")
 
     # L2：长短句交替（中位数集中度：多数句子挤在中位数 ±20% 内 = 整齐节奏，
@@ -344,6 +344,10 @@ def check_humanity(text, title=None, tutorial_type=None):
             "report_items": list(_L4_ITEMS), "score": score, "verdict": verdict,
             "error_count": len(errors), "warning_count": len(warnings)}
     result["status"] = "fail" if errors or score < 70 else "minor" if score < 85 else "pass"
+    if tutorial_type:
+        # v3: stylistic heuristics are advisory; structural errors still block.
+        result['status'] = 'fail' if errors else 'minor' if warnings else 'pass'
+        result['verdict'] = '不通过' if errors else '通过（有文风建议）' if warnings else '通过'
     return result
 
 

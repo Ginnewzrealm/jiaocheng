@@ -34,13 +34,29 @@ PERSPECTIVES = {
     },
 }
 
-PEOPLE_POOL = [
+HEALTH_PEOPLE = [
     "女性", "男性", "青少年", "老人", "孕妇",
     "糖尿病", "高血压", "甲状腺", "高血脂", "运动员",
 ]
+PEOPLE_POOL = ['初学者', '有经验的使用者', '维护人员']
 
 
-def generate(topic, expanded_terms, missing_cells, max_per_cell=3):
+def templates_for(profile='general'):
+    from copy import deepcopy
+    from datetime import date
+    if profile not in ('general', 'health'):
+        raise ValueError('domain_profile 必须为 general/health')
+    templates = deepcopy(PERSPECTIVES)
+    templates['争议时效']['时效'][0] = '{扩展词} ' + str(date.today().year) + ' 最新'
+    if profile == 'general':
+        templates['基础']['How much'] = ['{扩展词} 成本', '{扩展词} 数量', '{扩展词} 标准']
+        templates['旅程']['瓶颈期'] = ['{扩展词} 常见错误', '{扩展词} 出错 怎么办', '{扩展词} 没效果']
+        templates['旅程']['维持期'] = ['{扩展词} 维护', '{扩展词} 更新', '{扩展词} 进阶']
+        templates['人群场景']['场景差异'] = ['{扩展词} 不同环境', '{扩展词} 使用场景']
+    return templates
+
+
+def generate(topic, expanded_terms, missing_cells, max_per_cell=3, profile='general'):
     """根据缺失格子生成下一轮搜索查询。
 
     missing_cells: [(perspective, sub_dimension), ...]
@@ -49,6 +65,9 @@ def generate(topic, expanded_terms, missing_cells, max_per_cell=3):
     terms = [topic] + list(expanded_terms or [])
     queries = []
     seen = set()
+    if max_per_cell < 1:
+        raise ValueError('max_per_cell 必须大于 0')
+    catalog = templates_for(profile)
 
     # 去重缺失格子，避免同一格子重复生成
     seen_cells = set()
@@ -60,13 +79,13 @@ def generate(topic, expanded_terms, missing_cells, max_per_cell=3):
             unique_missing.append(cell)
 
     for perspective, sub_dimension in unique_missing:
-        templates = PERSPECTIVES.get(perspective, {}).get(sub_dimension, [])
+        templates = catalog.get(perspective, {}).get(sub_dimension, [])
         if not templates:
             continue
 
         count = 0
         if perspective == "人群场景" and sub_dimension == "人群差异":
-            for person in PEOPLE_POOL:
+            for person in (HEALTH_PEOPLE if profile == 'health' else PEOPLE_POOL):
                 for term in terms[:3]:
                     for template in templates:
                         query = template.replace("{人群}", person).replace("{扩展词}", term)

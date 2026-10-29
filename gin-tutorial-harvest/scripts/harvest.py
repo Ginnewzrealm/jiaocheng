@@ -23,7 +23,14 @@ import os
 import re
 import subprocess
 import sys
+import hashlib
+import tempfile
+from pathlib import Path
 from urllib.parse import urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from harvest_store import acceptance, build_manifest, digest, local_file, record, records
+from source_coverage import normalize_url
 
 # ---------- 通道调度 ----------
 
@@ -62,6 +69,8 @@ def pick_channel(url, action, firecrawl_available=True):
         return "skip-book"
     if action in DOWNLOAD_ACTIONS:
         return "firecrawl-download" if firecrawl_available else "firecrawl-scrape"
+    if action == 'collector 采集':
+        return 'collector'
 
     # 3) 扩展名/内容类型
     if any(h in host for h in COLLECTOR_HINTS):
@@ -98,7 +107,7 @@ def postprocess_markdown(text, site_host=None):
         label, target = m.group(1), m.group(2)
         if not label:
             return ""  # 空锚点（Docusaurus 标题直接链接）→ 移除
-        if site_host and site_host in _host_of(target):
+        if site_host and site_host == _host_of(target):
             return label  # 站内 → 留文本
         return m.group(0)  # 外部 → 保留
 
@@ -128,20 +137,13 @@ def is_valid_content(text, min_chars=500):
 
 # ---------- 验收门槛 ----------
 
-def check_acceptance(total_chars, target_words, coverage):
+def check_acceptance(total_chars, target_words, coverage, mode='full'):
     """素材验收：总量 ≥ 3×目标成稿字数；每个 TOP 问题 ≥2 独立来源。
 
     coverage: {问题: 已覆盖来源数}
     返回 {"material_ok": bool, "coverage_gaps": [...], "needed_chars": int}
     """
-    needed = target_words * 3
-    gaps = [q for q, n in coverage.items() if n < 2]
-    return {
-        "material_ok": total_chars >= needed,
-        "coverage_gaps": gaps,
-        "needed_chars": max(0, needed - total_chars),
-        "达标线": needed,
-    }
+    return acceptance(total_chars, target_words, coverage, mode)
 
 
 # ---------- 落盘 ----------
@@ -151,6 +153,8 @@ _BAD_FILENAME = re.compile(r'[\\/:*?"<>|？?！!，,。.\s]+')
 
 def organize_path(output_dir, layer, title):
     """按层分目录落盘：<output_dir>/<layer>/<安全文件名>.md"""
+    if layer not in {f'L{i}' for i in range(1, 7)}:
+        raise ValueError('layer 必须为 L1–L6')
     safe = _BAD_FILENAME.sub("_", title).strip("_")[:60] or "untitled"
     d = os.path.join(output_dir, layer)
     os.makedirs(d, exist_ok=True)
@@ -206,17 +210,29 @@ def main():
     m.add_argument("--dir", required=True)
     m.add_argument("--topic", required=True)
     m.add_argument("--target-words", type=int, default=8000)
+    m.add_argument('--sources', required=True, help='sources.json，含 questions 与逐条 covers')
+    m.add_argument('--mode', choices=('full', 'focused'), default='full')
 
     x = sub.add_parser("explain", help="给失败/存疑文件定性（quota/blocked/thin/ok）")
     x.add_argument("--file", required=True)
 
     h = sub.add_parser("harvest-one", help="单条源全自动采集落盘（确定性通道）")
     h.add_argument("--dir", required=True)
-    h.add_argument("--url", required=True)
-    h.add_argument("--title", required=True)
+    h.add_argument("--url")
+    h.add_argument("--title")
     h.add_argument("--layer", default="L3")
     h.add_argument("--value", default="unknown")
     h.add_argument("--action", default="单页采集")
+    h.add_argument('--source-json', help='完整来源对象，保留覆盖/原始出处/冗余/替补记录')
+    h.add_argument('--min-chars', type=int, default=500)
+    h.add_argument('--limit', type=int, default=30, help='整站采集最多页面数')
+
+    reg = sub.add_parser('register', help='登记浏览器/collector 采集的成品或修改后的资料')
+    reg.add_argument('--dir', required=True)
+    reg.add_argument('--file', required=True)
+    reg.add_argument('--source-json', required=True)
+    reg.add_argument('--channel', required=True)
+    reg.add_argument('--min-chars', type=int, default=500)
 
     args = ap.parse_args()
 
@@ -231,39 +247,37 @@ def main():
         print(json.dumps({"stripped_to": len(out)}, ensure_ascii=False))
     elif args.cmd == "validate":
         text = open(args.file, encoding="utf-8").read()
-        n = count_chinese_chars(text)
-        print(json.dumps({"chinese_chars": n, "valid": is_valid_content(text, args.min_chars)},
+        n = count_content_units(text)
+        print(json.dumps({"content_units": n, "chinese_chars": count_chinese_chars(text),
+                          "valid": is_valid_content(text, args.min_chars)},
                          ensure_ascii=False))
+        return 0 if is_valid_content(text, args.min_chars) else 1
     elif args.cmd == "manifest":
-        # 扫输出目录既有 .md 汇总 manifest（Agent 采集完跑这个收口）
-        entries, total = [], 0
-        for root, _dirs, files in os.walk(args.dir):
-            for fn in sorted(files):
-                if not fn.endswith(".md"):
-                    continue
-                p = os.path.join(root, fn)
-                text = open(p, encoding="utf-8").read()
-                words = count_content_units(text)
-                total += words
-                entries.append(manifest_entry(
-                    url="", layer=os.path.basename(root), title=fn[:-3],
-                    path=os.path.relpath(p, args.dir), words=words,
-                    channel="", status="ok", retries=0, covers=[]))
-        write_manifest(args.dir, entries, args.topic, args.target_words, total)
-        print(json.dumps({"total_chars": total, "files": len(entries)},
-                         ensure_ascii=False))
+        sources = json.loads(Path(args.sources).read_text(encoding='utf-8'))
+        result = build_manifest(args.dir, args.topic, sources, args.target_words, args.mode, args.sources)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result['验收']['material_ok'] and not result['验收']['coverage_gaps'] else 1
+    elif args.cmd == 'register':
+        src = json.loads(Path(args.source_json).read_text(encoding='utf-8'))
+        register_source(args.dir, src, args.file, args.channel, args.min_chars)
+        print(json.dumps({'registered': args.file}, ensure_ascii=False))
     elif args.cmd == "explain":
         print(json.dumps(explain(args.file), ensure_ascii=False))
     elif args.cmd == "harvest-one":
         src = {"title": args.title, "url": args.url, "layer": args.layer,
                "value": args.value, "action": args.action}
+        if args.source_json:
+            src = json.loads(Path(args.source_json).read_text(encoding='utf-8'))
+        if not src.get('url') or not src.get('title'):
+            raise ValueError('提供 --source-json，或同时提供 --url 与 --title')
         try:
-            dest = harvest_one(args.dir, src)
-            print(json.dumps({"dest": dest, "channel": pick_channel(args.url, args.action)}, ensure_ascii=False))
+            dest = harvest_one(args.dir, src, args.min_chars, args.limit)
+            print(json.dumps({'dest': dest, 'channel': records(args.dir)[normalize_url(src['url'])]['channel']}, ensure_ascii=False))
         except HarvestError as e:
             print(json.dumps({"error": e.category, "channel": e.channel, "advice": e.advice},
                              ensure_ascii=False))
-            sys.exit(1)
+            sys.exit(2 if e.category == 'tool_error' else 1)
+    return 0
 
 
 
@@ -333,7 +347,48 @@ def firecrawl_env():
 
 # ---------- #7/#8 harvest-one：单条源全自动（决策→采集→验收→后处理→落盘） ----------
 
-def harvest_one(output_dir, src):
+def register_source(output_dir, src, path, channel, min_chars=500):
+    if min_chars < 1:
+        raise ValueError('min-chars 必须为正整数')
+    path = local_file(output_dir, path)
+    info = explain(path, min_chars)
+    if info['category'] != 'ok':
+        raise HarvestError(src['url'], channel, info['category'], info['advice'])
+    body = path.read_text(encoding='utf-8')
+    if body.startswith('> 来源：') and '\n---\n' in body:
+        body = body.split('\n---\n', 1)[1]
+    if not is_valid_content(body, min_chars):
+        raise HarvestError(src['url'], channel, 'thin', '后处理后的正文不足门槛')
+    record(output_dir, src, status='ok', channel=channel,
+           path=str(path.relative_to(Path(output_dir).resolve())),
+           字数=count_content_units(body), min_chars=min_chars, sha256=digest(path))
+    return str(path)
+
+
+def run_tool(cmd, env):
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, env=env)
+    if getattr(result, 'returncode', 0):
+        detail = (result.stderr or result.stdout or '采集命令失败')[-1500:]
+        category = next((cat for cat, pat, _ in _EXPLAIN_RULES if pat and pat.search(detail)), 'tool_error')
+        raise HarvestError('', 'firecrawl', category, detail)
+    return result
+
+
+def harvest_one(output_dir, src, min_chars=500, limit=30):
+    output_dir = str(Path(output_dir).resolve())
+    if min_chars < 1 or limit < 1:
+        raise ValueError('min-chars/limit 必须为正整数')
+    try:
+        return _harvest_one(output_dir, src, min_chars, limit)
+    except HarvestError as exc:
+        record(output_dir, src, status=exc.category, channel=exc.channel, reason=exc.advice)
+        raise
+    except (OSError, subprocess.SubprocessError, ValueError, TypeError, KeyError) as exc:
+        record(output_dir, src, status='tool_error', channel='tool', reason=str(exc))
+        raise HarvestError(src['url'], 'tool', 'tool_error', str(exc)) from exc
+
+
+def _harvest_one(output_dir, src, min_chars, limit):
     """采集单条源并按层落盘。src: sources.json 条目（title/url/layer/value/action）。
 
     只负责确定性通道（firecrawl-scrape/download、collector、skip-book 的判定）；
@@ -347,20 +402,33 @@ def harvest_one(output_dir, src):
                            f"冗余源（与已采 {src['redundant_with']} 同内容），不烧配额直接跳过")
     ch = pick_channel(url, src.get("action", "单页采集"),
                       firecrawl_available=bool(load_config().get("firecrawl_api_key")))
-    if ch == "opencli":
-        raise HarvestError(url, ch, "opencli", "opencli 通道由 Agent 执行（opencli-browser 技能），脚本不自动跑")
+    if ch in ('opencli', 'collector'):
+        raise HarvestError(url, ch, ch, '此通道由 Agent 执行，采完用 register 登记')
     if ch == "skip-book":
         raise HarvestError(url, ch, "skip-book", "书非采集对象，只记录书目")
-    dest = organize_path(output_dir, layer, title)
+    suffix = hashlib.sha256(normalize_url(url).encode()).hexdigest()[:10]
+    dest = organize_path(output_dir, layer, title[:45] + '-' + suffix)
     host = urlparse(url).netloc.lower().removeprefix("www.")
-    raw = dest[:-3] + ".raw.md"
 
     env = dict(os.environ)
     env.update(firecrawl_env())
+    if ch == 'firecrawl-download':
+        return download_site(output_dir, src, env, min_chars, limit)
+    with tempfile.TemporaryDirectory(prefix='.harvest-', dir=output_dir) as temp:
+        return scrape_one(output_dir, src, dest, host, env, str(Path(temp) / 'page.raw.md'), min_chars, ch)
+
+
+def scrape_one(output_dir, src, dest, host, env, raw, min_chars, ch):
+    url, title, layer = src['url'], src['title'], src.get('layer', 'L3')
     scrape_url, via_note = url, ""
     cmd = ["npx", "-y", "firecrawl-cli", "scrape", scrape_url, "--only-main-content", "-o", raw]
-    subprocess.run(cmd, capture_output=True, timeout=300, env=env)
-    info = explain(raw)
+    try:
+        run_tool(cmd, env)
+        info = explain(raw, min_chars)
+    except HarvestError as exc:
+        if exc.category != 'blocked':
+            raise
+        info = {'category': 'blocked', 'advice': exc.advice}
     if info["category"] == "blocked":
         mirror = academic_mirror(url)
         if mirror["mirror"]:
@@ -368,8 +436,8 @@ def harvest_one(output_dir, src):
             via_note = mirror["note"]
             cmd = ["npx", "-y", "firecrawl-cli", "scrape", scrape_url,
                    "--only-main-content", "-o", raw]
-            subprocess.run(cmd, capture_output=True, timeout=300, env=env)
-            info = explain(raw)
+            run_tool(cmd, env)
+            info = explain(raw, min_chars)
     if info["category"] != "ok":
         advice = info["advice"]
         if via_note == "" and info["category"] == "blocked":
@@ -379,18 +447,43 @@ def harvest_one(output_dir, src):
     header = (f"> 来源：{title}\n> URL：{url}\n> 层级：{layer} | 定级：{src.get('value', '?')}"
               f" | 通道：{ch}{('（' + via_note + '）') if via_note else ''}\n\n---\n\n")
     open(dest, "w", encoding="utf-8").write(header + postprocess_markdown_inplace)
-    os.remove(raw)
-    return dest
+    return register_source(output_dir, {**src, 'via': scrape_url}, dest, ch, min_chars)
+
+
+def download_site(output_dir, src, env, min_chars, limit):
+    """Bounded crawl; retain the returned URL for every page. No implicit single-page fallback."""
+    with tempfile.TemporaryDirectory(prefix='.harvest-', dir=output_dir) as temp:
+        raw = Path(temp) / 'crawl.json'
+        run_tool(['npx', '-y', 'firecrawl-cli', 'crawl', src['url'], '--wait',
+                  '--timeout', '240', '--limit', str(limit), '--scrape-options',
+                  '{"formats":["markdown"],"onlyMainContent":true}', '-o', str(raw)], env)
+        data = json.loads(raw.read_text(encoding='utf-8'))
+        if data.get('status') != 'completed' or data.get('next'):
+            raise HarvestError(src['url'], 'firecrawl-download', 'incomplete',
+                               '站点任务未完成或仍有分页；不能认作完整采集')
+        pages = data.get('data', [])
+        if not isinstance(pages, list) or not pages:
+            raise HarvestError(src['url'], 'firecrawl-download', 'empty', '没有返回页面')
+        for page in pages:
+            meta = page.get('metadata', {})
+            url, body = meta.get('sourceURL') or meta.get('url'), page.get('markdown')
+            if not url or not isinstance(body, str):
+                raise HarvestError(src['url'], 'firecrawl-download', 'invalid', '页面缺 URL 或 Markdown')
+            entry = {**src, 'url': url, 'title': meta.get('title') or url,
+                     'covers': [], '覆盖问题': [], 'parent_url': src['url']}
+            suffix = hashlib.sha256(normalize_url(url).encode()).hexdigest()[:10]
+            path = organize_path(output_dir, entry.get('layer', 'L3'), entry['title'][:45] + '-' + suffix)
+            Path(path).write_text(postprocess_markdown(body, _host_of(url)), encoding='utf-8')
+            register_source(output_dir, entry, path, 'firecrawl-download', min_chars)
+        if records(output_dir).get(normalize_url(src['url']), {}).get('status') != 'ok':
+            record(output_dir, src, status='downloaded', channel='firecrawl-download', pages=len(pages), limit=limit)
+    return str(Path(output_dir).resolve())
 
 
 class HarvestError(Exception):
     def __init__(self, url, channel, category, advice):
         self.url, self.channel, self.category, self.advice = url, channel, category, advice
         super().__init__(f"[{category}] {url}: {advice}")
-
-
-if __name__ == "__main__":
-    main()
 
 
 # ---------- #3 学术镜像降级（L6 结构性盲区，9/5 实测教训） ----------
@@ -418,3 +511,14 @@ def academic_mirror(url):
                 "note": f"PMC 经 Europe PMC 镜像补采（同 {m.group(1)}）"}
     return {"mirror": None,
             "note": "学术源封禁且无可靠镜像（Lancet 付费墙类）：opencli 浏览器补采或人工下载 PDF"}
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except HarvestError as exc:
+        print(json.dumps({'error': exc.category, 'advice': exc.advice}, ensure_ascii=False))
+        sys.exit(2 if exc.category == 'tool_error' else 1)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        print(json.dumps({'error': 'input_or_tool', 'advice': str(exc)}, ensure_ascii=False))
+        sys.exit(2)

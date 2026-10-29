@@ -20,13 +20,17 @@ import os
 import re
 import sys
 from urllib.parse import urlparse, urlunparse
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from source_coverage import coverage_report as compute_coverage
 
 CONFIG_PATH = os.path.expanduser("~/.config/gin-tutorial/config.yaml")
 
 # ---------- 质量分级 ----------
 
 # 拒绝信号（任一命中即拒绝，优先级最高）
-MLM_KEYWORDS = ["加盟", "代理", "月入", "躺赚", "正品", "旗舰店", "官网直销", "多少钱",
+MLM_KEYWORDS = ["加盟", "月入", "躺赚", "正品", "旗舰店", "官网直销",
                 "价格表", "优惠价", "购买链接", "加微信", "加V", "微商", "厂家直销"]
 ECOMMERCE_HOSTS = ("item.taobao.com", "detail.tmall.com", "item.jd.com", "1688.com",
                    "amazon.", "/dp/", "yangkeduo.com", "pinduoduo")
@@ -162,14 +166,30 @@ def add_rejected(path, entry):
     _save(path, data)
 
 
-def coverage_report(path, questions):
-    """每个 TOP 高频问题有几份独立来源覆盖（按 note 关键词粗配）。"""
+def coverage_report(path, questions, mode='full'):
+    """与采集层共用门槛和独立来源分组。旧 note 匹配仅作发现提示。"""
     data = _load(path)
-    notes = " ".join(s.get("note", "") + " " + s.get("title", "") for s in data["sources"])
-    counts = {q: len([1 for s in data["sources"]
-                      if q in (s.get("note", "") + s.get("title", ""))]) for q in questions}
-    gap = "、".join(q for q, c in counts.items() if c == 0) or "无"
-    return {"高频问题": questions, "已覆盖来源数": counts, "gap": gap}
+    return compute_coverage(data['sources'], questions, mode)
+
+
+def ingest(path, entries):
+    """Batch grading and upsert, preserving explicit coverage/origin metadata."""
+    if not isinstance(entries, list) or any(not isinstance(e, dict) or
+            not e.get('title') or not e.get('url') for e in entries):
+        raise ValueError('批量输入须为带 title/url 的对象数组')
+    result = []
+    for raw in entries:
+        entry = dict(raw)
+        value, reason = grade_source(entry['title'], entry['url'], entry.get('snippet', ''))
+        entry.update(value=value, grade_reason=reason)
+        if value == 'reject':
+            add_rejected(path, {**entry, 'reason': reason})
+        else:
+            entry.setdefault('layer', classify_layer(entry['url']))
+            entry.setdefault('lang', 'unknown')
+            add_source(path, entry)
+        result.append({'url': entry['url'], 'value': value, 'reason': reason})
+    return result
 
 
 # ---------- 配置（训记模式：~/.config/gin-tutorial/config.yaml，JSON 内容） ----------
@@ -226,6 +246,12 @@ def main():
     c = sub.add_parser("coverage", help="覆盖度检查")
     c.add_argument("--file", required=True)
     c.add_argument("--questions", required=True, help="逗号分隔的高频问题清单")
+    c.add_argument('--mode', choices=('full', 'focused'), default='full')
+    c.add_argument('--save', action='store_true', help='将本次覆盖结果保存到 sources.json')
+
+    batch = sub.add_parser('ingest', help='批量定级并记录收录/拒绝，保留原有逐条接口')
+    batch.add_argument('--file', required=True, help='已初始化的 sources.json')
+    batch.add_argument('--input', required=True, help='搜索结果对象数组 JSON')
 
     ic = sub.add_parser("init-config", help="写入/更新 API key 配置")
     ic.add_argument("--tavily-key", default=None)
@@ -249,7 +275,14 @@ def main():
         add_rejected(args.file, {"title": args.title, "url": args.url, "reason": args.reason})
         print(json.dumps({"recorded": True}, ensure_ascii=False))
     elif args.cmd == "coverage":
-        print(json.dumps(coverage_report(args.file, args.questions.split(",")), ensure_ascii=False, indent=2))
+        result = coverage_report(args.file, args.questions.split(","), args.mode)
+        if args.save:
+            data = _load(args.file)
+            data['coverage_check'] = result
+            _save(args.file, data)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.cmd == 'ingest':
+        print(json.dumps(ingest(args.file, _load(args.input)), ensure_ascii=False, indent=2))
     elif args.cmd == "init-config":
         cfg = load_config()
         if args.tavily_key:

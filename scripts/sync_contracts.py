@@ -13,13 +13,17 @@ def main():
     args = parser.parse_args()
     source = (ROOT / "shared/tutorial_contract.py").read_bytes()
     mismatches = []
-    for skill in SKILLS:
-        target = ROOT / skill / "scripts/tutorial_contract.py"
+    targets = [(skill, 'tutorial_contract.py', source) for skill in SKILLS]
+    coverage = (ROOT / 'shared/source_coverage.py').read_bytes()
+    targets += [(skill, 'source_coverage.py', coverage) for skill in
+                ('gin-tutorial-source-scan', 'gin-tutorial-harvest')]
+    for skill, filename, content in targets:
+        target = ROOT / skill / 'scripts' / filename
         if args.check:
-            if not target.is_file() or target.read_bytes() != source:
-                mismatches.append(skill)
+            if not target.is_file() or target.read_bytes() != content:
+                mismatches.append(skill + '/' + filename)
         else:
-            target.write_bytes(source)
+            target.write_bytes(content)
     if mismatches:
         print("协议副本需同步：" + ", ".join(mismatches))
         return 1

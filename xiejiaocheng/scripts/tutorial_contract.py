@@ -137,6 +137,15 @@ def prose(text):
     return "\n".join(lines)
 
 
+def contains_display_text(text, expected):
+    """Ignore simple Markdown decoration, not changed wording, numbers or commands."""
+    text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
+    parts = re.split(r'(`+[^`]*`+)', text)
+    visible = ''.join(part.strip('`') if part.startswith('`') else
+                      re.sub(r'\*\*(.+?)\*\*', r'\1', part) for part in parts)
+    return re.sub(r'\s+', ' ', expected).strip() in re.sub(r'\s+', ' ', visible).strip()
+
+
 def sources_of(card):
     return card.get("出处", []) if isinstance(card, dict) else []
 

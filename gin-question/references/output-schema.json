@@ -14,9 +14,10 @@
     },
     "exit_reason": {
       "type": "string",
-      "enum": ["saturated", "empty", "network_failure"],
+      "enum": ["saturated", "empty", "network_failure", "needs_backfill", "needs_more_rounds", "budget_exhausted"],
       "description": "退出原因"
     },
+    "complete": {"type": "boolean", "description": "只有覆盖与饱和记录均满足时为 true"},
     "retrieval_rounds": {
       "type": "integer",
       "minimum": 1,

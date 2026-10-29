@@ -71,7 +71,8 @@ def render_outputs(topic, problems, pending_validation, audit, output_dir):
     problem_list = {
         "topic": topic,
         "generated_at": generated_at,
-        "exit_reason": audit.get("exit_reason", "saturated"),
+        "exit_reason": audit.get("exit_reason", "needs_more_rounds"),
+        'complete': audit.get('complete', False),
         "retrieval_rounds": audit.get("retrieval_rounds", 1),
         "problems": problems,
         "pending_validation": pending_validation,
@@ -105,7 +106,7 @@ def render_outputs(topic, problems, pending_validation, audit, output_dir):
 def main():
     import sys
     import json
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 5:
         print("用法: python3 output_renderer.py <topic> <problems-json> <audit-json> <output-dir>")
         sys.exit(1)
     topic = sys.argv[1]

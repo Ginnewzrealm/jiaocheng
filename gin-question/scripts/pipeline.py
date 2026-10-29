@@ -34,7 +34,7 @@ from judge_questions import filter_questions
 from output_renderer import render_outputs
 from question_extractor import extract_from_content, extract_from_search_result
 from query_generator import generate as generate_queries
-from saturation_checker import SaturationTracker
+from saturation_checker import retrieval_state
 from source_grader import grade_url
 
 
@@ -106,7 +106,8 @@ def aggregate_sources(candidates):
             }
         url = c.get("source_url", "")
         buckets[key]["sources"].setdefault(url, 0)
-        buckets[key]["sources"][url] += 1
+        # A repeated search hit is not an additional independent question source.
+        buckets[key]["sources"][url] = 1
 
     aggregated = []
     for key, b in buckets.items():
@@ -135,8 +136,8 @@ def apply_frequency_gate(aggregated):
     for item in aggregated:
         sources = item["sources"]
         has_primary = any(s["type"] == "primary" for s in sources)
-        secondary_count = sum(s["frequency"] for s in sources if s["type"] == "secondary")
-        tertiary_count = sum(s["frequency"] for s in sources if s["type"] == "tertiary")
+        secondary_count = len({s['url'] for s in sources if s["type"] == "secondary"})
+        tertiary_count = len({s['url'] for s in sources if s["type"] == "tertiary"})
 
         if has_primary or secondary_count >= 2 or tertiary_count >= 3:
             item["status"] = "confirmed"
@@ -168,7 +169,7 @@ def _compute_source_reachability(manifest):
     return round(fetched / len(urls), 2)
 
 
-def run(manifest, output_dir, is_abstract=False):
+def run(manifest, output_dir, is_abstract=False, max_search_calls=None):
     topic = manifest["topic"]
 
     # 1. 构建候选
@@ -199,20 +200,35 @@ def run(manifest, output_dir, is_abstract=False):
     # 5. 频次门槛
     confirmed, pending = apply_frequency_gate(unique)
 
+    # A single authentic source can fill a missing cell, without being relabelled confirmed.
+    missing = set(coverage_check(confirmed, is_abstract=is_abstract)['missing'])
+    remaining = []
+    for item in pending:
+        cell = (item.get('retrieval_perspective'), item.get('sub_dimension'))
+        if cell in missing:
+            confirmed.append(item)
+            missing.remove(cell)
+        else:
+            remaining.append(item)
+    pending = remaining
+
     # 6. ID 分配
     confirmed = assign_ids(confirmed)
     pending = assign_ids(pending, prefix="PV")
 
-    # 7. 覆盖度检查（基于所有通过 QM 的问题，不只是 confirmed）
-    all_valid = confirmed + pending
-    coverage = coverage_check(all_valid, is_abstract=is_abstract)
+    # 7. 覆盖度检查（主清单，含显式 single_source，不含待验证池）
+    coverage = coverage_check(confirmed, is_abstract=is_abstract)
+    state = retrieval_state(coverage, manifest.get('rounds', []),
+                            manifest.get('search_calls', len(manifest.get('search_results', []))),
+                            max_search_calls if max_search_calls is not None else manifest.get('max_search_calls', 100))
 
     # 7b. 为缺失格子生成下一轮推荐查询
     recommended_queries = generate_queries(
         topic,
         manifest.get("expanded_terms", []),
-        coverage["missing"],
+        [c for c in coverage['missing'] if '/'.join(c) in state['unresolved_cells']],
         max_per_cell=2,
+        profile=manifest.get('domain_profile', 'general'),
     )
 
     # 8. 审计报告
@@ -223,8 +239,8 @@ def run(manifest, output_dir, is_abstract=False):
             qm3_counts[cat] += 1
 
     audit = {
-        "exit_reason": "saturated",
-        "retrieval_rounds": manifest.get("retrieval_rounds", 1),
+        **state,
+        "retrieval_rounds": max(1, len(manifest.get('rounds', []))),
         "search_terms_total": len(manifest.get("search_results", [])),
         "candidates_total": len(candidates) + len(qm_rejected) + len(invalid_candidates),
         "duplicates_merged": dedup_result.get("duplicates_merged", 0),
@@ -236,12 +252,12 @@ def run(manifest, output_dir, is_abstract=False):
         "from_search_title": sum(1 for c in candidates if c.get("extracted_from") == "search_title"),
         "from_invalid_source": len(invalid_candidates),
         "source_reachability": _compute_source_reachability(manifest),
-        "fetch_failures": [],
+        "fetch_failures": manifest.get('fetch_failures', []),
         "perspective_coverage": coverage["matrix"],
-        "agent_failures": [],
-        "empty_perspectives": [f"{p}/{s}" for p, s in coverage["missing"]],
+        "agent_failures": manifest.get('agent_failures', []),
         "recommended_queries": recommended_queries,
         "is_abstract": is_abstract,
+        'domain_profile': manifest.get('domain_profile', 'general'),
         "exempt": coverage.get("exempt", []),
         "notes": [
             "问题来源优先级：已抓取页面正文 > 搜索结果页面标题。",
@@ -258,6 +274,7 @@ def run(manifest, output_dir, is_abstract=False):
         "confirmed_count": len(confirmed),
         "pending_count": len(pending),
         "rejected_count": len(qm_rejected),
+        **state,
     }
 
 
@@ -266,12 +283,18 @@ def main():
     parser.add_argument("--manifest", required=True, help="收集到的搜索结果 manifest JSON 文件")
     parser.add_argument("--output-dir", default="./output", help="输出目录")
     parser.add_argument("--abstract", action="store_true", help="主题是否为抽象主题（放宽 How much 和 争议）")
+    parser.add_argument('--max-search-calls', type=int, help='检索预算，默认读取 manifest 或使用 100')
     args = parser.parse_args()
 
     manifest = load_manifest(args.manifest)
-    result = run(manifest, args.output_dir, is_abstract=args.abstract)
+    result = run(manifest, args.output_dir, is_abstract=args.abstract, max_search_calls=args.max_search_calls)
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result['complete'] else 1
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        print(json.dumps({'errors': [str(exc)], 'complete': False}, ensure_ascii=False))
+        sys.exit(2)

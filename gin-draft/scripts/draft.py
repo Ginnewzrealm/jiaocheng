@@ -21,7 +21,7 @@ import sys
 from tutorial_contract import (VERSION, body_reference_errors, claim_errors, cli_error,
                                contract_errors, current_report, diagnostic, finish,
                                matching_card, prose, read_json, reference_errors,
-                               source_paths, stamp)
+                               source_paths, stamp, contains_display_text)
 
 # ---------- 禁区词表（卡兹克文风，hv-analysis 现成表 + 三篇对标实查） ----------
 
@@ -154,17 +154,20 @@ def check_chapter(text, materials=None, library=None, case_name=None, outline=No
         errors.append(f"❌ 素材锚定率 {rate:.0%} 低于 60% 红线——论断必须有出处，"
                       f"凭空发挥不出件")
 
-    # F1 章首契约（前 5 行内）
-    head = "\n".join(text.splitlines()[:5])
+    # v3 uses the introduction, not an arbitrary line count. Legacy interface is unchanged.
+    head = re.split(r'^##\s+', prose_text, maxsplit=1, flags=re.M)[0] if modern else "\n".join(text.splitlines()[:5])
+    head = head.replace('**', '').replace('__', '')
     if not (_CONTRACT_READER.search(head) and _CONTRACT_OUTCOME.search(head)):
         errors.append("❌ 缺章首学习契约：开头必须说明写给谁 + 读完能做到什么"
                       "（对标三篇全有此件）")
 
     # F2 章末交付物（后 1/3 里找）
     tail = text[len(text) // 3 * 2:]
-    if not any(p.search(tail) for p in _DELIVERABLE_PATTERNS):
-        errors.append("❌ 章末缺可拿走交付物：自查清单/判断表格/可复制模板"
-                      "至少给一样（'本章要点'不算）")
+    has_deliverable = (all(contains_display_text(prose_text, item) for item in outline.get('交付物', []))
+                       if modern else any(p.search(tail) for p in _DELIVERABLE_PATTERNS))
+    if not has_deliverable:
+        errors.append('正文缺大纲声明的交付物' if modern else
+                      "❌ 章末缺可拿走交付物：自查清单/判断表格/可复制模板至少给一样")
 
     # F3 贯穿案例
     if case_name and case_name not in text:
@@ -180,7 +183,7 @@ def check_chapter(text, materials=None, library=None, case_name=None, outline=No
     vague = _VAGUE_RE.findall(prose_text)
     if vague:
         hits = sorted({"".join(v) for v in vague})
-        errors.append(f"❌ 空洞概括 {hits}——'取得了显著进步'这类句子零信息量，"
+        (warnings if modern else errors).append(f"空洞概括 {hits}——'取得了显著进步'这类句子零信息量，"
                       f"换成具体数字和案例（hv-analysis'用人话写'）")
 
     # F5 句式密度

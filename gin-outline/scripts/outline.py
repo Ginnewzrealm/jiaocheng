@@ -16,6 +16,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 from tutorial_contract import (VERSION, claim_errors, cli_error, contract_errors,
                                current_report, diagnostic, finish, inside,
                                reference_errors, source_paths, stamp)
@@ -193,6 +194,20 @@ def check_outline(o, manifest, library=None):
 
 # ---------- CLI ----------
 
+def render_outline(outline):
+    """Derive the review copy from the contract; no internal evidence IDs/paths."""
+    def cell(text):
+        return str(text).replace('|', '\\|').replace('\n', ' ')
+    lines = ['# ' + cell(outline['标题']), '', '写给：' + cell(outline['写给']),
+             '', '读完能：' + cell(outline['读完能']), '', '## 前置条件', '']
+    lines += ['- ' + cell(x) for x in outline.get('前置条件', [])] or ['无额外前置条件。']
+    lines += ['', '## 目录', '', '| 小节 | 这一节干什么 |', '|---|---|']
+    lines += ['| ' + cell(s['标题']) + ' | ' + cell(s['干什么']) + ' |' for s in outline['小节']]
+    lines += ['', '## 成功标准', '', '| 目标 | 验证方法 | 预期结果 |', '|---|---|---|']
+    lines += ['| ' + ' | '.join(cell(c[k]) for k in ('描述', '验证方法', '预期结果')) + ' |'
+              for c in outline.get('成功标准', [])]
+    return '\n'.join(lines) + '\n'
+
 def main():
     ap = argparse.ArgumentParser(description="gin-outline 工具")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -207,6 +222,7 @@ def main():
     c.add_argument("--manifest", required=True)
     c.add_argument("--library", default=None)
     c.add_argument("--output", help="保存大纲检查报告")
+    c.add_argument('--markdown', help='检查通过后，从 v3 JSON 生成审核目录 .md')
 
     args = ap.parse_args()
 
@@ -227,6 +243,14 @@ def main():
         paths = [args.outline, args.manifest]
         if not r["errors"] and card_for(o, manifest):
             paths += source_paths(card_for(o, manifest), args.library)
+        if args.markdown:
+            if o.get('schema_version') != VERSION or Path(args.markdown).suffix != '.md':
+                raise ValueError('--markdown 只支持 v3 大纲与 .md 输出')
+            if not r['errors']:
+                target = Path(args.markdown)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(render_outline(o), encoding='utf-8')
+                paths.append(target)
         return finish(stamp(r, "outline", paths, __file__), args.output)
     return 0
 

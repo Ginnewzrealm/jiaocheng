@@ -28,7 +28,7 @@ import json
 import sys
 from pathlib import Path
 from tutorial_contract import (VERSION, cli_error, contract_errors, current_report,
-    diagnostic, finish, nonempty, snapshots, stamp, write_json)
+    diagnostic, finish, nonempty, snapshots, stamp, write_json, current_snapshots)
 
 STAGES = ["init", "stage0", "stage1", "topic", "stage3", "stage4",
           "stage5", "stage6", "delivered"]
@@ -139,12 +139,14 @@ def _lib_ok(tdir):
             and isinstance(data.get("entries"), list) and bool(data["entries"])
             and isinstance(data.get("验收"), dict)
             and data["验收"].get("material_ok") is True
-            and data["验收"].get("coverage_gaps") == [])
+            and data["验收"].get("coverage_gaps") == []
+            and (data.get('schema_version') != 2 or current_snapshots(data.get('inputs'))))
 
 
 def _problems_ok(tdir):
     data = _load_json(tdir.joinpath(*_PROBLEM_LIST))
     return (isinstance(data, dict) and nonempty(data.get("topic"))
+            and data.get('complete', True) is True
             and isinstance(data.get("problems"), list) and bool(data["problems"])
             and all(isinstance(p, dict) and nonempty(p.get("text") or p.get("问题"))
                     for p in data["problems"]))

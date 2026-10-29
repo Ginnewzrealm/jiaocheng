@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""gin-qc 回归测试——每条规则对应四层活人感体系的一个真实失败样本。
+"""gin-qc 规则回归测试；内置章节是合成夹具，不是读者效果基线。
 
-基线素材（真实文本，非手造），按优先级查找：
+规则夹具（内置合成文本，历史外部样本可选），按优先级查找：
 - GOOD: tests/fixtures/good_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-e2e/ch1.md（e2e 产物）
 - BAD:  tests/fixtures/bad_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-baseline/ch1.md（e2e 产物）
 

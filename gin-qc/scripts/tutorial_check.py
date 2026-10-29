@@ -7,7 +7,7 @@ from pathlib import Path
 
 from tutorial_contract import (VERSION, body_reference_errors, claim_errors, cli_error,
     contract_errors, current_report, diagnostic, finish, inside, matching_card,
-    nonempty, prose, read_json, reference_errors, sha256, source_paths, stamp)
+    nonempty, prose, read_json, reference_errors, sha256, source_paths, stamp, contains_display_text)
 from qc import check_humanity
 from render_markdown import lint
 
@@ -73,14 +73,14 @@ def check_tutorial(document, outline_path, manifest_path, library, verification=
                 continue
             chunk = re.split(r"<!-- step:|\n##\s", text.split(marker, 1)[1], maxsplit=1)[0]
             for field in ("动作", "预期结果", "验证方法", "失败处理"):
-                if step[field] not in chunk:
+                if not contains_display_text(chunk, step[field]):
                     execution.append(f"{step['step_id']} 正文缺大纲中的{field}")
     for field in ("前置条件", "失败边界", "交付物", "练习"):
         for value in outline.get(field, []):
-            if value not in clean:
+            if not contains_display_text(clean, value):
                 coverage.append(f"正文缺{field}：{value}")
     for criterion in outline["成功标准"]:
-        if criterion["预期结果"] not in text:
+        if not contains_display_text(text, criterion["预期结果"]):
             coverage.append(f"正文缺成功判据：{criterion['criterion_id']}")
     result_errors, logs, state = outcomes(read_json(verification) if verification else None,
                                         outline, document, outline_path, verification)

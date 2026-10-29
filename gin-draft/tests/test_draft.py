@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""gin-draft 回归测试——每条规则对应红阶段一条真实失败样本。
+"""gin-draft 规则回归测试；内置章节是合成夹具，不是读者效果基线。
 
-基线：tests/fixtures/bad_ch1.md（仓库内置，推荐）→ /tmp/gin-draft-baseline/ch1.md（"平台期"第一章，裸写无规则）
-素材不存在时相关测试 skip（不 error）——跑一次减脂 e2e 把裸写章放进 tests/fixtures/ 即恢复。
+夹具：tests/fixtures/bad_ch1.md（合成）→ /tmp/gin-draft-baseline/ch1.md（历史可选样本）
+内置 good/bad 夹具保证规则可复现；不能据此宣称真人学习验证通过。
 运行：python3 -m pytest tests/ -q
 """
 import os

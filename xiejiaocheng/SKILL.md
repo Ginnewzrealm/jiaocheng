@@ -7,7 +7,9 @@ description: 编排教程写作流水线，串联资料发现、采集、问题�
 
 编排器负责顺序、认账、确认与汇报；内容与证据由原子技能生产。先读 [生产协议](references/production-contract.md)，尤其是目录、报告与迁移要求。
 
-主题 → source-scan/harvest → gin-question → 选题 → gin-answer → gin-outline → 大纲确认 → gin-draft → gin-qc → 人工审阅与发布确认。
+主题 → gin-question（尚未明确问题时）→ 选题 → source-scan/harvest → gin-answer → gin-outline → 大纲确认 → gin-draft → gin-qc → 人工审阅与发布确认。
+
+入口按任务选择：只有宽泛主题时先 gin-question 发现问题，再围绕候选做 source-scan/harvest，避免为未选问题大量采集；已明确问题时直接定向找源与研究答案，不启动全主题检索；已有可验证答案卡时从大纲继续。采集可显式选择 focused；未执行阶段保持待办，不伪造完成产物，后半段证据与验收要求相同。
 
 - 当前会话已有授权持续有效；批内与普通批次之间自动推进并汇报，不为同一动作重复求确认。确认记录只记录用户真实决定，不替用户生成授权。
 - 选题、大纲、人工审阅、发布分别留记录；必要确认只在用户尚未授权、或产物实质变化使旧确认失效时提出。已经授权的实施可继续，不能把技能文档解释为强制重复询问。

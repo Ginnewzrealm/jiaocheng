@@ -23,6 +23,10 @@ progress.md
 
 原子技能的命令以各 SKILL.md 为准。基本顺序为答案 validate/manifest → 大纲 check → 大纲确认 → draft check → tutorial_check 与 render_markdown → collect-qc → L4 与发布确认。
 
+资料阶段增加 library/harvest-records.json，保存实际采集与登记记录。新覆盖报告 schema_version=2（区别于后段 v3 内容契约），绑定成功资料、登记文件与来源清单；改动后重跑 manifest。问题清单 complete=false 不认作已完成检索；旧问题清单若需证明全面性须补轮次重跑，不能手填 true。
+
+资料与问题编号保留 stage0/stage1 以兼容旧工作目录，实际调用顺序按任务选择。明确问题不需要全主题问题发现；未执行阶段保持待办，不伪造完成文件。生成大纲审核目录时可使用 check --markdown，报告同时绑定 JSON 与生成的 Markdown。
+
 报告 schema_version=3，errors/warnings 是数组、error_count/warning_count 是对应数量，status 是 pass/minor/fail。checker 保存名称、协议版本与当前脚本文件哈希；inputs 保存绝对路径与 SHA256。不能用 error_count 代替检查 errors，也不能用中文 verdict 文案代替机器状态。
 
 在本机重新验证可重建绝对路径记录；搬移工程后旧记录无法证明当前文件，重新运行检查。不要通过批量替换路径或哈希“迁移”验证。

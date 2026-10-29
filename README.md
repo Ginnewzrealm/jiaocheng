@@ -4,7 +4,7 @@
 
 ## 流水线
 
-`source-scan → harvest → gin-question → gin-answer → gin-outline → gin-draft → gin-qc`
+`gin-question（尚未明确问题时）→ 选题 → source-scan → harvest → gin-answer → gin-outline → gin-draft → gin-qc`
 
 xiejiaocheng 负责路由、当前产物认账、阶段恢复与确认记录。七个原子技能仍可单独使用。
 
@@ -39,6 +39,12 @@ python3 xiejiaocheng/scripts/flow_controller.py status --dir 教程工作目录
 
 各技能 scripts 内包含自足的 tutorial_contract.py。维护者编辑 shared/tutorial_contract.py 后运行 `python3 scripts/sync_contracts.py`；CI 用 --check 防止副本漂移。单独安装技能时复制其整个目录即可，不依赖相邻技能才能导入协议。协同工作仍按各技能声明传入上游产物。
 
+发现与采集共用 shared/source_coverage.py，同一同步命令分发到两个技能。full 保留全面研究门槛；明确问题可显式用 focused，减少无关检索和字数配额，后续证据与实际验证仍照常验收。
+
+问题检索现在区分补搜、轮次不足、预算耗尽和真正饱和；未完成输出退出码 1，仍保存中间结果。采集汇总须提供 --sources，并只认可已登记且未变化的成品；浏览器/collector 采完使用 register。旧资料不能靠扫描目录自动认账。
+
+大纲 check 可加 --markdown 从 JSON 生成审核目录。v3 正文按导语和声明交付物验收，不再固定前五行或末三分之一；文风警告不累计成质量失败。证据、结构、实际验证和旧报告失效机制保留。
+
 ## 验证
 
 ```bash
@@ -49,4 +55,4 @@ python3 -m pytest -q
 
 新增 tests/test_pipeline_contracts.py 用真实生产者输出驱动下游，覆盖正常闭环、错误退出码、虚构引用、旧哈希、缺失验证、缺篇和 Markdown 结构。测试样例是明确标注的合成夹具，不当作真实读者学习效果基线。
 
-原有 gin-draft/gin-qc 的真实章节样本尚未随库提交，18 个相关测试会 skip；补入合法可分发的 fixtures 后恢复。这不是已完成真人学习验证的声明。样本治理与评估记录见 [corpus](corpus/README.md)。
+gin-draft/gin-qc 已包含用于规则回归的合成章节夹具，不再依赖外部 /tmp 样本才能运行。它们与流水线合成用例都不是已完成真人学习验证的声明。样本治理与评估记录见 [corpus](corpus/README.md)。
